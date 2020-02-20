@@ -5,9 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.lists.utils.Lists;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,17 +15,20 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/greenhouse")
+@RequestMapping("api/greenhouse")
 public class GreenhouseController {
 
+    //TODO: capire perchè senza cross origin ora non mi funziona più...
+    @CrossOrigin
     @GetMapping("/plants")
-    public String getPlants(long userId) throws Exception {
+    public String getPlants() throws Exception {
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
         return new String(Files.readAllBytes(jsonFile.toPath()), StandardCharsets.UTF_8);
     }
 
+    @CrossOrigin
     @GetMapping("/plant")
-    public String getPlant(long plantId) throws Exception {
+    public String getPlant(@RequestParam long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -40,8 +41,9 @@ public class GreenhouseController {
         return plant.get(0).toJSONString();
     }
 
+    @CrossOrigin
     @GetMapping("/storyboard")
-    public String getStoryboard(long plantId) throws Exception {
+    public String getStoryboard(@RequestParam long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -53,4 +55,20 @@ public class GreenhouseController {
 
         return storyboard.get(0).toJSONString();
     }
+
+    @CrossOrigin
+    @GetMapping("/schedules")
+    public String getSchedules(@RequestParam long plantId) throws Exception {
+        JSONParser parser = new JSONParser();
+
+        File jsonFile = new ClassPathResource("mock-response/mock-schedule.json").getFile();
+        JSONArray schedules = (JSONArray)parser.parse(new FileReader(jsonFile));
+        List<JSONObject> schedule = Lists.<JSONObject>filter(
+                schedules.iterator(),
+                p -> ((Long)p.get("plantId")) == plantId
+        );
+
+        return schedule.toString();
+    }
 }
+

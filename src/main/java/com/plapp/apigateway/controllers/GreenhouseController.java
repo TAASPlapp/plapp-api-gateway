@@ -28,7 +28,7 @@ public class GreenhouseController {
 
     @CrossOrigin
     @GetMapping("/plants")
-    public List<Plant> getPlants(@RequestParam long userId) throws Exception {
+    public List<Plant> getPlants(@RequestParam(defaultValue = "-1") long userId) throws Exception {
        return greenhouseService.getPlants(userId);
     }
 

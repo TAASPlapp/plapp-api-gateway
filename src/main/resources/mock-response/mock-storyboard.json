@@ -11,7 +11,7 @@
       "image": "https:/source.unsplash.com/XEmaJaM-4nE/50x50"
     },
     "summary": "The story of my peony named Giorgia",
-    "lastModify": "2020-02-14T12:56:00",
+    "lastModified": "2020-02-14T12:56:00",
     "numLikes": 31,
     "storyboardItems": [
       {
@@ -21,7 +21,7 @@
         "description": "Working on some desk cleanup... I have had a huge pile of finished and unfinished paintings in the corner. I guess it’s about time to finish this Peony painting I started in 2018! 😂 oops! .\n",
         "title": "Suspiria",
         "status": "Healthy",
-        "numLike": 23
+        "numLikes": 23
       },
       {
         "id": 9421,
@@ -30,7 +30,7 @@
         "description": " Happy Saturday! Take a second to soak in these florals by @yasminemei - because THIS is the vibe inspiring our 2020 Spring flora. A flower party in your hand.\n",
         "title": "My funny valentine",
         "status": "Healthy",
-        "numLike": 2
+        "numLikes": 2
       },
       {
         "id": 9851,
@@ -39,7 +39,7 @@
         "description": "Our peony wall in Amsterdam 🌸💗💗🌸💗 #mypeonysociety #mypeony #peony #peonyaddict #peonyseason",
         "title": "New flower",
         "status": "Healthy",
-        "numLike": 54
+        "numLikes": 54
       }
     ]
   },
@@ -55,7 +55,7 @@
       "status": "Sick"
     },
     "summary": "The story of my cactus named Prosperina",
-    "lastModify": "2020-01-25T13:23:00",
+    "lastModified": "2020-01-25T13:23:00",
     "numLikes": 52,
     "storyboardItems": [
       {
@@ -65,7 +65,7 @@
         "description": "Peony in flower",
         "title": "Flower in summer",
         "status": "Healthy",
-        "numLike": 54
+        "numLikes": 54
       },
       {
         "id": 9861,
@@ -73,8 +73,8 @@
         "thumbImage": "https://source.unsplash.com/YTc2kHz5L9s/600x800",
         "description": "In the air",
         "title": "On Air",
-        "status": "'Healthy",
-        "numLike": 44
+        "status": "Healthy",
+        "numLikes": 44
       },
       {
         "id": 9876,
@@ -83,7 +83,7 @@
         "description": "Cactus life",
         "title": "Growing Bigger",
         "status": "Healthy",
-        "numLike": 25
+        "numLikes": 25
       }
     ]
   }

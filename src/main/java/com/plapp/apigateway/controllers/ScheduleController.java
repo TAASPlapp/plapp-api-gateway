@@ -1,6 +1,6 @@
 package com.plapp.apigateway.controllers;
 
-import com.plapp.apigateway.entities.ScheduleAction;
+import com.plapp.entities.schedules.ScheduleAction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

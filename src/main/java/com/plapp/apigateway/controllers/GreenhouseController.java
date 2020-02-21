@@ -25,7 +25,6 @@ public class GreenhouseController {
     @Autowired
     private GreenhouseService greenhouseService;
 
-
     @CrossOrigin
     @GetMapping("/plants")
     public List<Plant> getPlants(@RequestParam(defaultValue = "-1") long userId) throws Exception {

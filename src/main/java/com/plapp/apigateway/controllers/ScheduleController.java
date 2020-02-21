@@ -18,7 +18,7 @@ import java.util.List;
 public class ScheduleController {
 
     @GetMapping("/")
-    public String getSchedules(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
+    public String getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-schedule.json").getFile();

@@ -1,9 +1,13 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.services.GreenhouseService;
+import com.plapp.entities.greenhouse.Plant;
+import com.plapp.entities.greenhouse.Storyboard;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.lists.utils.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,52 +22,32 @@ import java.util.List;
 @RequestMapping("api/greenhouse")
 public class GreenhouseController {
 
+    @Autowired
+    private GreenhouseService greenhouseService;
+
+
     @CrossOrigin
     @GetMapping("/plants")
-    public String getPlants() throws Exception {
-        File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
-        return new String(Files.readAllBytes(jsonFile.toPath()), StandardCharsets.UTF_8);
+    public List<Plant> getPlants(@RequestParam long userId) throws Exception {
+       return greenhouseService.getPlants(userId);
     }
 
     @CrossOrigin
     @GetMapping("/plant")
-    public String getPlant(@RequestParam long plantId) throws Exception {
-        JSONParser parser = new JSONParser();
-
-        File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
-        JSONArray plants = (JSONArray)parser.parse(new FileReader(jsonFile));
-        List<JSONObject> plant = Lists.<JSONObject>filter(
-                plants.iterator(),
-                p -> ((Long)p.get("id")) == plantId
-        );
-
-        return plant.get(0).toJSONString();
+    public Plant getPlant(@RequestParam long plantId) throws Exception {
+        return greenhouseService.getPlant(plantId);
     }
 
     @CrossOrigin
     @GetMapping("/storyboards")
-    public String getStoryboards() throws Exception {
-        JSONParser parser = new JSONParser();
-
-        File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
-        JSONArray storyboards = (JSONArray)parser.parse(new FileReader(jsonFile));
-
-        return storyboards.toJSONString();
+    public List<Storyboard> getStoryboards() throws Exception {
+        return greenhouseService.getStoryboards();
     }
 
     @CrossOrigin
     @GetMapping("/storyboard")
-    public String getStoryboard(@RequestParam long plantId) throws Exception {
-        JSONParser parser = new JSONParser();
-
-        File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
-        JSONArray storyboards = (JSONArray) parser.parse(new FileReader(jsonFile));
-        List<JSONObject> storyboard = Lists.<JSONObject>filter(
-                storyboards.iterator(),
-                p -> ((Long) p.get("plantId")) == plantId
-        );
-
-        return storyboard.get(0).toJSONString();
+    public Storyboard getStoryboard(@RequestParam long plantId) throws Exception {
+        return greenhouseService.getStoryboard(plantId);
     }
 }
 

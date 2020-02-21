@@ -6,7 +6,9 @@ import com.plapp.entities.greenhouse.Storyboard;
 import java.util.List;
 
 public interface GreenhouseService {
-    List<Plant> getPlants(long userId);
-    Plant getPlant(long plantId);
-    Storyboard getStoryboard(long plantId);
+    List<Plant> getPlants(long userId) throws Exception;
+    Plant getPlant(long plantId) throws Exception;
+
+    List<Storyboard> getStoryboards() throws Exception;
+    Storyboard getStoryboard(long plantId) throws Exception;
 }

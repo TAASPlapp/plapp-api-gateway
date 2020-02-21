@@ -45,13 +45,13 @@
         <dependency>
             <groupId>com.github.carloalbertobarbano</groupId>
             <artifactId>JListsUtils</artifactId>
-            <version>e498bf2f98</version>
+            <version>4335e11fda</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.TAASPlapp</groupId>
             <artifactId>plapp-data-entities</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>b6d3f575d4</version>
         </dependency>
 
         <dependency>

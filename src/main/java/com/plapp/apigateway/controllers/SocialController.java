@@ -15,15 +15,4 @@ import java.io.FileReader;
 @RequestMapping("api/social")
 public class SocialController {
 
-
-    @CrossOrigin
-    @GetMapping("/storyboards")
-    public String getStoryboards() throws Exception {
-        JSONParser parser = new JSONParser();
-
-        File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
-        JSONArray storyboards = (JSONArray)parser.parse(new FileReader(jsonFile));
-
-        return storyboards.toJSONString();
-    }
 }

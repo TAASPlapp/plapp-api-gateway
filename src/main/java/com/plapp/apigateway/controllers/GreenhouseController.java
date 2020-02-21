@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("api/greenhouse")
 public class GreenhouseController {
 
-    //TODO: capire perchè senza cross origin ora non mi funziona più...
     @CrossOrigin
     @GetMapping("/plants")
     public String getPlants() throws Exception {
@@ -42,33 +41,29 @@ public class GreenhouseController {
     }
 
     @CrossOrigin
+    @GetMapping("/storyboards")
+    public String getStoryboards() throws Exception {
+        JSONParser parser = new JSONParser();
+
+        File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
+        JSONArray storyboards = (JSONArray)parser.parse(new FileReader(jsonFile));
+
+        return storyboards.toJSONString();
+    }
+
+    @CrossOrigin
     @GetMapping("/storyboard")
     public String getStoryboard(@RequestParam long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
-        JSONArray storyboards = (JSONArray)parser.parse(new FileReader(jsonFile));
+        JSONArray storyboards = (JSONArray) parser.parse(new FileReader(jsonFile));
         List<JSONObject> storyboard = Lists.<JSONObject>filter(
                 storyboards.iterator(),
-                p -> ((Long)p.get("plantId")) == plantId
+                p -> ((Long) p.get("plantId")) == plantId
         );
 
         return storyboard.get(0).toJSONString();
-    }
-
-    @CrossOrigin
-    @GetMapping("/schedules")
-    public String getSchedules(@RequestParam long plantId) throws Exception {
-        JSONParser parser = new JSONParser();
-
-        File jsonFile = new ClassPathResource("mock-response/mock-schedule.json").getFile();
-        JSONArray schedules = (JSONArray)parser.parse(new FileReader(jsonFile));
-        List<JSONObject> schedule = Lists.<JSONObject>filter(
-                schedules.iterator(),
-                p -> ((Long)p.get("plantId")) == plantId
-        );
-
-        return schedule.toString();
     }
 }
 

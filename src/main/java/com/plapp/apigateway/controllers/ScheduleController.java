@@ -14,11 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/api/schedule")
 public class ScheduleController {
 
     @GetMapping("/")
-    public String getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
+    public String getSchedules(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-schedule.json").getFile();
@@ -28,7 +28,7 @@ public class ScheduleController {
                 p -> ((Long)p.get("plantId")) == plantId
         );
 
-        return schedule.get(0).toJSONString();
+        return schedule.toString();
     }
 
     @GetMapping("/actions")

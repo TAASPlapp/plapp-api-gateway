@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.github.TAASPlapp</groupId>
             <artifactId>plapp-data-entities</artifactId>
-            <version>49651237ab</version>
+            <version>4e21a02417</version>
         </dependency>
 
         <dependency>

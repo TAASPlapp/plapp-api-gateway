@@ -19,8 +19,7 @@ import java.util.List;
 public class MockGreenhouseService implements GreenhouseService {
 
     private Plant jsonToPlant(JSONObject jsonPlant) {
-        Plant plant = new Plant();
-        plant.setId((Long)jsonPlant.get("id"));
+        Plant plant = new Plant((Long)jsonPlant.get("id"));
         plant.setDescription((String)jsonPlant.get("description"));
         plant.setOwner((Long)jsonPlant.get("owner"));
         plant.setName((String)jsonPlant.get("name"));
@@ -30,8 +29,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     private Storyboard jsonToStoryboard(JSONObject jsonStoryboard) {
-        Storyboard storyboard = new Storyboard();
-        storyboard.setId((Long)jsonStoryboard.get("id"));
+        Storyboard storyboard = new Storyboard((Long)jsonStoryboard.get("id"));
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             storyboard.setLastModified(formatter.parse((String) jsonStoryboard.get("lastModified")));
@@ -45,8 +43,7 @@ public class MockGreenhouseService implements GreenhouseService {
         List<StoryboardItem> items = Lists.<JSONObject, StoryboardItem>map(
                 ((JSONArray)jsonStoryboard.get("storyboardItems")).iterator(),
                 json -> {
-                    StoryboardItem item = new StoryboardItem();
-                    item.setId((Long)json.get("id"));
+                    StoryboardItem item = new StoryboardItem((Long)json.get("id"));
                     item.setImage((String)json.get("image"));
                     item.setDescription((String)json.get("description"));
                     item.setTitle((String)json.get("title"));

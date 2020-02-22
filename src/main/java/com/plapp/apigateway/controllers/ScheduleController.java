@@ -1,10 +1,12 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.services.GardenerService;
 import com.plapp.entities.schedules.ScheduleAction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.lists.utils.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +19,26 @@ import java.util.List;
 @RequestMapping("/api/schedule")
 public class ScheduleController {
 
+    @Autowired
+    private GardenerService gardenerService;
+
     @GetMapping("/")
-    public String getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
-        JSONParser parser = new JSONParser();
-
-        File jsonFile = new ClassPathResource("mock-response/mock-schedule.json").getFile();
-        JSONArray schedules = (JSONArray)parser.parse(new FileReader(jsonFile));
-        List<JSONObject> schedule = Lists.<JSONObject>filter(
-                schedules.iterator(),
-                p -> ((Long)p.get("plantId")) == plantId
-        );
-
-        return schedule.toString();
+    public List<ScheduleAction> getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
+        return gardenerService.getSchedule(plantId);
     }
 
     @GetMapping("/actions")
-    public List<String> getScheduleActions() {
-        return Arrays.asList("Watering", "Manure", "Harvest", "Pruning", "Treating");
+    public List<String> getScheduleActions() throws Exception {
+       return gardenerService.getActions();
     }
 
     @PostMapping("/add")
-    public ApiResponse addScheduleAction(@RequestParam ScheduleAction action) {
-        return new ApiResponse();
+    public ApiResponse addScheduleAction(@RequestBody ScheduleAction action) throws Exception {
+        return gardenerService.addScheduleAction(action);
+    }
+
+    @PostMapping("/remove")
+    public ApiResponse removeScheduleAction(@RequestBody ScheduleAction action) throws Exception {
+        return gardenerService.removeScheduleAction(action);
     }
 }

@@ -1,5 +1,6 @@
 package com.plapp.apigateway.services.mockservices;
 
+import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
@@ -90,6 +91,16 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
+    public ApiResponse addPlant(Plant plant) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ApiResponse removePlant(Plant plant) throws Exception {
+        return null;
+    }
+
+    @Override
     public List<Storyboard> getStoryboards() throws Exception {
         JSONParser parser = new JSONParser();
 
@@ -114,5 +125,20 @@ public class MockGreenhouseService implements GreenhouseService {
                 p -> ((Long)((JSONObject)p.get("plant")).get("id")) == plantId
         );
         return jsonToStoryboard(jsonStoryboards.get(0));
+    }
+
+    @Override
+    public ApiResponse createStoryboard(Storyboard storyboard) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ApiResponse removeStoryboard(Storyboard storyboard) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ApiResponse updateStoryboard(Storyboard storyboard) throws Exception {
+        return null;
     }
 }

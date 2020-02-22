@@ -1,12 +1,9 @@
 package com.plapp.apigateway.services.restservices;
 
-import com.google.gson.GsonBuilder;
 import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
 import io.jsonwebtoken.Claims;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

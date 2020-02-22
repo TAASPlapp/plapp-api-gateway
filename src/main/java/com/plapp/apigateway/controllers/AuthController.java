@@ -16,6 +16,7 @@ public class AuthController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@RequestBody UserCredentials credentials) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -40,6 +41,7 @@ public class AuthController {
                 .body(responseBody);
     }
 
+    @CrossOrigin
     @PostMapping("/signup")
     public ApiResponse signup(@RequestBody UserCredentials credentials) {
         try {

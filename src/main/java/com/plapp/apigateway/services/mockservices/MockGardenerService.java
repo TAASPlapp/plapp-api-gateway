@@ -32,7 +32,9 @@ public class MockGardenerService implements GardenerService {
                 (Long)json.get("plantId"),
                 date,
                 (String)json.get("action"),
-                ((Long)json.get("periodicity")).intValue()
+                ((Long)json.get("periodicity")).intValue(),
+                ((String)json.get("additionalInfo"))
+
         );
 
         return action;

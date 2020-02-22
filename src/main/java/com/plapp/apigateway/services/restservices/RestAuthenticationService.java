@@ -32,10 +32,10 @@ public class RestAuthenticationService implements AuthenticationService {
     }
 
     @Override
-    public String authenticateUser(UserCredentials credentials) throws Exception {
+    public ApiResponse authenticateUser(UserCredentials credentials) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         ApiResponse response = restTemplate.postForObject(serviceAddress + "/auth/login", credentials, ApiResponse.class);
-        return response.getMessage();
+        return response;
     }
 
     @Override

@@ -23,7 +23,11 @@ public class AuthController {
         ApiResponse responseBody = new ApiResponse();
 
         try {
-            String token = authenticationService.authenticateUser(credentials);
+            ApiResponse authenticationResponse = authenticationService.authenticateUser(credentials);
+            if (!authenticationResponse.getSuccess())
+                return responseBuilder.body(authenticationResponse);
+
+            String token = authenticationResponse.getMessage();
             httpHeaders.add(HEADER_STRING, TOKEN_PREFIX + token);
 
         } catch (Exception e) {

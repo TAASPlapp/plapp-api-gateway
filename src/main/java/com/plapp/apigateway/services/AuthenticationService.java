@@ -6,6 +6,6 @@ import io.jsonwebtoken.Claims;
 
 public interface AuthenticationService {
     ApiResponse registerUser(UserCredentials credentials) throws Exception;
-    String authenticateUser(UserCredentials credentials) throws Exception;
+    ApiResponse authenticateUser(UserCredentials credentials) throws Exception;
     Claims authorize(String jwt) throws Exception;
 }

@@ -12,7 +12,9 @@
     "plantId": 134325,
     "date": "2020-02-31T22:00:00.000Z",
     "action": "watering",
-    "periodicity": 1
+    "periodicity": 1,
+    "additionalInfo": "200"
+
   },
   {
     "userId": 387587,

@@ -3,9 +3,9 @@ package com.plapp.apigateway.services.mockservices;
 import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.SocialService;
 import com.plapp.entities.social.Comment;
+import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
-import org.apache.catalina.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,10 +33,7 @@ public class MockSocialService implements SocialService {
     }
 
 
-    @Override
-    public ApiResponse setUserDetails(UserDetails userDetails) throws Exception {
-        return new ApiResponse();
-    }
+
 
     private Comment jsonToComment(JSONObject json) {
         MediaContentType contentType = MediaContentType.valueOf((String)json.get("mediaContentType"));
@@ -55,6 +52,15 @@ public class MockSocialService implements SocialService {
         return null;
     }
 
+    @Override
+    public ApiResponse setUserDetails(UserDetails userDetails) throws Exception {
+        return new ApiResponse();
+    }
+
+    @Override
+    public ApiResponse addUserDetails(UserDetails user) throws Exception {
+        return null;
+    }
     @Override
     public List<Comment> getComments(MediaContentType type, long itemId) throws Exception {
         JSONParser parser = new JSONParser();
@@ -78,12 +84,12 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse like(MediaContentType type, long itemId) throws Exception {
+    public ApiResponse addLike(Like like) throws Exception {
         return null;
     }
 
     @Override
-    public ApiResponse unlike(MediaContentType type, long itemId) throws Exception {
+    public ApiResponse unlike(long likeId) throws Exception {
         return null;
     }
 

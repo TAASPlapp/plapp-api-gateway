@@ -2,16 +2,12 @@ package com.plapp.apigateway.controllers;
 
 import com.plapp.apigateway.services.SocialService;
 import com.plapp.entities.social.Comment;
+import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.List;
 
 @RestController
@@ -43,12 +39,12 @@ public class SocialController {
 
     @PostMapping("/likes/like")
     public ApiResponse like(@RequestBody MediaContentType contentType, @RequestParam long itemId) throws Exception {
-        return socialService.like(contentType, itemId);
+        return socialService.addLike(new Like());
     }
 
     @PostMapping("/likes/unlike")
-    public ApiResponse unlike(@RequestBody MediaContentType contentType, @RequestParam long itemId) throws Exception {
-        return socialService.unlike(contentType, itemId);
+    public ApiResponse unlike(@RequestBody long likeId) throws Exception {
+        return socialService.unlike(likeId);
     }
 
     @GetMapping("/likes")

@@ -1,8 +1,8 @@
 package com.plapp.apigateway.services.mockservices;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.GardenerService;
 import com.plapp.entities.schedules.ScheduleAction;
+import com.plapp.entities.utils.ApiResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

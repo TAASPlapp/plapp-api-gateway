@@ -1,10 +1,10 @@
 package com.plapp.apigateway.services.mockservices;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
+import com.plapp.entities.utils.ApiResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -150,6 +150,16 @@ public class MockGreenhouseService implements GreenhouseService {
 
     @Override
     public ApiResponse updateStoryboard(Storyboard storyboard) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ApiResponse addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ApiResponse removeStoryboardItem(StoryboardItem storyboardItem) throws Exception {
         return null;
     }
 }

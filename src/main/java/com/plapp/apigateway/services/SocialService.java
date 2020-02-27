@@ -1,10 +1,10 @@
 package com.plapp.apigateway.services;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
+import com.plapp.entities.utils.ApiResponse;
 
 import java.util.List;
 

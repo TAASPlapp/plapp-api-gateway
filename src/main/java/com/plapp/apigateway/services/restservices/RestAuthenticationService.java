@@ -1,8 +1,8 @@
 package com.plapp.apigateway.services.restservices;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
+import com.plapp.entities.utils.ApiResponse;
 import io.jsonwebtoken.Claims;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,6 @@ public class RestAuthenticationService implements AuthenticationService {
     @Override
     public Claims authorize(String jwt) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        Claims claims = restTemplate.postForObject(serviceAddress + "/auth/authorize", jwt, Claims.class);
-        return claims;
+        return restTemplate.postForObject(serviceAddress + "/auth/authorize", jwt, Claims.class);
     }
 }

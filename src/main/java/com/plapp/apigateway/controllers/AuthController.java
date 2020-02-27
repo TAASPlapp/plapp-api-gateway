@@ -2,6 +2,7 @@ package com.plapp.apigateway.controllers;
 
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
+import com.plapp.entities.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

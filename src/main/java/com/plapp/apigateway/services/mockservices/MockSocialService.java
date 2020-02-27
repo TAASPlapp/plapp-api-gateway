@@ -1,11 +1,11 @@
 package com.plapp.apigateway.services.mockservices;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.apigateway.services.SocialService;
 import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
+import com.plapp.entities.utils.ApiResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

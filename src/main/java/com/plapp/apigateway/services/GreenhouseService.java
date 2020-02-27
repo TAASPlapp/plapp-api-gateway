@@ -1,9 +1,9 @@
 package com.plapp.apigateway.services;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
+import com.plapp.entities.utils.ApiResponse;
 
 import java.util.List;
 
@@ -18,4 +18,7 @@ public interface GreenhouseService {
     ApiResponse createStoryboard(Storyboard storyboard) throws Exception;
     ApiResponse removeStoryboard(Storyboard storyboard) throws Exception;
     ApiResponse updateStoryboard(Storyboard storyboard) throws Exception;
+
+    ApiResponse addStoryboardItem(StoryboardItem storyboardItem) throws Exception;
+    ApiResponse removeStoryboardItem(StoryboardItem storyboardItem) throws Exception;
 }

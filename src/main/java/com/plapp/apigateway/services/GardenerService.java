@@ -1,7 +1,7 @@
 package com.plapp.apigateway.services;
 
-import com.plapp.apigateway.controllers.ApiResponse;
 import com.plapp.entities.schedules.ScheduleAction;
+import com.plapp.entities.utils.ApiResponse;
 
 import java.util.List;
 

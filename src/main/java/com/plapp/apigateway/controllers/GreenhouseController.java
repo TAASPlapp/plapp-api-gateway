@@ -3,16 +3,16 @@ package com.plapp.apigateway.controllers;
 import com.plapp.apigateway.services.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/greenhouse")
+@RequiredArgsConstructor
 public class GreenhouseController {
-
-    @Autowired
-    private GreenhouseService greenhouseService;
+    private final GreenhouseService greenhouseService;
 
     @CrossOrigin
     @GetMapping("/plants")

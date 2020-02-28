@@ -3,6 +3,8 @@ package com.plapp.apigateway.security;
 import com.plapp.apigateway.services.AuthenticationService;
 import io.jsonwebtoken.Claims;
 import org.apache.logging.log4j.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+    private static final Logger log = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
 
     private final AuthenticationService authenticationService;
 
@@ -38,6 +41,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 
     private Authentication verifyJWT(HttpServletRequest request) {
+        logger.info("Verifying JWT token");
+
         String headerAuthorization = request.getHeader("Authorization");
 
         if (Strings.isEmpty(headerAuthorization) || !headerAuthorization.startsWith("Bearer "))
@@ -50,7 +55,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException(e);
+            //return null;
         }
     }
 

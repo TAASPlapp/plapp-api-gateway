@@ -17,25 +17,26 @@ public class ScheduleController {
 
     @CrossOrigin
     @GetMapping("/")
-    public List<ScheduleAction> getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
-        return gardenerService.getSchedule(plantId);
+    public ApiResponse<List<ScheduleAction>> getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
+        return new ApiResponse<>(gardenerService.getSchedule(plantId));
     }
 
     @CrossOrigin
     @GetMapping("/actions")
-    public List<String> getScheduleActions() throws Exception {
-       return gardenerService.getActions();
+    public ApiResponse<List<String>> getScheduleActions() throws Exception {
+       return new ApiResponse<>(gardenerService.getActions());
     }
 
     @CrossOrigin
     @PostMapping("/add")
-    public ApiResponse addScheduleAction(@RequestBody ScheduleAction action) throws Exception {
-        return gardenerService.addScheduleAction(action);
+    public ApiResponse<ScheduleAction> addScheduleAction(@RequestBody ScheduleAction action) throws Exception {
+        gardenerService.addScheduleAction(action);
+        return new ApiResponse<>();
     }
 
     @CrossOrigin
     @PostMapping("/remove")
-    public ApiResponse removeScheduleAction(@RequestBody ScheduleAction action) throws Exception {
+    public ApiResponse<?> removeScheduleAction(@RequestBody ScheduleAction action) throws Exception {
         return gardenerService.removeScheduleAction(action);
     }
 }

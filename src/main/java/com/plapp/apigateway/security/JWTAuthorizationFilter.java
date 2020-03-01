@@ -1,7 +1,10 @@
 package com.plapp.apigateway.security;
 
 import com.plapp.apigateway.services.AuthenticationService;
+import com.plapp.entities.utils.ApiResponse;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,15 +52,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             return null;
 
         try {
-            Claims claims = authenticationService.authorize(headerAuthorization.replace("Bearer ", ""));
-            String subject = claims.getSubject();
-            return new UsernamePasswordAuthenticationToken(subject, null);
+            String jwt = headerAuthorization.replace("Bearer ", "");
+
+            /*ApiResponse authorizationResponse = authenticationService.authorize(jwt);
+            if (authorizationResponse.getSuccess()) {
+                Jws<Claims> jws = Jwts.parser().parseClaimsJws(jwt);
+                String subject = jws.getBody().getSubject();
+                return new UsernamePasswordAuthenticationToken(subject, null);
+            }*/
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-            //return null;
+            logger.error(e);
         }
+
+        return null;
     }
 
 

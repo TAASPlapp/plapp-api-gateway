@@ -1,5 +1,6 @@
 package com.plapp.apigateway.services.restservices;
 
+import com.google.gson.Gson;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.utils.ApiResponse;

@@ -5,7 +5,7 @@
     "owner": -1,
     "name": "Giorgia",
     "type": "Peony",
-    "status": "healthy",
+    "status": "Healthy",
     "image": "https://source.unsplash.com/XEmaJaM-4nE/300x300"
   },
   {
@@ -14,7 +14,7 @@
     "owner": -1,
     "name": "Prosperina",
     "type": "Cactus",
-    "status": "sick",
+    "status": "Sick",
     "image": "https://source.unsplash.com/f7PfM2NklZ4/300x300"
   },
   {
@@ -23,7 +23,7 @@
     "owner": -1,
     "name": "Anita",
     "type": "Thyme",
-    "status": "healthy",
+    "status": "Healthy",
     "image": "https://source.unsplash.com/Wnr2ohKUIYw/300x300"
   },
   {
@@ -32,7 +32,7 @@
     "name": "Sveva",
     "owner": -1,
     "type": "Philodendron",
-    "status": "healthy",
+    "status": "Healthy",
     "image": "https://source.unsplash.com/N1_pgcSgbEk/300x300"
   }
 ]

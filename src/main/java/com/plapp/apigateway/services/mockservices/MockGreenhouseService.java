@@ -29,7 +29,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     private Storyboard jsonToStoryboard(JSONObject jsonStoryboard) {
-        Storyboard storyboard = new Storyboard((Long) jsonStoryboard.get("id"));
+        Storyboard storyboard = new Storyboard();
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             storyboard.setLastModified(formatter.parse((String) jsonStoryboard.get("lastModified")));
@@ -37,7 +37,6 @@ public class MockGreenhouseService implements GreenhouseService {
             System.out.println(e.getMessage());
         }
 
-        storyboard.setNumLikes(((Long) jsonStoryboard.get("numLikes")).intValue());
         storyboard.setSummary((String) jsonStoryboard.get("summary"));
 
         JSONObject obj = ((JSONObject) (jsonStoryboard.get("plant")));
@@ -59,7 +58,6 @@ public class MockGreenhouseService implements GreenhouseService {
                     item.setThumbImage((String) json.get("thumbImage"));
                     item.setDescription((String) json.get("description"));
                     item.setTitle((String) json.get("title"));
-                    item.setNumLikes(((Long) json.get("numLikes")).intValue());
                     item.setStatus(Plant.PlantHealthStatus.valueOf(((String) json.get("status")).toUpperCase()));
                     return item;
                 }

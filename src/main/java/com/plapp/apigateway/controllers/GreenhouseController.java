@@ -5,8 +5,8 @@ import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -32,6 +32,19 @@ public class GreenhouseController {
     public ApiResponse<List<Storyboard>> getStoryboards() throws Exception {
         return new ApiResponse<>(greenhouseService.getStoryboards());
     }
+
+
+    //TODO: storyboard di un utente specifico -> per mostare il profilo
+    @CrossOrigin
+    @GetMapping("/storyboards/{userId}")
+    public ApiResponse<List<Storyboard>> getStoryboards(@PathVariable long userId) throws Exception {
+        return new ApiResponse<>(greenhouseService.getStoryboards());
+//        return new ApiResponse<>(greenhouseService.getStoryboards(userId));
+
+    }
+
+    //todo: add plant
+
 
     @CrossOrigin
     @GetMapping("/storyboard")

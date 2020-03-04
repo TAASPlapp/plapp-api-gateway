@@ -19,36 +19,34 @@ public class AuthController {
 
     @CrossOrigin
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestBody UserCredentials credentials) {
+    public ResponseEntity<ApiResponse<String>> login(@RequestBody UserCredentials credentials) {
         HttpHeaders httpHeaders = new HttpHeaders();
         ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
-        ApiResponse responseBody = new ApiResponse();
 
         try {
-            ApiResponse authenticationResponse = authenticationService.authenticateUser(credentials);
+            ApiResponse<String> authenticationResponse = authenticationService.authenticateUser(credentials);
             if (!authenticationResponse.getSuccess())
                 return responseBuilder.body(authenticationResponse);
 
-            String token = authenticationResponse.getMessage();
+            String token = authenticationResponse.getContent();
             httpHeaders.add(HEADER_STRING, TOKEN_PREFIX + token);
 
-        } catch (Exception e) {
-            responseBody = new ApiResponse(false, e.getMessage());
-            return responseBuilder.body(responseBody);
-        }
+            return responseBuilder
+                    .headers(httpHeaders)
+                    .body(authenticationResponse);
 
-        return responseBuilder
-                .headers(httpHeaders)
-                .body(responseBody);
+        } catch (Exception e) {
+            return responseBuilder.body(new ApiResponse<>(false, e.getMessage()));
+        }
     }
 
     @CrossOrigin
     @PostMapping("/signup")
-    public ApiResponse signup(@RequestBody UserCredentials credentials) {
+    public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) {
         try {
             return authenticationService.registerUser(credentials);
         } catch (Exception e) {
-            return new ApiResponse(false, e.getMessage());
+            return new ApiResponse<>(false, e.getMessage());
         }
     }
 

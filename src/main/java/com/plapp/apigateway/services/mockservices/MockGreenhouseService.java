@@ -31,43 +31,44 @@ public class MockGreenhouseService implements GreenhouseService {
 
     private Storyboard jsonToStoryboard(JSONObject jsonStoryboard) {
         Storyboard storyboard = new Storyboard();
-
-        if (!jsonStoryboard.isEmpty()) {
-            try {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                storyboard.setLastModified(formatter.parse((String) jsonStoryboard.get("lastModified")));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-            storyboard.setSummary((String) jsonStoryboard.get("summary"));
-
-            JSONObject obj = ((JSONObject) (jsonStoryboard.get("plant")));
-            Plant p = new Plant((Long) obj.get("id"),
-                    (Long) obj.get("owner"),
-                    (String) obj.get("name"),
-                    (String) obj.get("description"),
-                    (String) obj.get("type"),
-                    Plant.PlantHealthStatus.valueOf(((String) obj.get("status")).toUpperCase()),
-                    (String) obj.get("image"));
-
-            storyboard.setPlant(p);
-
-            List<StoryboardItem> items = Lists.<JSONObject, StoryboardItem>map(
-                    ((JSONArray) jsonStoryboard.get("storyboardItems")).iterator(),
-                    json -> {
-                        StoryboardItem item = new StoryboardItem((Long) json.get("id"));
-                        item.setImage((String) json.get("image"));
-                        item.setThumbImage((String) json.get("thumbImage"));
-                        item.setDescription((String) json.get("description"));
-                        item.setTitle((String) json.get("title"));
-                        item.setStatus(Plant.PlantHealthStatus.valueOf(((String) json.get("status")).toUpperCase()));
-                        return item;
-                    }
-            );
-
-            storyboard.setStoryboardItems(items);
+        storyboard.setId((Long) jsonStoryboard.get("id"));
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            storyboard.setLastModified(formatter.parse((String) jsonStoryboard.get("lastModified")));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
+        //storyboard.setNumLikes(((Long) jsonStoryboard.get("numLikes")).intValue());
+        storyboard.setSummary((String) jsonStoryboard.get("summary"));
+
+        JSONObject obj = ((JSONObject) (jsonStoryboard.get("plant")));
+        Plant p = new Plant((Long) obj.get("id"),
+                (Long) obj.get("owner"),
+                (String) obj.get("name"),
+                (String) obj.get("description"),
+                (String) obj.get("type"),
+                Plant.PlantHealthStatus.valueOf(((String) obj.get("status")).toUpperCase()),
+                (String) obj.get("image"));
+
+        storyboard.setPlant(p);
+
+        List<StoryboardItem> items = Lists.<JSONObject, StoryboardItem>map(
+                ((JSONArray) jsonStoryboard.get("storyboardItems")).iterator(),
+                json -> {
+                    StoryboardItem item = new StoryboardItem((Long) json.get("id"));
+                    item.setImage((String) json.get("image"));
+                    item.setThumbImage((String) json.get("thumbImage"));
+                    item.setDescription((String) json.get("description"));
+                    item.setTitle((String) json.get("title"));
+                    //item.setNumLikes(((Long) json.get("numLikes")).intValue());
+                    item.setStatus(Plant.PlantHealthStatus.valueOf(((String) json.get("status")).toUpperCase()));
+                    return item;
+                }
+        );
+
+        storyboard.setStoryboardItems(items);
+
 
         return storyboard;
     }

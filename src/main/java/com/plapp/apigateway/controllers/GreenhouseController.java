@@ -16,35 +16,42 @@ import java.util.List;
 public class GreenhouseController {
     private final GreenhouseService greenhouseService;
 
-    @GetMapping("/plants")
-    public ApiResponse<List<Plant>> getPlants(@RequestParam(defaultValue = "-1") long userId) throws Exception {
-       return new ApiResponse<>(greenhouseService.getPlants(userId));
+    @GetMapping("/{userId}/plants")
+    public ApiResponse<List<Plant>> getPlants(@PathVariable(name = "userId") long userId) throws Exception {
+       return greenhouseService.getPlants(userId);
     }
 
-    @GetMapping("/plant")
-    public ApiResponse<Plant> getPlant(@RequestParam long plantId) throws Exception {
-        return new ApiResponse<>(greenhouseService.getPlant(plantId));
+    @GetMapping("/plant/{plantId}")
+    public ApiResponse<Plant> getPlant(@PathVariable(name = "plantId") long plantId) throws Exception {
+        return greenhouseService.getPlant(plantId);
     }
+
+    //todo: add plant
+    @PostMapping("/{userId}/plants/add")
+    public ApiResponse<Plant> addPlant(@PathVariable(name = "userId") long userId,
+                                       @RequestBody Plant plant) throws Exception {
+        plant.setOwner(userId);
+        return greenhouseService.addPlant(plant);
+    }
+
 
     @GetMapping("/storyboards")
     public ApiResponse<List<Storyboard>> getStoryboards() throws Exception {
-        return new ApiResponse<>(greenhouseService.getStoryboards());
+        return greenhouseService.getStoryboards();
     }
 
 
     //TODO: storyboard di un utente specifico -> per mostare il profilo
     @GetMapping("/storyboards/{userId}")
     public ApiResponse<List<Storyboard>> getStoryboards(@PathVariable long userId) throws Exception {
-        return new ApiResponse<>(greenhouseService.getStoryboards());
-        //return new ApiResponse<>(greenhouseService.getStoryboards(userId));
+        return greenhouseService.getStoryboards();
+        //return greenhouseService.getStoryboards(userId)
 
     }
 
     @GetMapping("/storyboard")
     public ApiResponse<Storyboard> getStoryboard(@RequestParam long plantId) throws Exception {
-        return new ApiResponse<>(greenhouseService.getStoryboard(plantId));
+        return greenhouseService.getStoryboard(plantId);
     }
-
-    //todo: add plant
 }
 

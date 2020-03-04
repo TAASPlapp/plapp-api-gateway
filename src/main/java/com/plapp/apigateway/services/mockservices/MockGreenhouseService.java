@@ -74,7 +74,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public List<Plant> getPlants(long userId) throws Exception {
+    public ApiResponse<List<Plant>> getPlants(long userId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -88,11 +88,11 @@ public class MockGreenhouseService implements GreenhouseService {
                 this::jsonToPlant
         );
 
-        return plants;
+        return new ApiResponse<>(plants);
     }
 
     @Override
-    public Plant getPlant(long plantId) throws Exception {
+    public ApiResponse<Plant> getPlant(long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -101,11 +101,11 @@ public class MockGreenhouseService implements GreenhouseService {
                 p -> ((Long) p.get("id")) == plantId
         ).get(0);
 
-        return jsonToPlant(jsonPlant);
+        return new ApiResponse<>(jsonToPlant(jsonPlant));
     }
 
     @Override
-    public ApiResponse addPlant(Plant plant) throws Exception {
+    public ApiResponse<Plant> addPlant(Plant plant) throws Exception {
         return null;
     }
 
@@ -115,7 +115,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public List<Storyboard> getStoryboards() throws Exception {
+    public ApiResponse<List<Storyboard>> getStoryboards() throws Exception {
         JSONParser parser = new JSONParser();
         List<Storyboard> storyboards = new ArrayList<>();
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -125,11 +125,11 @@ public class MockGreenhouseService implements GreenhouseService {
                 jsonStoryboards.iterator(),
                 this::jsonToStoryboard
         );
-        return storyboards;
+        return new ApiResponse<>(storyboards);
     }
 
     @Override
-    public Storyboard getStoryboard(long plantId) throws Exception {
+    public ApiResponse<Storyboard> getStoryboard(long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -139,12 +139,12 @@ public class MockGreenhouseService implements GreenhouseService {
                 p -> ((Long) ((JSONObject) p.get("plant")).get("id")) == plantId
         );
         if (!jsonStoryboards.isEmpty())
-            return jsonToStoryboard(jsonStoryboards.get(0));
-        else return jsonToStoryboard(new JSONObject());
+            return new ApiResponse<>(jsonToStoryboard(jsonStoryboards.get(0)));
+        else return new ApiResponse<>(jsonToStoryboard(new JSONObject()));
     }
 
     @Override
-    public ApiResponse createStoryboard(Storyboard storyboard) throws Exception {
+    public ApiResponse<Storyboard> createStoryboard(Storyboard storyboard) throws Exception {
         return null;
     }
 
@@ -154,12 +154,12 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public ApiResponse updateStoryboard(Storyboard storyboard) throws Exception {
+    public ApiResponse<Storyboard> updateStoryboard(Storyboard storyboard) throws Exception {
         return null;
     }
 
     @Override
-    public ApiResponse addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
+    public ApiResponse<StoryboardItem> addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
         return null;
     }
 

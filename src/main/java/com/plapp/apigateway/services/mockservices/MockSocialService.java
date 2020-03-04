@@ -79,26 +79,28 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse addComment(Comment comment) throws Exception {
-        return new ApiResponse();
-    }
-
-    @Override
-    public ApiResponse addLike(Like like) throws Exception {
-        return null;
-    }
-
-    @Override
-    public ApiResponse unlike(long likeId) throws Exception {
-        return null;
-    }
-
-    @Override
     public List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception {
         List<UserDetails> users = new ArrayList<>();
         users.add(getUserDetails(2));
         users.add(getUserDetails(3));
-
+        users.add(getUserDetails(4));
         return users;
     }
+
+    @Override
+    public ApiResponse addComment(Comment comment) throws Exception {
+        return new ApiResponse<>("Comment Added");
+    }
+
+    @Override
+    public ApiResponse addLike(Like like) throws Exception {
+        return new ApiResponse<>("Like added");
+    }
+
+    @Override
+    public ApiResponse unlike(long likeId) throws Exception {
+        return new ApiResponse<>("Unlike done");
+    }
+
+
 }

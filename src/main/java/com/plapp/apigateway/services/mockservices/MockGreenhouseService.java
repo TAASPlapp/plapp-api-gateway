@@ -14,6 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockGreenhouseService implements GreenhouseService {
@@ -68,6 +69,7 @@ public class MockGreenhouseService implements GreenhouseService {
 
         storyboard.setStoryboardItems(items);
 
+
         return storyboard;
     }
 
@@ -115,11 +117,11 @@ public class MockGreenhouseService implements GreenhouseService {
     @Override
     public List<Storyboard> getStoryboards() throws Exception {
         JSONParser parser = new JSONParser();
-
+        List<Storyboard> storyboards = new ArrayList<>();
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
         JSONArray jsonStoryboards = (JSONArray) parser.parse(new FileReader(jsonFile));
 
-        List<Storyboard> storyboards = Lists.<JSONObject, Storyboard>map(
+        storyboards = Lists.map(
                 jsonStoryboards.iterator(),
                 this::jsonToStoryboard
         );
@@ -136,7 +138,9 @@ public class MockGreenhouseService implements GreenhouseService {
                 storyboards.iterator(),
                 p -> ((Long) ((JSONObject) p.get("plant")).get("id")) == plantId
         );
-        return jsonToStoryboard(jsonStoryboards.get(0));
+        if (!jsonStoryboards.isEmpty())
+            return jsonToStoryboard(jsonStoryboards.get(0));
+        else return jsonToStoryboard(new JSONObject());
     }
 
     @Override

@@ -33,6 +33,11 @@ public class RestAuthenticationService implements AuthenticationService {
     }
 
     @Override
+    public ApiResponse<?> deleteUser(UserCredentials credentials) throws Exception {
+        return null;
+    }
+
+    @Override
     public ApiResponse<String> authenticateUser(UserCredentials credentials) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForObject(serviceAddress + "/auth/login", credentials, ApiResponse.class);

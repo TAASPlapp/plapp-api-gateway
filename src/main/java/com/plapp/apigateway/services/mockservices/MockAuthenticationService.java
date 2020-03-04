@@ -14,6 +14,11 @@ public class MockAuthenticationService implements AuthenticationService {
     }
 
     @Override
+    public ApiResponse<?> deleteUser(UserCredentials credentials) throws Exception {
+        return null;
+    }
+
+    @Override
     public ApiResponse<String> authenticateUser(UserCredentials credentials) throws Exception {
         return new ApiResponse<>("ourhardworkbythesewordsguardedpleasedontsteal");
     }

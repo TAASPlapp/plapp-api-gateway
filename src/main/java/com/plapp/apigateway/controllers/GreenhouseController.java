@@ -12,22 +12,20 @@ import java.util.List;
 @RestController
 @RequestMapping("api/greenhouse")
 @RequiredArgsConstructor
+@CrossOrigin
 public class GreenhouseController {
     private final GreenhouseService greenhouseService;
 
-    @CrossOrigin
     @GetMapping("/plants")
     public ApiResponse<List<Plant>> getPlants(@RequestParam(defaultValue = "-1") long userId) throws Exception {
        return new ApiResponse<>(greenhouseService.getPlants(userId));
     }
 
-    @CrossOrigin
     @GetMapping("/plant")
     public ApiResponse<Plant> getPlant(@RequestParam long plantId) throws Exception {
         return new ApiResponse<>(greenhouseService.getPlant(plantId));
     }
 
-    @CrossOrigin
     @GetMapping("/storyboards")
     public ApiResponse<List<Storyboard>> getStoryboards() throws Exception {
         return new ApiResponse<>(greenhouseService.getStoryboards());
@@ -35,21 +33,18 @@ public class GreenhouseController {
 
 
     //TODO: storyboard di un utente specifico -> per mostare il profilo
-    @CrossOrigin
     @GetMapping("/storyboards/{userId}")
     public ApiResponse<List<Storyboard>> getStoryboards(@PathVariable long userId) throws Exception {
         return new ApiResponse<>(greenhouseService.getStoryboards());
-//        return new ApiResponse<>(greenhouseService.getStoryboards(userId));
+        //return new ApiResponse<>(greenhouseService.getStoryboards(userId));
 
     }
 
-    //todo: add plant
-
-
-    @CrossOrigin
     @GetMapping("/storyboard")
     public ApiResponse<Storyboard> getStoryboard(@RequestParam long plantId) throws Exception {
         return new ApiResponse<>(greenhouseService.getStoryboard(plantId));
     }
+
+    //todo: add plant
 }
 

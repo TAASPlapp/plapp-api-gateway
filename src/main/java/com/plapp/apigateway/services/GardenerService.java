@@ -9,6 +9,6 @@ public interface GardenerService {
     List<ScheduleAction> getSchedule(long plantId) throws Exception;
     List<String> getActions() throws Exception;
 
-    ApiResponse addScheduleAction(ScheduleAction scheduleAction) throws Exception;
-    ApiResponse removeScheduleAction(ScheduleAction scheduleAction) throws Exception;
+    ScheduleAction addScheduleAction(ScheduleAction scheduleAction) throws Exception;
+    void removeScheduleAction(ScheduleAction scheduleAction) throws Exception;
 }

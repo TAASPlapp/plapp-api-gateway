@@ -8,17 +8,17 @@ import com.plapp.entities.utils.ApiResponse;
 import java.util.List;
 
 public interface GreenhouseService {
-    ApiResponse<List<Plant>> getPlants(long userId) throws Exception;
-    ApiResponse<Plant> getPlant(long plantId) throws Exception;
-    ApiResponse<Plant> addPlant(Plant plant) throws Exception;
-    ApiResponse removePlant(Plant plant) throws Exception;
+    List<Plant> getPlants(long userId) throws Exception;
+    Plant getPlant(long plantId) throws Exception;
+    Plant addPlant(Plant plant) throws Exception;
+    void removePlant(Plant plant) throws Exception;
 
-    ApiResponse<List<Storyboard>> getStoryboards() throws Exception;
-    ApiResponse<Storyboard> getStoryboard(long plantId) throws Exception;
-    ApiResponse<Storyboard> createStoryboard(Storyboard storyboard) throws Exception;
-    ApiResponse removeStoryboard(Storyboard storyboard) throws Exception;
-    ApiResponse<Storyboard> updateStoryboard(Storyboard storyboard) throws Exception;
+    List<Storyboard> getStoryboards() throws Exception;
+    Storyboard getStoryboard(long plantId) throws Exception;
+    Storyboard createStoryboard(Storyboard storyboard) throws Exception;
+    Storyboard updateStoryboard(Storyboard storyboard) throws Exception;
+    void removeStoryboard(Storyboard storyboard) throws Exception;
 
-    ApiResponse<StoryboardItem> addStoryboardItem(StoryboardItem storyboardItem) throws Exception;
-    ApiResponse<StoryboardItem> removeStoryboardItem(StoryboardItem storyboardItem) throws Exception;
+    StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) throws Exception;
+    void removeStoryboardItem(StoryboardItem storyboardItem) throws Exception;
 }

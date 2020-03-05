@@ -37,6 +37,7 @@ public class ScheduleController {
     @CrossOrigin
     @PostMapping("/remove")
     public ApiResponse<?> removeScheduleAction(@RequestBody ScheduleAction action) throws Exception {
-        return gardenerService.removeScheduleAction(action);
+        gardenerService.removeScheduleAction(action);
+        return new ApiResponse();
     }
 }

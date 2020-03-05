@@ -21,31 +21,42 @@ public class RestAuthenticationService implements AuthenticationService {
     private String serviceAddress;
 
     @Override
-    public ApiResponse<UserCredentials> registerUser(UserCredentials credentials) throws Exception {
+    public UserCredentials registerUser(UserCredentials credentials) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
-        return restTemplate.exchange(
+        ApiResponse<UserCredentials> savedCredentials = restTemplate.exchange(
                 serviceAddress + "/auth/signup",
                 HttpMethod.POST,
                 credentialsHttpEntity,
-                new ParameterizedTypeReference<ApiResponse<UserCredentials>>(){}).getBody(); //ApiResponse.class<UserCredentials);
+                new ParameterizedTypeReference<ApiResponse<UserCredentials>>(){}).getBody();
+
+        assert savedCredentials != null;
+        if (!savedCredentials.getSuccess())
+            throw new Exception(savedCredentials.getMessage());
+
+        return savedCredentials.getContent();
     }
 
     @Override
-    public ApiResponse<?> deleteUser(UserCredentials credentials) throws Exception {
-        return null;
+    public void deleteUser(UserCredentials credentials) throws Exception {
+        //TODO
     }
 
     @Override
-    public ApiResponse<String> authenticateUser(UserCredentials credentials) throws Exception {
+    public String authenticateUser(UserCredentials credentials) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(serviceAddress + "/auth/login", credentials, ApiResponse.class);
-    }
 
-    /*@Override
-    public ApiResponse authorize(String jwt) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(serviceAddress + "/auth/authorize", jwt, ApiResponse.class);
-    }*/
+        HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
+        ApiResponse<String> jwt = restTemplate.exchange(
+                serviceAddress + "/auth/signup",
+                HttpMethod.POST,
+                credentialsHttpEntity,
+                new ParameterizedTypeReference<ApiResponse<String>>(){}).getBody();
+
+        assert jwt != null;
+        if(!jwt.getSuccess())
+            throw new Exception(jwt.getMessage());
+        return jwt.getContent();
+    }
 }

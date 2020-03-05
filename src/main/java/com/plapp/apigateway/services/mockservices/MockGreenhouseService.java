@@ -76,7 +76,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public ApiResponse<List<Plant>> getPlants(long userId) throws Exception {
+    public List<Plant> getPlants(long userId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -90,11 +90,11 @@ public class MockGreenhouseService implements GreenhouseService {
                 this::jsonToPlant
         );
 
-        return new ApiResponse<>(plants);
+        return plants;
     }
 
     @Override
-    public ApiResponse<Plant> getPlant(long plantId) throws Exception {
+    public Plant getPlant(long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -103,21 +103,21 @@ public class MockGreenhouseService implements GreenhouseService {
                 p -> ((Long) p.get("id")) == plantId
         ).get(0);
 
-        return new ApiResponse<>(jsonToPlant(jsonPlant));
+        return jsonToPlant(jsonPlant);
     }
 
     @Override
-    public ApiResponse<Plant> addPlant(Plant plant) throws Exception {
-        return null;
+    public Plant addPlant(Plant plant) throws Exception {
+        return plant;
     }
 
     @Override
-    public ApiResponse removePlant(Plant plant) throws Exception {
-        return null;
+    public void removePlant(Plant plant) throws Exception {
+
     }
 
     @Override
-    public ApiResponse<List<Storyboard>> getStoryboards() throws Exception {
+    public List<Storyboard> getStoryboards() throws Exception {
         JSONParser parser = new JSONParser();
         List<Storyboard> storyboards = new ArrayList<>();
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -127,11 +127,11 @@ public class MockGreenhouseService implements GreenhouseService {
                 jsonStoryboards.iterator(),
                 this::jsonToStoryboard
         );
-        return new ApiResponse<>(storyboards);
+        return storyboards;
     }
 
     @Override
-    public ApiResponse<Storyboard> getStoryboard(long plantId) throws Exception {
+    public Storyboard getStoryboard(long plantId) throws Exception {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -141,32 +141,32 @@ public class MockGreenhouseService implements GreenhouseService {
                 p -> ((Long) ((JSONObject) p.get("plant")).get("id")) == plantId
         );
         if (!jsonStoryboards.isEmpty())
-            return new ApiResponse<>(jsonToStoryboard(jsonStoryboards.get(0)));
-        else return new ApiResponse<>(jsonToStoryboard(new JSONObject()));
+            return jsonToStoryboard(jsonStoryboards.get(0));
+        else return jsonToStoryboard(new JSONObject());
     }
 
     @Override
-    public ApiResponse<Storyboard> createStoryboard(Storyboard storyboard) throws Exception {
-        return null;
+    public Storyboard createStoryboard(Storyboard storyboard) throws Exception {
+        return storyboard;
     }
 
     @Override
-    public ApiResponse removeStoryboard(Storyboard storyboard) throws Exception {
-        return null;
+    public void removeStoryboard(Storyboard storyboard) throws Exception {
+
     }
 
     @Override
-    public ApiResponse<Storyboard> updateStoryboard(Storyboard storyboard) throws Exception {
-        return null;
+    public Storyboard updateStoryboard(Storyboard storyboard) throws Exception {
+        return storyboard;
     }
 
     @Override
-    public ApiResponse<StoryboardItem> addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
-        return null;
+    public StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
+        return storyboardItem;
     }
 
     @Override
-    public ApiResponse removeStoryboardItem(StoryboardItem storyboardItem) throws Exception {
-        return null;
+    public void removeStoryboardItem(StoryboardItem storyboardItem) throws Exception {
+
     }
 }

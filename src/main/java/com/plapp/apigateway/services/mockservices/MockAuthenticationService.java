@@ -9,22 +9,17 @@ import io.jsonwebtoken.Jws;
 public class MockAuthenticationService implements AuthenticationService {
 
     @Override
-    public ApiResponse<UserCredentials> registerUser(UserCredentials credentials) throws Exception {
-        return new ApiResponse<>();
+    public UserCredentials registerUser(UserCredentials credentials) throws Exception {
+        return credentials;
     }
 
     @Override
-    public ApiResponse<?> deleteUser(UserCredentials credentials) throws Exception {
-        return null;
+    public void deleteUser(UserCredentials credentials) throws Exception {
+
     }
 
     @Override
-    public ApiResponse<String> authenticateUser(UserCredentials credentials) throws Exception {
-        return new ApiResponse<>("ourhardworkbythesewordsguardedpleasedontsteal");
+    public String authenticateUser(UserCredentials credentials) throws Exception {
+        return "ourhardworkbythesewordsguardedpleasedontsteal";
     }
-
-    /*@Override
-    public ApiResponse authorize(String jwt) throws Exception {
-        return new ApiResponse();
-    }*/
 }

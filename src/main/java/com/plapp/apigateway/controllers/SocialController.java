@@ -26,8 +26,8 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/user/edit")
-    public ApiResponse<?> setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
-        return socialService.setUserDetails(userDetails);
+    public ApiResponse<UserDetails> setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
+        return new ApiResponse<>(socialService.setUserDetails(userDetails));
     }
 
     @CrossOrigin
@@ -38,20 +38,23 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/comments/add")
-    public ApiResponse<?> addComment(@RequestBody Comment comment) throws Exception {
-        return socialService.addComment(comment);
+    public ApiResponse<Comment> addComment(@RequestBody Comment comment) throws Exception {
+        return new ApiResponse<>(socialService.addComment(comment));
     }
 
     @CrossOrigin
     @PostMapping("/likes/like")
-    public ApiResponse<?> like(@RequestBody MediaContentType contentType, @RequestParam long itemId) throws Exception {
-        return socialService.addLike(new Like());
+    public ApiResponse<Like> like(@RequestBody MediaContentType contentType, @RequestParam long itemId) throws Exception {
+        return new ApiResponse<>(socialService.addLike(new Like()));
     }
 
     @CrossOrigin
     @PostMapping("/likes/unlike")
     public ApiResponse<?> unlike(@RequestBody long likeId) throws Exception {
-        return socialService.unlike(likeId);
+        Like like = new Like();
+        like.setId(likeId);
+        socialService.unlike(like);
+        return new ApiResponse();
     }
 
     @CrossOrigin

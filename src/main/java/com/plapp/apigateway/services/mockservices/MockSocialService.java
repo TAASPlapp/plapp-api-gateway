@@ -20,21 +20,6 @@ import java.util.List;
 
 public class MockSocialService implements SocialService {
 
-    @Override
-    public UserDetails getUserDetails(long userId) throws Exception {
-        UserDetails userDetails = new UserDetails(userId);
-        userDetails.setUsername("valka-getz");
-        userDetails.setFirstName("Valka");
-        userDetails.setLastName("Getz");
-        userDetails.setBio("Valka Getz is a 25-year-old sports science student who enjoys eating out, escapology and horse riding. ECCETERA ECCETERA");
-        userDetails.setBirthdate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2020-02-14T12:56:00"));
-        userDetails.setProfilePicture("https://source.unsplash.com/bXq8pVfP-fY/60x60");
-        return userDetails;
-    }
-
-
-
-
     private Comment jsonToComment(JSONObject json) {
         MediaContentType contentType = MediaContentType.valueOf((String)json.get("mediaContentType"));
         long itemId = (Long)json.get("itemId");
@@ -53,14 +38,27 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse setUserDetails(UserDetails userDetails) throws Exception {
-        return new ApiResponse();
+    public UserDetails getUserDetails(long userId) throws Exception {
+        UserDetails userDetails = new UserDetails(userId);
+        userDetails.setUsername("valka-getz");
+        userDetails.setFirstName("Valka");
+        userDetails.setLastName("Getz");
+        userDetails.setBio("Valka Getz is a 25-year-old sports science student who enjoys eating out, escapology and horse riding. ECCETERA ECCETERA");
+        userDetails.setBirthdate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2020-02-14T12:56:00"));
+        userDetails.setProfilePicture("https://source.unsplash.com/bXq8pVfP-fY/60x60");
+        return userDetails;
     }
 
     @Override
-    public ApiResponse addUserDetails(UserDetails user) throws Exception {
-        return null;
+    public UserDetails setUserDetails(UserDetails userDetails) throws Exception {
+        return userDetails;
     }
+
+    @Override
+    public UserDetails addUserDetails(UserDetails user) throws Exception {
+        return user;
+    }
+
     @Override
     public List<Comment> getComments(MediaContentType type, long itemId) throws Exception {
         JSONParser parser = new JSONParser();
@@ -88,19 +86,17 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse addComment(Comment comment) throws Exception {
-        return new ApiResponse<>("Comment Added");
+    public Comment addComment(Comment comment) throws Exception {
+        return comment;
     }
 
     @Override
-    public ApiResponse addLike(Like like) throws Exception {
-        return new ApiResponse<>("Like added");
+    public Like addLike(Like like) throws Exception {
+        return like;
     }
 
     @Override
-    public ApiResponse unlike(long likeId) throws Exception {
-        return new ApiResponse<>("Unlike done");
+    public void unlike(Like like) throws Exception {
+
     }
-
-
 }

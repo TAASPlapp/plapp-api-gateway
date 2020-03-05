@@ -24,16 +24,12 @@ public class AuthController {
         ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
 
         try {
-            ApiResponse<String> authenticationResponse = authenticationService.authenticateUser(credentials);
-            if (!authenticationResponse.getSuccess())
-                return responseBuilder.body(authenticationResponse);
-
-            String token = authenticationResponse.getContent();
+            String token = authenticationService.authenticateUser(credentials);
             httpHeaders.add(HEADER_STRING, TOKEN_PREFIX + token);
 
             return responseBuilder
                     .headers(httpHeaders)
-                    .body(authenticationResponse);
+                    .body(new ApiResponse<String>(token));
 
         } catch (Exception e) {
             return responseBuilder.body(new ApiResponse<>(false, e.getMessage()));
@@ -44,7 +40,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) {
         try {
-            return authenticationService.registerUser(credentials);
+            return new ApiResponse<>(authenticationService.registerUser(credentials));
         } catch (Exception e) {
             return new ApiResponse<>(false, e.getMessage());
         }

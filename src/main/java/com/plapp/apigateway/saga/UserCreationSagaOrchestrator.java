@@ -15,13 +15,18 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 @RequiredArgsConstructor
-public class UserCreationSagaOrchestrator {
+public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
     private final SocialService socialService;
 
     Logger logger = LoggerFactory.getLogger(UserCreationSagaOrchestrator.class);
+
+    @Override
+    public SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
+        return null;
+    }
 
     public void createUser(UserCredentials credentials, UserDetails details) {
         /*

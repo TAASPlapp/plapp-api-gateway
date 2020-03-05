@@ -17,7 +17,7 @@ public class SagaDefinitionBuilder {
     @Setter
     @RequiredArgsConstructor
     public static class SagaTransactionImpl<R, T> implements SagaTransaction{
-        //@Setter(AccessLevel.PRIVATE)
+        @Setter(AccessLevel.PRIVATE)
         private SagaExecutionEngine.SagaArgumentResolver argumentResolver;
 
         private Collector<T> argumentCollector = () -> null;
@@ -30,6 +30,12 @@ public class SagaDefinitionBuilder {
         private Logger logger = LoggerFactory.getLogger(SagaTransactionImpl.class);
 
         private final SagaDefinitionBuilder builder;
+
+        @Override
+        public SagaTransaction withArgumentResolver(SagaExecutionEngine.SagaArgumentResolver argumentResolver) {
+            setArgumentResolver(argumentResolver);
+            return this;
+        }
 
         @Override
         public void run() throws SagaExecutionException {

@@ -25,6 +25,12 @@ public class SagaExecutionEngine {
     }
 
     SagaArgumentResolver argumentResolver = new SagaArgumentResolver();
+    SagaDefinition saga;
+
+    public SagaExecutionEngine withSaga(SagaDefinition saga) {
+        this.saga = saga;
+        return this;
+    }
 
     public SagaExecutionEngine withArgs(Map<String, Object> args) {
         argumentResolver.update(args);
@@ -36,7 +42,7 @@ public class SagaExecutionEngine {
         return this;
     }
 
-    public void run(SagaDefinition saga) throws SagaExecutionException {
+    public void run() throws SagaExecutionException {
         execute(saga.transactions.listIterator(), saga.transactions.listIterator());
     }
 
@@ -47,8 +53,9 @@ public class SagaExecutionEngine {
 
         try {
             SagaTransaction transaction = commandsIterator.next();
-            transaction.setArgumentResolver(argumentResolver);
-            transaction.run();
+            transaction
+                    .withArgumentResolver(argumentResolver)
+                    .run();
 
             rollbackIterator.next();
             execute(commandsIterator, rollbackIterator);

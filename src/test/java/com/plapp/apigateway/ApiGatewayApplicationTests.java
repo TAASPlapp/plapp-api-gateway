@@ -54,8 +54,9 @@ class ApiGatewayApplicationTests {
         SagaExecutionEngine executor = new SagaExecutionEngine();
         try {
             executor
+               .withSaga(sagaDefinition)
                .withArg("param", 1313)
-               .run(sagaDefinition);
+               .run();
         } catch (SagaExecutionException e){
             System.out.println(e);
         }

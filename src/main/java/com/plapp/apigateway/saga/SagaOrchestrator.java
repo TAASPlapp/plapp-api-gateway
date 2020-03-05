@@ -9,7 +9,7 @@ public abstract class SagaOrchestrator {
 
     public abstract SagaDefinition buildSaga(SagaDefinitionBuilder builder);
 
-    private SagaExecutionEngine getExecutor() {
+    protected SagaExecutionEngine getExecutor() {
         return new SagaExecutionEngine().withSaga(sagaDefinition);
     }
 }

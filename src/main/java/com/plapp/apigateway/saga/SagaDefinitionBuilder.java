@@ -1,5 +1,6 @@
 package com.plapp.apigateway.saga;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -9,11 +10,21 @@ import org.slf4j.LoggerFactory;
 public class SagaDefinitionBuilder {
     private SagaDefinition saga = new SagaDefinition();
 
+    public interface Collector<T> {
+        T collect() throws SagaExecutionException;
+    }
+
     @Setter
     @RequiredArgsConstructor
-    private static class SagaTransactionImpl<R, T> implements SagaTransaction{
-        private T arg;
+    public static class SagaTransactionImpl<R, T> implements SagaTransaction{
+        //@Setter(AccessLevel.PRIVATE)
+        private SagaExecutionEngine.SagaArgumentResolver argumentResolver;
+
+        private Collector<T> argumentCollector = () -> null;
+
         private R result;
+        private String resultPlaceholder;
+
         private SagaRunnable<R, T> action;
         private SagaRunnableRollback<R> rollback;
         private Logger logger = LoggerFactory.getLogger(SagaTransactionImpl.class);
@@ -22,7 +33,10 @@ public class SagaDefinitionBuilder {
 
         @Override
         public void run() throws SagaExecutionException {
-           result = action.wrappedRun(arg);
+           result = action.wrappedRun(argumentCollector.collect());
+
+           if (resultPlaceholder != null)
+               argumentResolver.add(resultPlaceholder, result);
         }
 
         @Override
@@ -35,8 +49,13 @@ public class SagaDefinitionBuilder {
             return this;
         }
 
-        public SagaTransactionImpl<R, T> withArg(T arg) {
-            this.arg = arg;
+        public SagaTransactionImpl<R, T> withArg(String argument) {
+            this.argumentCollector = () -> (T) argumentResolver.get(argument);
+            return this;
+        }
+
+        public SagaTransactionImpl<R, T> saveTo(String resultPlaceholder) {
+            this.resultPlaceholder = resultPlaceholder;
             return this;
         }
 
@@ -60,7 +79,7 @@ public class SagaDefinitionBuilder {
     }
 
     public <R, T> SagaTransactionImpl<R,T> step() {
-        return new SagaTransactionImpl<>(this);
+       return new SagaTransactionImpl<>(this);
     }
 
     public SagaDefinition build() {

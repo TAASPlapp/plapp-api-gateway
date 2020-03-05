@@ -30,9 +30,7 @@ public class GreenhouseController {
 
     //todo: add plant
     @PostMapping("/plants/add")
-    public ApiResponse<Plant> addPlant(@PathVariable(name = "userId") long userId,
-                                       @RequestBody Plant plant) throws Exception {
-        plant.setOwner(userId);
+    public ApiResponse<Plant> addPlant(@RequestBody Plant plant) throws Exception {
         return new ApiResponse<>(greenhouseService.addPlant(plant));
     }
 

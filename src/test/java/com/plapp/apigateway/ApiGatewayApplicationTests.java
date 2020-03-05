@@ -42,7 +42,7 @@ class ApiGatewayApplicationTests {
                     .withCompensation(task1::rollback)
                 .<Integer, Integer>step()
                     .invoke(task2::execute).withArg("result1").saveTo("result2")
-                    .withCompensation(task2::rollback)
+                    //.withCompensation(task2::rollback)
                 .<Integer, Integer>step()
                     .invoke(task3::execute).withArg("result2").saveTo("result3")
                     . withCompensation(task3::rollback)

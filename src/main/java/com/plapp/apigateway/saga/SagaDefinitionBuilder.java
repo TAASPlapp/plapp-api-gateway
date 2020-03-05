@@ -26,7 +26,7 @@ public class SagaDefinitionBuilder {
         private String resultPlaceholder;
 
         private SagaRunnable<R, T> action;
-        private SagaRunnableRollback<R> rollback;
+        private SagaRunnableRollback<R> rollback = (a) -> {};
         private Logger logger = LoggerFactory.getLogger(SagaTransactionImpl.class);
 
         private final SagaDefinitionBuilder builder;

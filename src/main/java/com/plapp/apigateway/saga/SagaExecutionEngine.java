@@ -42,8 +42,13 @@ public class SagaExecutionEngine {
         return this;
     }
 
-    public void run() throws SagaExecutionException {
+    public SagaExecutionEngine run() throws SagaExecutionException {
         execute(saga.transactions.listIterator(), saga.transactions.listIterator());
+        return this;
+    }
+
+    public SagaArgumentResolver collect() {
+        return argumentResolver;
     }
 
     private void execute(ListIterator<SagaTransaction> commandsIterator,

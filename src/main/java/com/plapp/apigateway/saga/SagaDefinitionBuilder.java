@@ -50,11 +50,6 @@ public class SagaDefinitionBuilder {
             rollback.wrappedRun(result);
         }
 
-        public SagaTransactionImpl<R,T> invoke(SagaRunnable<R,T> action) {
-            this.action = action;
-            return this;
-        }
-
         public SagaTransactionImpl<R, T> withArg(String argument) {
             this.argumentCollector = () -> (T) argumentResolver.get(argument);
             return this;
@@ -70,8 +65,8 @@ public class SagaDefinitionBuilder {
             return this;
         }
 
-        public <R2, T2> SagaTransactionImpl<R2, T2> step() {
-            return builder.addTransaction(this).step();
+        public SagaDefinitionBuilder step() {
+            return builder.addTransaction(this);
         }
 
         public SagaDefinition build() {
@@ -84,8 +79,10 @@ public class SagaDefinitionBuilder {
         return this;
     }
 
-    public <R, T> SagaTransactionImpl<R,T> step() {
-       return new SagaTransactionImpl<>(this);
+    public <R,T> SagaTransactionImpl<R,T> invoke(SagaRunnable<R,T> action) {
+        SagaTransactionImpl<R, T> transaction = new SagaTransactionImpl<>(this);
+        transaction.setAction(action);
+        return transaction;
     }
 
     public SagaDefinition build() {

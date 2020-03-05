@@ -45,28 +45,27 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
     @Override
     public SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
         return builder
-                .<UserCredentials, UserCredentials>step()
                     .invoke(authenticationService::registerUser).withArg("inputCredentials").saveTo("savedCredentials")
                     .withCompensation(authenticationService::deleteUser)
 
-                .<String, UserCredentials>step()
+                .step()
                     .invoke(authenticationService::authenticateUser).withArg("savedCredentials").saveTo("jwt")
 
-                .<String, String>step()
+                .step()
                     .invoke(this::setPrincipalJwt).withArg("jwt")
                     .withCompensation(this::unsetJwt)
 
-                .<List<ResourceAuthority>, UserCredentials>step()
+                .step()
                     .invoke(this::createDefaultAuthorities).withArg("savedCredentials").saveTo("defaultAuthorities")
 
-                .<List<ResourceAuthority>, List<ResourceAuthority>>step()
+                .step()
                     .invoke(authorizationService::addAuthorizations).withArg("defaultAuthorities")
                     .withCompensation(authorizationService::removeAuthorizations)
 
-                .<String, UserCredentials>step()
+                .step()
                     .invoke(authorizationService::generateUpdatedJwt).withArg("savedCredentials").saveTo("jwt")
 
-                .<UserDetails, UserDetails>step()
+                .step()
                     .invoke(socialService::setUserDetails).withArg("inputDetails").saveTo("savedDetails")
                 .build();
     }

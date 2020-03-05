@@ -37,16 +37,15 @@ class ApiGatewayApplicationTests {
 
         SagaDefinitionBuilder builder = new SagaDefinitionBuilder();
         SagaDefinition sagaDefinition = builder
-                .<Integer, Integer>step()
                     .invoke(task1::execute).withArg("param").saveTo("result1")
                     .withCompensation(task1::rollback)
-                .<Integer, Integer>step()
+                .step()
                     .invoke(task2::execute).withArg("result1").saveTo("result2")
                     //.withCompensation(task2::rollback)
-                .<Integer, Integer>step()
+                .step()
                     .invoke(task3::execute).withArg("result2").saveTo("result3")
                     . withCompensation(task3::rollback)
-                .<Integer, Void>step()
+                .step()
                     .invoke((arg) -> { System.out.println("Qua succede un casino"); throw new Exception("rompo tutto"); })
                 .build();
 

@@ -53,7 +53,7 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse setUserDetails(UserDetails userDetails) throws Exception {
+    public ApiResponse updateUserDetails(UserDetails userDetails) throws Exception {
         return new ApiResponse();
     }
 
@@ -89,7 +89,7 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse unlike(long likeId) throws Exception {
+    public ApiResponse removeLike(long likeId) throws Exception {
         return null;
     }
 

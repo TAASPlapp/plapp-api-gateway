@@ -17,9 +17,7 @@ public interface SocialService {
 
     List<Comment> getComments(MediaContentType type, long itemId) throws Exception;
 
-    ApiResponse addComment(Comment comment) throws Exception;
-
-    ApiResponse addLike(Like like) throws Exception;
+    Comment addComment(Comment comment) throws Exception;
 
     ApiResponse removeLike(long likeId) throws Exception;
 

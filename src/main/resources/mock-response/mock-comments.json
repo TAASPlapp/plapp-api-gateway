@@ -16,9 +16,25 @@
     "content":"ciao mamma!! bel fiore"
   },
   {
-    "id":913,
+    "id":912,
     "author":{
       "userId":2,
+      "username":"valka-getz",
+      "firstName":"Valka",
+      "lastName":"Getz",
+      "bio":"Valka Getz is a 25-year-old sports science student who enjoys eating out, escapology and horse riding. ECCETERA ECCETERA",
+      "birthdate": "1995-05-25T12:56:00",
+      "profilePicture":"https://source.unsplash.com/bXq8pVfP-fY/60x60"
+    },
+    "mediaContentType": "Storyboard",
+    "itemId":0,
+    "publishedAt":"2020-02-14T12:56:00",
+    "content":"ciao mamma!! bel fiore"
+  },
+  {
+    "id":913,
+    "author":{
+      "userId":3,
       "username":"valka-getz",
       "firstName":"Valka",
       "lastName":"Getz",

@@ -10,15 +10,15 @@ import java.util.List;
 public interface GreenhouseService {
     List<Plant> getPlants(long userId) throws Exception;
     Plant getPlant(long plantId) throws Exception;
-    ApiResponse addPlant(Plant plant) throws Exception;
-    ApiResponse removePlant(Plant plant) throws Exception;
+    Plant addPlant(Plant plant) throws Exception;
+    void removePlant(Plant plant) throws Exception;
 
     List<Storyboard> getStoryboards() throws Exception;
     Storyboard getStoryboard(long plantId) throws Exception;
-    ApiResponse createStoryboard(Storyboard storyboard) throws Exception;
-    ApiResponse removeStoryboard(Storyboard storyboard) throws Exception;
-    ApiResponse updateStoryboard(Storyboard storyboard) throws Exception;
+    Storyboard createStoryboard(Storyboard storyboard) throws Exception;
+    Storyboard updateStoryboard(Storyboard storyboard) throws Exception;
+    void removeStoryboard(Storyboard storyboard) throws Exception;
 
-    ApiResponse addStoryboardItem(StoryboardItem storyboardItem) throws Exception;
-    ApiResponse removeStoryboardItem(StoryboardItem storyboardItem) throws Exception;
+    StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) throws Exception;
+    void removeStoryboardItem(StoryboardItem storyboardItem) throws Exception;
 }

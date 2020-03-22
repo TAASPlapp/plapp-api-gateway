@@ -66,12 +66,12 @@ public class MockGardenerService implements GardenerService {
     }
 
     @Override
-    public ApiResponse addScheduleAction(ScheduleAction scheduleAction) throws Exception {
-        return new ApiResponse();
+    public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) throws Exception {
+        return scheduleAction;
     }
 
     @Override
-    public ApiResponse removeScheduleAction(ScheduleAction scheduleAction) throws Exception {
-        return new ApiResponse();
+    public void removeScheduleAction(ScheduleAction scheduleAction) throws Exception {
+
     }
 }

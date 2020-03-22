@@ -6,6 +6,7 @@ import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
 import com.plapp.entities.utils.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +14,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/social")
+@RequiredArgsConstructor
 public class SocialController {
-
-    @Autowired
-    private SocialService socialService;
+    private final SocialService socialService;
 
     @CrossOrigin
     @GetMapping("/user")
-    public UserDetails getUserDetails(@RequestParam(defaultValue = "-1") long userId) throws Exception {
-        return socialService.getUserDetails(userId);
+    public ApiResponse<UserDetails> getUserDetails(@RequestParam(defaultValue = "-1") long userId) throws Exception {
+        return new ApiResponse<>(socialService.getUserDetails(userId));
     }
 
     @CrossOrigin
     @PostMapping("/user/edit")
     public ApiResponse setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
         return socialService.updateUserDetails(userDetails);
+
     }
 
     @CrossOrigin
@@ -39,8 +40,8 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/comments/add")
-    public ApiResponse addComment(@RequestBody Comment comment) throws Exception {
-        return socialService.addComment(comment);
+    public ApiResponse<Comment> addComment(@RequestBody Comment comment) throws Exception {
+        return new ApiResponse<>(socialService.addComment(comment));
     }
 
     @CrossOrigin
@@ -58,7 +59,7 @@ public class SocialController {
 
     @CrossOrigin
     @GetMapping("/likes")
-    public List<UserDetails> getLikes(@RequestParam MediaContentType contentType, @RequestParam long itemId) throws Exception {
-        return socialService.getLikes(contentType, itemId);
+    public ApiResponse<List<UserDetails>> getLikes(@RequestParam MediaContentType contentType, @RequestParam long itemId) throws Exception {
+        return new ApiResponse<>(socialService.getLikes(contentType, itemId));
     }
 }

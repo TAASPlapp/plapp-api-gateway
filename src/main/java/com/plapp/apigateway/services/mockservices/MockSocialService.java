@@ -5,17 +5,9 @@ import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
-import com.plapp.entities.utils.ApiResponse;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.lists.utils.Lists;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
-import java.io.FileReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MockSocialService implements SocialService {
@@ -37,60 +29,44 @@ public class MockSocialService implements SocialService {
         return null;
     }
 
-    @Override
-    public ApiResponse updateUserDetails(UserDetails userDetails) throws Exception {
-        return new ApiResponse();
-    }
 
     @Override
-    public UserDetails setUserDetails(UserDetails userDetails) throws Exception {
-        return userDetails;
+    public UserDetails getUserDetails(long userId) throws Exception {
+        return null;
     }
 
     @Override
     public UserDetails addUserDetails(UserDetails user) throws Exception {
-        return user;
+        return null;
+    }
+
+    @Override
+    public UserDetails setUserDetails(UserDetails userDetails) throws Exception {
+        return null;
     }
 
     @Override
     public List<Comment> getComments(MediaContentType type, long itemId) throws Exception {
-        JSONParser parser = new JSONParser();
-        File jsonFile = new ClassPathResource("mock-response/mock-comments.json").getFile();
-        JSONArray jsonComments = (JSONArray)parser.parse(new FileReader(jsonFile));
-
-        List<Comment> comments = Lists.map(
-                jsonComments.iterator(),
-                this::jsonToComment
-        );
-
-        return Lists.filter(
-                comments,
-                c -> c.getMediaContentType() == type && c.getItemId() == itemId
-        );
-    }
-
-    @Override
-    public List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception {
-        List<UserDetails> users = new ArrayList<>();
-        users.add(getUserDetails(2));
-        users.add(getUserDetails(3));
-        users.add(getUserDetails(4));
-        return users;
+        return null;
     }
 
     @Override
     public Comment addComment(Comment comment) throws Exception {
-        return comment;
+        return null;
     }
 
     @Override
-    public ApiResponse removeLike(long likeId) throws Exception {
+    public Like addLike(Like like) throws Exception {
         return null;
     }
-    
-    @Override //da controllare
-    public Like addLike(Like like) throws Exception {
-        return like;
+
+    @Override
+    public void removeLike(long likeId) throws Exception {
+
     }
 
+    @Override
+    public List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception {
+        return null;
+    }
 }

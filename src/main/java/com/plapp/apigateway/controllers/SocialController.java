@@ -7,7 +7,6 @@ import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,15 +25,15 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/user/edit")
-    public ApiResponse setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
-        return socialService.updateUserDetails(userDetails);
+    public ApiResponse<UserDetails> setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
+        return new ApiResponse<>(socialService.setUserDetails(userDetails));
 
     }
 
     @CrossOrigin
     @GetMapping("/comments")
     public List<Comment> getComments(@RequestParam MediaContentType contentType,
-                                     @RequestParam long itemId) throws  Exception {
+                                     @RequestParam long itemId) throws Exception {
         return socialService.getComments(contentType, itemId);
     }
 
@@ -46,15 +45,14 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/likes/like")
-    public ApiResponse like(@RequestBody MediaContentType contentType,
-                            @RequestParam long itemId) throws Exception {
-        return socialService.addLike(new Like());
+    public ApiResponse<Like> like(@RequestBody Like like) throws Exception {
+        return new ApiResponse<>(socialService.addLike(like));
     }
 
     @CrossOrigin
     @PostMapping("/likes/unlike")
-    public ApiResponse unlike(@RequestBody long likeId) throws Exception {
-        return socialService.removeLike(likeId);
+    public void unlike(@RequestBody long likeId) throws Exception {
+        socialService.removeLike(likeId);
     }
 
     @CrossOrigin

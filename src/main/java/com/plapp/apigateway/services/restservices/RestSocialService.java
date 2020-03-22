@@ -5,7 +5,6 @@ import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
-import com.plapp.entities.utils.ApiResponse;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -31,17 +30,15 @@ public class RestSocialService implements SocialService {
 
     @Override
     //qui tornare l'oggetto apiResponse
-    public ApiResponse addUserDetails(UserDetails user) throws Exception {
+    public UserDetails addUserDetails(UserDetails user) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        return new ApiResponse<>(
-                restTemplate.postForObject(baseAddress + "/user/" + user.getUserId() + "/add", user, UserDetails.class));
+        return restTemplate.postForObject(baseAddress + "/user/" + user.getUserId() + "/add", user, UserDetails.class);
     }
 
     @Override
-    public ApiResponse updateUserDetails(UserDetails userDetails) throws Exception {
+    public UserDetails setUserDetails(UserDetails userDetails) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        return new ApiResponse<>(
-                restTemplate.postForObject(baseAddress + "/user/" + userDetails.getUserId() + "/update", userDetails, UserDetails.class));
+        return restTemplate.postForObject(baseAddress + "/user/" + userDetails.getUserId() + "/update", userDetails, UserDetails.class);
     }
 
     @Override
@@ -57,25 +54,21 @@ public class RestSocialService implements SocialService {
     }
 
     @Override
-    public ApiResponse addComment(Comment comment) throws Exception {
+    public Comment addComment(Comment comment) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-
-        return new ApiResponse<>(
-                restTemplate.postForObject(baseAddress + "/comment/" + comment.getId() + "/add", comment, Comment.class));
+        return restTemplate.postForObject(baseAddress + "/comment/" + comment.getId() + "/add", comment, Comment.class);
     }
 
     @Override
-    public ApiResponse addLike(Like like) throws Exception {
+    public Like addLike(Like like) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        return new ApiResponse<>(
-                restTemplate.postForObject(baseAddress + "/like/" + like.getId() + "/add", like, Like.class));
+        return restTemplate.postForObject(baseAddress + "/like/" + like.getId() + "/add", like, Like.class);
     }
 
     @Override
-    public ApiResponse removeLike(long likeId) throws Exception {
+    public void removeLike(long likeId) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getForObject(baseAddress + "/like/" + likeId + "/remove", Void.class);
-        return new ApiResponse<>(true, "Like Removed");
     }
 
     @Override

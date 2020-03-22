@@ -10,15 +10,16 @@ import java.util.List;
 
 public interface SocialService {
     UserDetails getUserDetails(long userId) throws Exception;
-    UserDetails setUserDetails(UserDetails userDetails) throws Exception;
-    UserDetails addUserDetails(UserDetails user) throws Exception;
+
+    ApiResponse addUserDetails(UserDetails user) throws Exception;
+
+    ApiResponse updateUserDetails(UserDetails userDetails) throws Exception;
 
     List<Comment> getComments(MediaContentType type, long itemId) throws Exception;
 
     Comment addComment(Comment comment) throws Exception;
 
-    Like addLike(Like like) throws Exception;
-    void unlike(Like like) throws Exception;
+    ApiResponse removeLike(long likeId) throws Exception;
 
     List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception;
 }

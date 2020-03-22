@@ -38,15 +38,8 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public UserDetails getUserDetails(long userId) throws Exception {
-        UserDetails userDetails = new UserDetails(userId);
-        userDetails.setUsername("valka-getz");
-        userDetails.setFirstName("Valka");
-        userDetails.setLastName("Getz");
-        userDetails.setBio("Valka Getz is a 25-year-old sports science student who enjoys eating out, escapology and horse riding. ECCETERA ECCETERA");
-        userDetails.setBirthdate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2020-02-14T12:56:00"));
-        userDetails.setProfilePicture("https://source.unsplash.com/bXq8pVfP-fY/60x60");
-        return userDetails;
+    public ApiResponse updateUserDetails(UserDetails userDetails) throws Exception {
+        return new ApiResponse();
     }
 
     @Override
@@ -91,12 +84,13 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
+    public ApiResponse removeLike(long likeId) throws Exception {
+        return null;
+    }
+    
+    @Override //da controllare
     public Like addLike(Like like) throws Exception {
         return like;
     }
 
-    @Override
-    public void unlike(Like like) throws Exception {
-
-    }
 }

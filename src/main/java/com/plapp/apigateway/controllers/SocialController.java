@@ -26,14 +26,16 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/user/edit")
-    public ApiResponse<UserDetails> setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
-        return new ApiResponse<>(socialService.setUserDetails(userDetails));
+    public ApiResponse setUserDetails(@RequestBody UserDetails userDetails) throws Exception {
+        return socialService.updateUserDetails(userDetails);
+
     }
 
     @CrossOrigin
     @GetMapping("/comments")
-    public ApiResponse<List<Comment>> getComments(@RequestParam MediaContentType contentType, @RequestParam long itemId) throws  Exception {
-        return new ApiResponse<>(socialService.getComments(contentType, itemId));
+    public List<Comment> getComments(@RequestParam MediaContentType contentType,
+                                     @RequestParam long itemId) throws  Exception {
+        return socialService.getComments(contentType, itemId);
     }
 
     @CrossOrigin
@@ -44,17 +46,15 @@ public class SocialController {
 
     @CrossOrigin
     @PostMapping("/likes/like")
-    public ApiResponse<Like> like(@RequestBody MediaContentType contentType, @RequestParam long itemId) throws Exception {
-        return new ApiResponse<>(socialService.addLike(new Like()));
+    public ApiResponse like(@RequestBody MediaContentType contentType,
+                            @RequestParam long itemId) throws Exception {
+        return socialService.addLike(new Like());
     }
 
     @CrossOrigin
     @PostMapping("/likes/unlike")
-    public ApiResponse<?> unlike(@RequestBody long likeId) throws Exception {
-        Like like = new Like();
-        like.setId(likeId);
-        socialService.unlike(like);
-        return new ApiResponse();
+    public ApiResponse unlike(@RequestBody long likeId) throws Exception {
+        return socialService.removeLike(likeId);
     }
 
     @CrossOrigin

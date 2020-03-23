@@ -1,5 +1,6 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.saga.SagaExecutionException;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
@@ -7,8 +8,13 @@ import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import sun.net.www.http.HttpClient;
 
 @RestController
 @RequestMapping("api/auth")
@@ -19,7 +25,23 @@ public class AuthController {
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
 
-    private final UserCreationSagaOrchestrator userCreationSagaOrchestrator;
+    private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
+
+    @ControllerAdvice
+    public static class AuthControllerAdvice extends ResponseEntityExceptionHandler {
+
+        @ExceptionHandler({HttpClientErrorException.class, IllegalArgumentException.class})
+        public ResponseEntity<Object> handle(RuntimeException e, WebRequest request) {
+            e.printStackTrace();
+            return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        }
+
+        @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+        @ExceptionHandler({SagaExecutionException.class})
+        public void handleSagaException(SagaExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
     public AuthController(AuthenticationService authenticationService,
                           AuthorizationService authorizationService) {
@@ -28,8 +50,7 @@ public class AuthController {
 
         userCreationSagaOrchestrator = new UserCreationSagaOrchestrator(
                 authenticationService,
-                authorizationService,
-                null
+                authorizationService
         );
     }
     @CrossOrigin
@@ -53,12 +74,8 @@ public class AuthController {
 
     @CrossOrigin
     @PostMapping("/signup")
-    public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) {
-        try {
-            return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials));
-        } catch (Exception e) {
-            return new ApiResponse<>(false, e.getMessage());
-        }
+    public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException {
+        return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials));
     }
 
 

@@ -51,7 +51,7 @@ public class SagaDefinitionBuilder {
         }
 
         public SagaTransactionImpl<R, T> withArg(String argument) {
-            this.argumentCollector = () -> (T) argumentResolver.get(argument);
+            this.argumentCollector = () -> argumentResolver.get(argument);
             return this;
         }
 

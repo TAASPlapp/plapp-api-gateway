@@ -12,11 +12,15 @@ public class SagaExecutionEngine {
             arguments.put(name, arg);
         }
 
-        public Object get(String name) throws SagaExecutionException {
+        public Object getObject(String name) throws SagaExecutionException {
             if (!arguments.containsKey(name))
                 throw new SagaExecutionException("Could not resolve argument placeholder: " + name);
 
             return arguments.get(name);
+        }
+
+        public <T> T get(String name) throws SagaExecutionException {
+            return (T)getObject(name);
         }
 
         public void update(Map<String, Object> args) {

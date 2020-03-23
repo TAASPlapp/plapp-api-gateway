@@ -43,7 +43,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
     }
 
     @Override
-    public SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
+    protected SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
         return builder
                     .invoke(authenticationService::registerUser).withArg("inputCredentials").saveTo("savedCredentials")
                     .withCompensation(authenticationService::deleteUser)
@@ -63,18 +63,19 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                     .withCompensation(authorizationService::removeAuthorizations)
 
                 .step()
-                    .invoke(authorizationService::generateUpdatedJwt).withArg("savedCredentials").saveTo("jwt")
+                    .invoke(authorizationService::generateUpdatedJwt).withArg("jwt").saveTo("jwt")
 
-                .step()
-                    .invoke(socialService::setUserDetails).withArg("inputDetails").saveTo("savedDetails")
+                //.step()
+                //    .invoke(socialService::setUserDetails).withArg("inputDetails").saveTo("savedDetails")
                 .build();
     }
 
-    public void createUser(UserCredentials credentials, UserDetails details) throws SagaExecutionException {
+    public UserCredentials createUser(UserCredentials credentials) throws SagaExecutionException {
             SagaExecutionEngine.SagaArgumentResolver resolver = getExecutor()
                     .withArg("inputCredentials", credentials)
-                    .withArg("inputDetails", details)
+                    //.withArg("inputDetails", details)
                     .run()
                     .collect();
+            return resolver.get("savedCredentials");
     }
 }

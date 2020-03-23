@@ -25,17 +25,14 @@ public class RestAuthenticationService implements AuthenticationService {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
-        ApiResponse<UserCredentials> savedCredentials = restTemplate.exchange(
+        UserCredentials savedCredentials = restTemplate.postForObject(
                 serviceAddress + "/auth/signup",
-                HttpMethod.POST,
                 credentialsHttpEntity,
-                new ParameterizedTypeReference<ApiResponse<UserCredentials>>(){}).getBody();
+                UserCredentials.class
+        );
 
         assert savedCredentials != null;
-        if (!savedCredentials.getSuccess())
-            throw new Exception(savedCredentials.getMessage());
-
-        return savedCredentials.getContent();
+        return savedCredentials;
     }
 
     @Override
@@ -47,16 +44,13 @@ public class RestAuthenticationService implements AuthenticationService {
     public String authenticateUser(UserCredentials credentials) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
-        HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
-        ApiResponse<String> jwt = restTemplate.exchange(
+        String jwt = restTemplate.postForObject(
                 serviceAddress + "/auth/signup",
-                HttpMethod.POST,
-                credentialsHttpEntity,
-                new ParameterizedTypeReference<ApiResponse<String>>(){}).getBody();
+                credentials,
+                String.class
+        );
 
         assert jwt != null;
-        if(!jwt.getSuccess())
-            throw new Exception(jwt.getMessage());
-        return jwt.getContent();
+        return null;
     }
 }

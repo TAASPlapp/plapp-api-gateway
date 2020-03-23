@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
 //                .and()
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager(), authenticationService));
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();
     }

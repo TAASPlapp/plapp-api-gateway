@@ -46,7 +46,7 @@ class ApiGatewayApplicationTests {
                     .invoke(task3::execute).withArg("result2").saveTo("result3")
                     . withCompensation(task3::rollback)
                 .step()
-                    .invoke((arg) -> { System.out.println("Qua succede un casino"); throw new Exception("rompo tutto"); })
+                    .invoke((arg) -> { System.out.println("Qua succede un casino"); throw new SagaExecutionException("rompo tutto"); })
                 .build();
 
 

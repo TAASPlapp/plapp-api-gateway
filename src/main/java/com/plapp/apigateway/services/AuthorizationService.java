@@ -12,5 +12,6 @@ public interface AuthorizationService {
     List<ResourceAuthority> addAuthorizations(List<ResourceAuthority> authorities);
     void removeAuthorizations(List<ResourceAuthority> authorities);
 
-    String generateUpdatedJwt(UserCredentials userDetails);
+    //String generateUpdatedJwt(UserCredentials userDetails);
+    String generateUpdatedJwt(String oldJwt);
 }

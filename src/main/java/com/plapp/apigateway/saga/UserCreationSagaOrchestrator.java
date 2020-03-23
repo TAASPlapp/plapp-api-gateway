@@ -21,9 +21,9 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
-    private final SocialService socialService;
+    //private final SocialService socialService;
 
-    Logger logger = LoggerFactory.getLogger(UserCreationSagaOrchestrator.class);
+    private static Logger logger = LoggerFactory.getLogger(UserCreationSagaOrchestrator.class);
 
     private List<ResourceAuthority> createDefaultAuthorities(UserCredentials userCredentials) {
         return new ArrayList<ResourceAuthority>() {{
@@ -44,6 +44,9 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     @Override
     protected SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
+        logger.info("Building user creation saga");
+        System.out.println("Builder: " + builder);
+
         return builder
                     .invoke(authenticationService::registerUser).withArg("inputCredentials").saveTo("savedCredentials")
                     .withCompensation(authenticationService::deleteUser)

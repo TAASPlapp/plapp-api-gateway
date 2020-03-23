@@ -62,6 +62,7 @@ public class SagaExecutionEngine {
 
         try {
             SagaTransaction transaction = commandsIterator.next();
+            System.out.println("Executing saga step " + transaction);
             transaction
                     .withArgumentResolver(argumentResolver)
                     .run();

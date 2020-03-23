@@ -21,7 +21,7 @@ public class RestAuthenticationService implements AuthenticationService {
     private String serviceAddress;
 
     @Override
-    public UserCredentials registerUser(UserCredentials credentials) throws Exception {
+    public UserCredentials registerUser(UserCredentials credentials) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
@@ -36,18 +36,18 @@ public class RestAuthenticationService implements AuthenticationService {
     }
 
     @Override
-    public void deleteUser(UserCredentials credentials) throws Exception {
+    public void deleteUser(UserCredentials credentials) {
         //TODO
     }
 
     @Override
-    public String authenticateUser(UserCredentials credentials) throws Exception {
+    public String authenticateUser(UserCredentials credentials) {
         RestTemplate restTemplate = new RestTemplate();
 
         String jwt = restTemplate.postForObject(
-                serviceAddress + "/auth/signup",
-                credentials,
-                String.class
+            serviceAddress + "/auth/login",
+            credentials,
+            String.class
         );
 
         assert jwt != null;

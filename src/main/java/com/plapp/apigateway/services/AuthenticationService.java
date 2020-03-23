@@ -5,8 +5,8 @@ import com.plapp.entities.utils.ApiResponse;
 
 
 public interface AuthenticationService {
-    UserCredentials registerUser(UserCredentials credentials) throws Exception;
-    void deleteUser(UserCredentials credentials) throws Exception;
+    UserCredentials registerUser(UserCredentials credentials);
+    void deleteUser(UserCredentials credentials);
 
-    String authenticateUser(UserCredentials credentials) throws Exception;
+    String authenticateUser(UserCredentials credentials);
 }

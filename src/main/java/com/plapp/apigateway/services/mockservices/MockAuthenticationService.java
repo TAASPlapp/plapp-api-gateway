@@ -9,17 +9,17 @@ import io.jsonwebtoken.Jws;
 public class MockAuthenticationService implements AuthenticationService {
 
     @Override
-    public UserCredentials registerUser(UserCredentials credentials) throws Exception {
+    public UserCredentials registerUser(UserCredentials credentials) {
         return credentials;
     }
 
     @Override
-    public void deleteUser(UserCredentials credentials) throws Exception {
+    public void deleteUser(UserCredentials credentials) {
 
     }
 
     @Override
-    public String authenticateUser(UserCredentials credentials) throws Exception {
+    public String authenticateUser(UserCredentials credentials) {
         return "ourhardworkbythesewordsguardedpleasedontsteal";
     }
 }

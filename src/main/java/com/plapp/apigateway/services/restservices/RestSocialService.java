@@ -5,6 +5,7 @@ import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
 import com.plapp.entities.social.UserDetails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -16,11 +17,9 @@ import java.util.List;
 @Service
 @ConfigurationProperties(prefix = "services.social")
 public class RestSocialService implements SocialService {
+    @Value("${services.social.serviceAddress}")
     private String baseAddress;
 
-    public void setServiceAddress(String serviceAddress) {
-        this.baseAddress = serviceAddress;
-    }
 
     @Override
     public UserDetails getUserDetails(long userId) throws Exception {
@@ -29,7 +28,6 @@ public class RestSocialService implements SocialService {
     }
 
     @Override
-    //qui tornare l'oggetto apiResponse
     public UserDetails addUserDetails(UserDetails user) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForObject(baseAddress + "/user/" + user.getUserId() + "/add", user, UserDetails.class);

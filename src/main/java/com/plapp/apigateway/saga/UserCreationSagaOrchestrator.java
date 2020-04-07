@@ -2,19 +2,14 @@ package com.plapp.apigateway.saga;
 
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
-import com.plapp.apigateway.services.SocialService;
 import com.plapp.authorization.ResourceAuthority;
 import com.plapp.entities.auth.UserCredentials;
-import com.plapp.entities.social.UserDetails;
-import lombok.*;
-import org.apache.catalina.User;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class UserCreationSagaOrchestrator extends SagaOrchestrator {

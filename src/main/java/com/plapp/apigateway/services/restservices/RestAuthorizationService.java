@@ -2,6 +2,8 @@ package com.plapp.apigateway.services.restservices;
 
 import com.plapp.apigateway.services.AuthorizationService;
 import com.plapp.authorization.ResourceAuthority;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,15 @@ public class RestAuthorizationService implements AuthorizationService {
     @Value("${services.authentication.serviceAddress}")
     private String serviceAddress;
 
+    @Autowired
+    public RestTemplate restTemplate;
+
     @Override
     public ResourceAuthority addAuthorization(ResourceAuthority authority) {
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         ResourceAuthority savedAuthority = restTemplate.postForObject(
-                serviceAddress + String.format("/%d/update", authority.getUserId()),
+                serviceAddress + String.format("/auth/%d/update", authority.getUserId()),
                 authority,
                 ResourceAuthority.class
         );
@@ -31,9 +36,9 @@ public class RestAuthorizationService implements AuthorizationService {
 
     @Override
     public void removeAuthorization(ResourceAuthority authority) {
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Void> response = restTemplate.postForEntity(
-                serviceAddress + String.format("/%d/update", authority.getUserId()),
+                serviceAddress + String.format("/auth/%d/update", authority.getUserId()),
                 authority,
                 Void.class
         );
@@ -55,6 +60,10 @@ public class RestAuthorizationService implements AuthorizationService {
 
     @Override
     public String generateUpdatedJwt(String oldJwt) {
-        return oldJwt;
+        return restTemplate.postForObject(
+                serviceAddress + "/auth/jwt/fetch",
+                oldJwt,
+                String.class
+        );
     }
 }

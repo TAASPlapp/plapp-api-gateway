@@ -1,5 +1,6 @@
 package com.plapp.apigateway.saga;
 
+import com.plapp.apigateway.security.WebSecurityConfig;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
 import com.plapp.authorization.ResourceAuthority;
@@ -7,7 +8,13 @@ import com.plapp.entities.auth.UserCredentials;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +39,12 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
     }
 
     private String setPrincipalJwt(String jwt) {
+        RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
+        WebSecurityConfig.MutableHttpServletRequest request = (WebSecurityConfig.MutableHttpServletRequest)
+                ((ServletRequestAttributes)attributes).getRequest();
+
+        logger.info("Adding custom auth header to request");
+        request.putHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         return jwt;
     }
 
@@ -70,12 +83,12 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                 .build();
     }
 
-    public UserCredentials createUser(UserCredentials credentials) throws SagaExecutionException, Throwable {
+    public String createUser(UserCredentials credentials) throws SagaExecutionException, Throwable {
             SagaExecutionEngine.SagaArgumentResolver resolver = getExecutor()
                     .withArg("inputCredentials", credentials)
                     //.withArg("inputDetails", details)
                     .run()
                     .collect();
-            return resolver.get("savedCredentials");
+            return resolver.get("jwt");
     }
 }

@@ -80,7 +80,7 @@ public class AuthController {
 
     @CrossOrigin
     @PostMapping("/signup")
-    public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {
+    public ApiResponse<String> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {
         return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials));
     }
 

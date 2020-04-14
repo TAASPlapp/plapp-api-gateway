@@ -30,10 +30,16 @@ public class AuthController {
     @ControllerAdvice
     public static class AuthControllerAdvice extends ResponseEntityExceptionHandler {
 
-        @ExceptionHandler({HttpClientErrorException.class, IllegalArgumentException.class})
-        public ResponseEntity<Object> handle(RuntimeException e, WebRequest request) {
+        @ExceptionHandler({HttpClientErrorException.class})
+        public ResponseEntity<Object> handleHttpClientErrorException(HttpClientErrorException e, WebRequest request) {
             e.printStackTrace();
-            return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+            return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), e.getStatusCode(), request);
+        }
+
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        @ExceptionHandler({IllegalArgumentException.class})
+        public void handle(RuntimeException e, WebRequest request) {
+            e.printStackTrace();
         }
 
         @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -74,7 +80,7 @@ public class AuthController {
 
     @CrossOrigin
     @PostMapping("/signup")
-    public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException {
+    public ApiResponse<UserCredentials> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {
         return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials));
     }
 

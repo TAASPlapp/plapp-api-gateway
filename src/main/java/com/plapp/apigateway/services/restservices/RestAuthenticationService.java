@@ -37,20 +37,21 @@ public class RestAuthenticationService implements AuthenticationService {
 
     @Override
     public void deleteUser(UserCredentials credentials) {
-        //TODO
+        System.out.println("DELETING USER: TODO!");
     }
 
     @Override
     public String authenticateUser(UserCredentials credentials) {
         RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
         String jwt = restTemplate.postForObject(
             serviceAddress + "/auth/login",
-            credentials,
-            String.class
+                credentialsHttpEntity,
+                String.class
         );
 
         assert jwt != null;
-        return null;
+        return jwt;
     }
 }

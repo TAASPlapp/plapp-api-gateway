@@ -1,14 +1,15 @@
 package com.plapp.apigateway.saga;
 
+import org.slf4j.LoggerFactory;
+
 public interface SagaRunnable<R, T> {
     R run(T arg) throws SagaExecutionException ;
 
     default R wrappedRun(T arg) throws SagaExecutionException {
         try {
             return run(arg);
-        } catch (SagaExecutionException e) {
-            System.err.print("Exception running saga transaction");
-            e.printStackTrace();
+        } catch (Exception e) {
+            LoggerFactory.getLogger(SagaRunnable.class).error("Exception running saga transaction: "  + e.getMessage());
             throw new SagaExecutionException(e.getMessage(), e);
         }
     }

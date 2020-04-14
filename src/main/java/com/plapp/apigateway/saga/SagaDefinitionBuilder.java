@@ -41,8 +41,10 @@ public class SagaDefinitionBuilder {
         public void run() throws SagaExecutionException {
            result = action.wrappedRun(argumentCollector.collect());
 
-           if (resultPlaceholder != null)
+           if (resultPlaceholder != null) {
+               LoggerFactory.getLogger(SagaTransaction.class).info("Saving result to " + resultPlaceholder);
                argumentResolver.add(resultPlaceholder, result);
+           }
         }
 
         @Override
@@ -51,7 +53,10 @@ public class SagaDefinitionBuilder {
         }
 
         public SagaTransactionImpl<R, T> withArg(String argument) {
-            this.argumentCollector = () -> argumentResolver.get(argument);
+            this.argumentCollector = () -> {
+                LoggerFactory.getLogger(SagaTransaction.class).info("Resolving argument " + argument + " from resolver: " + argumentResolver.get(argument));
+                return argumentResolver.get(argument);
+            };
             return this;
         }
 

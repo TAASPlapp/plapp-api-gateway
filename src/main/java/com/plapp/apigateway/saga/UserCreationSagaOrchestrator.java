@@ -22,10 +22,12 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private List<ResourceAuthority> createDefaultAuthorities(UserCredentials userCredentials) {
         return new ArrayList<ResourceAuthority>() {{
-            add(new ResourceAuthority(
-                    "/social/user/([0-9]+)/((\badd\b)|(\bupdate\b)|(\bdelete\b)",
+            ResourceAuthority resourceAuthority = new ResourceAuthority(
+                    "/social/user/([0-9]+)/((\\badd\\b)|(\\bupdate\\b)|(\\bdelete\\b)",
                     userCredentials.getId()
-            ));
+            );
+            resourceAuthority.addValue(userCredentials.getId());
+            add(resourceAuthority);
         }};
     }
 
@@ -47,7 +49,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                     .withCompensation(authenticationService::deleteUser)
 
                 .step()
-                    .invoke(authenticationService::authenticateUser).withArg("savedCredentials").saveTo("jwt")
+                    .invoke(authenticationService::authenticateUser).withArg("inputCredentials").saveTo("jwt")
 
                 .step()
                     .invoke(this::setPrincipalJwt).withArg("jwt")
@@ -68,7 +70,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                 .build();
     }
 
-    public UserCredentials createUser(UserCredentials credentials) throws SagaExecutionException {
+    public UserCredentials createUser(UserCredentials credentials) throws SagaExecutionException, Throwable {
             SagaExecutionEngine.SagaArgumentResolver resolver = getExecutor()
                     .withArg("inputCredentials", credentials)
                     //.withArg("inputDetails", details)

@@ -56,7 +56,7 @@ class ApiGatewayApplicationTests {
                .withSaga(sagaDefinition)
                .withArg("param", 1313)
                .run();
-        } catch (SagaExecutionException e){
+        } catch (Throwable e){
             System.out.println(e);
         }
     }

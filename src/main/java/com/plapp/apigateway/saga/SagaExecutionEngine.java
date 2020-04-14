@@ -1,5 +1,7 @@
 package com.plapp.apigateway.saga;
 
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Map;
@@ -46,7 +48,7 @@ public class SagaExecutionEngine {
         return this;
     }
 
-    public SagaExecutionEngine run() throws SagaExecutionException {
+    public SagaExecutionEngine run() throws SagaExecutionException, Throwable {
         execute(saga.transactions.listIterator(), saga.transactions.listIterator());
         return this;
     }
@@ -56,13 +58,13 @@ public class SagaExecutionEngine {
     }
 
     private void execute(ListIterator<SagaTransaction> commandsIterator,
-                         ListIterator<SagaTransaction> rollbackIterator) throws SagaExecutionException {
+                         ListIterator<SagaTransaction> rollbackIterator) throws SagaExecutionException, Throwable {
         if (!commandsIterator.hasNext())
             return;
 
         try {
             SagaTransaction transaction = commandsIterator.next();
-            System.out.println("Executing saga step " + transaction);
+            LoggerFactory.getLogger(SagaExecutionEngine.class).info("Executing saga transaction" + transaction);
             transaction
                     .withArgumentResolver(argumentResolver)
                     .run();
@@ -71,9 +73,14 @@ public class SagaExecutionEngine {
             execute(commandsIterator, rollbackIterator);
 
         } catch (SagaExecutionException e){
-            if (rollbackIterator.hasPrevious())
+            if (rollbackIterator.hasPrevious()) {
+                LoggerFactory.getLogger(SagaExecutionEngine.class).info("Rolling back saga transaction " + e);
                 rollbackIterator.previous().rollback();
-            throw e;
+                throw e;
+            } else {
+                LoggerFactory.getLogger(SagaExecutionEngine.class).info("Returning control to main process, exception type " + e.getCause().getClass());
+                throw e.getCause();
+            }
         }
     }
 }

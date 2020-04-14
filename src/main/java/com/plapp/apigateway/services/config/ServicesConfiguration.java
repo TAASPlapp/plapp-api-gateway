@@ -7,6 +7,7 @@ import com.plapp.apigateway.services.mockservices.MockGreenhouseService;
 import com.plapp.apigateway.services.mockservices.MockSocialService;
 import com.plapp.apigateway.services.restservices.RestAuthenticationService;
 import com.plapp.apigateway.services.restservices.RestAuthorizationService;
+import com.plapp.apigateway.services.restservices.RestSocialService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,6 @@ public class ServicesConfiguration {
     @Bean
     @Primary
     public SocialService getSocialService() {
-        return new MockSocialService();
+        return new RestSocialService();
     }
 }

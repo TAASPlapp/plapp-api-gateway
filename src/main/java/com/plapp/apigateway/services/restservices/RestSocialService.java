@@ -31,12 +31,12 @@ public class RestSocialService implements SocialService {
 
     @Override
     public UserDetails addUserDetails(UserDetails user) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/user/" + user.getUserId() + "/add", user, UserDetails.class);
+        return restTemplate.postForObject(baseAddress + "/social/user/" + user.getUserId() + "/add", user, UserDetails.class);
     }
 
     @Override
-    public UserDetails setUserDetails(UserDetails userDetails) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/user/" + userDetails.getUserId() + "/update", userDetails, UserDetails.class);
+    public UserDetails setUserDetails(UserDetails userDetails) {
+        return restTemplate.postForObject(baseAddress + "/social/user/" + userDetails.getUserId() + "/update", userDetails, UserDetails.class);
     }
 
     @Override

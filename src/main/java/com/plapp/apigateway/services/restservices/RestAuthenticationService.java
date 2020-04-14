@@ -21,11 +21,9 @@ public class RestAuthenticationService implements AuthenticationService {
     @Value("${services.authentication.serviceAddress}")
     private String serviceAddress;
 
-    @Autowired
-    public RestTemplate restTemplate;
-
     @Override
     public UserCredentials registerUser(UserCredentials credentials) {
+        RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
         UserCredentials savedCredentials = restTemplate.postForObject(
@@ -45,6 +43,7 @@ public class RestAuthenticationService implements AuthenticationService {
 
     @Override
     public String authenticateUser(UserCredentials credentials) {
+        RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
         String jwt = restTemplate.postForObject(

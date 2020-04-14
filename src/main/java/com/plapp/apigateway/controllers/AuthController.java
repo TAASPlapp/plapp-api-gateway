@@ -4,7 +4,9 @@ import com.plapp.apigateway.saga.SagaExecutionException;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
+import com.plapp.apigateway.services.SocialService;
 import com.plapp.entities.auth.UserCredentials;
+import com.plapp.entities.social.UserDetails;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +26,7 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
+    private final SocialService socialService;
 
     private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
 
@@ -50,13 +53,16 @@ public class AuthController {
     }
 
     public AuthController(AuthenticationService authenticationService,
-                          AuthorizationService authorizationService) {
+                          AuthorizationService authorizationService,
+                          SocialService socialService) {
         this.authenticationService = authenticationService;
         this.authorizationService = authorizationService;
+        this.socialService = socialService;
 
         userCreationSagaOrchestrator = new UserCreationSagaOrchestrator(
                 authenticationService,
-                authorizationService
+                authorizationService,
+                socialService
         );
     }
     @CrossOrigin
@@ -81,7 +87,9 @@ public class AuthController {
     @CrossOrigin
     @PostMapping("/signup")
     public ApiResponse<String> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {
-        return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials));
+        UserDetails mockDetails = new UserDetails();
+        mockDetails.setUsername("USERNAMEGROSSO");
+        return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials, mockDetails));
     }
 
 

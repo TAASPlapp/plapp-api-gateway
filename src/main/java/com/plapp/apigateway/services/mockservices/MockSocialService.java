@@ -41,7 +41,7 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public UserDetails setUserDetails(UserDetails userDetails) throws Exception {
+    public UserDetails setUserDetails(UserDetails userDetails) {
         return null;
     }
 

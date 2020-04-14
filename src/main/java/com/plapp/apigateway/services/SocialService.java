@@ -12,7 +12,7 @@ public interface SocialService {
 
     UserDetails addUserDetails(UserDetails user) throws Exception;
 
-    UserDetails setUserDetails(UserDetails userDetails) throws Exception;
+    UserDetails setUserDetails(UserDetails userDetails);
 
     List<Comment> getComments(MediaContentType type, long itemId) throws Exception;
 

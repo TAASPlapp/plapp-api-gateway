@@ -22,8 +22,6 @@ public class RestAuthorizationService implements AuthorizationService {
 
     @Override
     public ResourceAuthority addAuthorization(ResourceAuthority authority) {
-        //RestTemplate restTemplate = new RestTemplate();
-
         ResourceAuthority savedAuthority = restTemplate.postForObject(
                 serviceAddress + String.format("/auth/%d/update", authority.getUserId()),
                 authority,
@@ -36,7 +34,6 @@ public class RestAuthorizationService implements AuthorizationService {
 
     @Override
     public void removeAuthorization(ResourceAuthority authority) {
-        //RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Void> response = restTemplate.postForEntity(
                 serviceAddress + String.format("/auth/%d/update", authority.getUserId()),
                 authority,

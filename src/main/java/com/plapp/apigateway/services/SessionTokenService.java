@@ -30,4 +30,8 @@ public class SessionTokenService {
         sessionTokenRepository.delete(sessionToken);
         return null;
     }
+
+    public void updateJwt(String oldJwt, String newJwt) {
+
+    }
 }

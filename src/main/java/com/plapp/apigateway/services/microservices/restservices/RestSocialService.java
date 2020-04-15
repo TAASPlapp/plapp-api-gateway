@@ -1,6 +1,6 @@
-package com.plapp.apigateway.services.restservices;
+package com.plapp.apigateway.services.microservices.restservices;
 
-import com.plapp.apigateway.services.SocialService;
+import com.plapp.apigateway.services.microservices.SocialService;
 import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;
@@ -42,7 +42,7 @@ public class RestSocialService implements SocialService {
     @Override
     public List<Comment> getComments(MediaContentType type, long itemId) throws Exception {
         return restTemplate.exchange(
-                baseAddress + "/comment/" + itemId,
+                baseAddress + "/social/comment/" + itemId,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Comment>>() {},
@@ -52,23 +52,23 @@ public class RestSocialService implements SocialService {
 
     @Override
     public Comment addComment(Comment comment) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/comment/" + comment.getId() + "/add", comment, Comment.class);
+        return restTemplate.postForObject(baseAddress + "/social/comment/" + comment.getId() + "/add", comment, Comment.class);
     }
 
     @Override
     public Like addLike(Like like) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/like/" + like.getId() + "/add", like, Like.class);
+        return restTemplate.postForObject(baseAddress + "/social/like/" + like.getId() + "/add", like, Like.class);
     }
 
     @Override
     public void removeLike(long likeId) throws Exception {
-        restTemplate.getForObject(baseAddress + "/like/" + likeId + "/remove", Void.class);
+        restTemplate.getForObject(baseAddress + "/social/like/" + likeId + "/remove", Void.class);
     }
 
     @Override
     public List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception {
         return restTemplate.exchange(
-                baseAddress + "/like/" + itemId,
+                baseAddress + "/social/like/" + itemId,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<UserDetails>>() {},

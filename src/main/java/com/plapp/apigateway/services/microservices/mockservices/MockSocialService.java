@@ -1,6 +1,6 @@
-package com.plapp.apigateway.services.mockservices;
+package com.plapp.apigateway.services.microservices.mockservices;
 
-import com.plapp.apigateway.services.SocialService;
+import com.plapp.apigateway.services.microservices.SocialService;
 import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;
 import com.plapp.entities.social.MediaContentType;

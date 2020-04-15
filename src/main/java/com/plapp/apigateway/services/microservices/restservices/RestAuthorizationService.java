@@ -1,9 +1,7 @@
-package com.plapp.apigateway.services.restservices;
+package com.plapp.apigateway.services.microservices.restservices;
 
-import com.plapp.apigateway.services.AuthorizationService;
+import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.authorization.ResourceAuthority;
-import com.plapp.entities.greenhouse.Storyboard;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

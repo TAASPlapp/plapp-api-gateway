@@ -1,7 +1,6 @@
-package com.plapp.apigateway.services;
+package com.plapp.apigateway.services.microservices;
 
 import com.plapp.entities.auth.UserCredentials;
-import com.plapp.entities.utils.ApiResponse;
 
 
 public interface AuthenticationService {

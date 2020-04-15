@@ -2,15 +2,12 @@ package com.plapp.apigateway.saga;
 
 import com.plapp.apigateway.entities.SessionToken;
 import com.plapp.apigateway.saga.orchestration.*;
-import com.plapp.apigateway.services.AuthenticationService;
-import com.plapp.apigateway.services.AuthorizationService;
+import com.plapp.apigateway.services.microservices.AuthenticationService;
+import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
-import com.plapp.apigateway.services.SocialService;
 import com.plapp.authorization.ResourceAuthority;
 import com.plapp.entities.auth.UserCredentials;
-import com.plapp.entities.social.UserDetails;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;

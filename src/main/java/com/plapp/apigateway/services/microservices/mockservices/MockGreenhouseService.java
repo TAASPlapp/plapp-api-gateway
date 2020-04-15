@@ -1,10 +1,9 @@
-package com.plapp.apigateway.services.mockservices;
+package com.plapp.apigateway.services.microservices.mockservices;
 
-import com.plapp.apigateway.services.GreenhouseService;
+import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
-import com.plapp.entities.utils.ApiResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

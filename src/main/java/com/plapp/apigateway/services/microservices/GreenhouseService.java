@@ -1,9 +1,8 @@
-package com.plapp.apigateway.services;
+package com.plapp.apigateway.services.microservices;
 
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
-import com.plapp.entities.utils.ApiResponse;
 
 import java.util.List;
 

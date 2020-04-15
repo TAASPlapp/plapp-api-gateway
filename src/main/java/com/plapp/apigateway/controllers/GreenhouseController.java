@@ -1,6 +1,6 @@
 package com.plapp.apigateway.controllers;
 
-import com.plapp.apigateway.services.GreenhouseService;
+import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.utils.ApiResponse;

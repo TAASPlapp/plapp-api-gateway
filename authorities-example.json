@@ -1,0 +1,18 @@
+[
+  {
+    "authorityId":140,
+    "authority":"/auth/([0-9]+)/((\bupdate\b)|(\bremove\b)|(\bdelete\b))",
+    "values":[
+      139
+    ],
+    "userId":139
+  },
+  {
+    "authorityId":141,
+    "authority":"/social/user/([0-9]+)/((\badd\b)|(\bupdate\b)|(\bdelete\b))",
+    "values":[
+      139
+    ],
+    "userId":139
+  }
+]

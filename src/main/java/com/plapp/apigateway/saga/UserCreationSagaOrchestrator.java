@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import sun.misc.Request;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,11 +45,11 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private String setPrincipalJwt(String jwt) {
         RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
-        WebSecurityConfig.MutableHttpServletRequest request = (WebSecurityConfig.MutableHttpServletRequest)
-                ((ServletRequestAttributes)attributes).getRequest();
 
-        logger.info("Adding custom auth header to request");
-        request.putHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+        logger.info("Setting jwt attribute for request scope");
+        attributes.setAttribute("jwt", jwt, RequestAttributes.SCOPE_REQUEST);
+        RequestContextHolder.setRequestAttributes(attributes);
+
         return jwt;
     }
 
@@ -81,6 +82,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
                 .step()
                     .invoke(authorizationService::generateUpdatedJwt).withArg("jwt").saveTo("jwt")
+
                 .step()
                     .invoke(this::setPrincipalJwt).withArg("jwt")
 

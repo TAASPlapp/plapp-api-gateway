@@ -4,6 +4,7 @@ import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
+import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.apigateway.services.SocialService;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.social.UserDetails;
@@ -24,7 +25,7 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
-    private final SocialService socialService;
+    private final SessionTokenService sessionTokenService;
 
     private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
 
@@ -52,15 +53,15 @@ public class AuthController {
 
     public AuthController(AuthenticationService authenticationService,
                           AuthorizationService authorizationService,
-                          SocialService socialService) {
+                          SessionTokenService sessionTokenService) {
         this.authenticationService = authenticationService;
         this.authorizationService = authorizationService;
-        this.socialService = socialService;
+        this.sessionTokenService = sessionTokenService;
 
         userCreationSagaOrchestrator = new UserCreationSagaOrchestrator(
                 authenticationService,
                 authorizationService,
-                socialService
+                sessionTokenService
         );
     }
     @CrossOrigin
@@ -85,9 +86,7 @@ public class AuthController {
     @CrossOrigin
     @PostMapping("/signup")
     public ApiResponse<String> signup(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {
-        UserDetails mockDetails = new UserDetails();
-        mockDetails.setUsername("USERNAMEGROSSO");
-        return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials, mockDetails));
+        return new ApiResponse<>(userCreationSagaOrchestrator.createUser(credentials));
     }
 
 

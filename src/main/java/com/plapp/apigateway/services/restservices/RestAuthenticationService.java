@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.annotation.RequestScope;
 
 import javax.xml.ws.Response;
 
@@ -21,9 +22,11 @@ public class RestAuthenticationService implements AuthenticationService {
     @Value("${services.authentication.serviceAddress}")
     private String serviceAddress;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public UserCredentials registerUser(UserCredentials credentials) {
-        RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
         UserCredentials savedCredentials = restTemplate.postForObject(
@@ -38,12 +41,15 @@ public class RestAuthenticationService implements AuthenticationService {
 
     @Override
     public void deleteUser(UserCredentials credentials) {
-        System.out.println("DELETING USER: TODO!");
+        restTemplate.postForObject(
+                serviceAddress + String.format("/auth/%d/delete", credentials.getId()),
+                credentials,
+                Void.class
+        );
     }
 
     @Override
     public String authenticateUser(UserCredentials credentials) {
-        RestTemplate restTemplate = new RestTemplate();
         HttpEntity<UserCredentials> credentialsHttpEntity = new HttpEntity<>(credentials);
 
         String jwt = restTemplate.postForObject(

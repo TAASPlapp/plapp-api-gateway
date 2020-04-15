@@ -20,4 +20,13 @@ public class SessionTokenService {
 
         return sessionToken.getSessionToken();
     }
+
+    public String getJwt(String sessionToken) {
+        SessionToken session = sessionTokenRepository.findBySessionToken(sessionToken);
+        return session.getJwt();
+    }
+
+    public void deleteSession(SessionToken sessionToken) {
+        sessionTokenRepository.delete(sessionToken);
+    }
 }

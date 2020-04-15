@@ -3,6 +3,7 @@ package com.plapp.apigateway.saga;
 import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
+import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.apigateway.services.SocialService;
 import com.plapp.authorization.ResourceAuthority;
 import com.plapp.entities.auth.UserCredentials;
@@ -21,16 +22,14 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
-    private final SocialService socialService;
+    private final SessionTokenService sessionTokenService;
 
     private static Logger logger = LoggerFactory.getLogger(UserCreationSagaOrchestrator.class);
-
-    private UserDetails details;
 
     private List<ResourceAuthority> createDefaultAuthorities(UserCredentials userCredentials) {
         return new ArrayList<ResourceAuthority>() {{
             ResourceAuthority resourceAuthority = new ResourceAuthority(
-                    "/social/user/([0-9]+)/((\\badd\\b)|(\\bupdate\\b)|(\\bdelete\\b)",
+                    "/social/user/([0-9]+)/((\\badd\\b)|(\\bupdate\\b)|(\\bdelete\\b))",
                     userCredentials.getId()
             );
             resourceAuthority.addValue(userCredentials.getId());
@@ -39,10 +38,11 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
     }
 
     private String setPrincipalJwt(String jwt) {
-        RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
+        String sessionToken = sessionTokenService.generateSessionToken(jwt);
 
+        RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
         logger.info("Setting jwt attribute for request scope");
-        attributes.setAttribute("jwt", jwt, RequestAttributes.SCOPE_REQUEST);
+        attributes.setAttribute("sessionToken", sessionToken, RequestAttributes.SCOPE_REQUEST);
         RequestContextHolder.setRequestAttributes(attributes);
 
         return jwt;
@@ -81,21 +81,12 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                 .step()
                     .invoke(this::setPrincipalJwt).withArg("jwt")
 
-                .step()
-                    .invoke((UserCredentials credentials) -> {
-                        this.details.setUserId(credentials.getId());
-                        return null;
-                    }).withArg("savedCredentials")
-                .step()
-                    .invoke(socialService::setUserDetails).withArg("inputDetails").saveTo("savedDetails")
                 .build();
     }
 
-    public String createUser(UserCredentials credentials, UserDetails details) throws SagaExecutionException, Throwable {
-        this.details = details;
+    public String createUser(UserCredentials credentials) throws SagaExecutionException, Throwable {
         SagaExecutionEngine.SagaArgumentResolver resolver = getExecutor()
                 .withArg("inputCredentials", credentials)
-                .withArg("inputDetails", this.details)
                 .run()
                 .collect();
         return resolver.get("jwt");

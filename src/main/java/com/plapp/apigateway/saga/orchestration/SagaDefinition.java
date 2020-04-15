@@ -1,8 +1,6 @@
-package com.plapp.apigateway.saga;
+package com.plapp.apigateway.saga.orchestration;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class SagaDefinition {
     LinkedList<SagaTransaction> transactions = new LinkedList<>();

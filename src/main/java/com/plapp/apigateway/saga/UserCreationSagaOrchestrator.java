@@ -1,6 +1,6 @@
 package com.plapp.apigateway.saga;
 
-import com.plapp.apigateway.security.WebSecurityConfig;
+import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
 import com.plapp.apigateway.services.SocialService;
@@ -10,14 +10,9 @@ import com.plapp.entities.social.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import sun.misc.Request;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 

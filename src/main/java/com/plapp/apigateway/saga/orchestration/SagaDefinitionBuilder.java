@@ -1,4 +1,4 @@
-package com.plapp.apigateway.saga;
+package com.plapp.apigateway.saga.orchestration;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

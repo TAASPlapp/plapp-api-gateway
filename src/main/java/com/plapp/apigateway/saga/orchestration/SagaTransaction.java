@@ -1,4 +1,4 @@
-package com.plapp.apigateway.saga;
+package com.plapp.apigateway.saga.orchestration;
 
 public interface SagaTransaction {
     SagaTransaction withArgumentResolver(SagaExecutionEngine.SagaArgumentResolver argumentResolver);

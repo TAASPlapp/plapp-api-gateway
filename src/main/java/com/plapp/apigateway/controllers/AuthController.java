@@ -1,6 +1,6 @@
 package com.plapp.apigateway.controllers;
 
-import com.plapp.apigateway.saga.SagaExecutionException;
+import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
@@ -8,7 +8,6 @@ import com.plapp.apigateway.services.SocialService;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.social.UserDetails;
 import com.plapp.entities.utils.ApiResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import sun.net.www.http.HttpClient;
 
 @RestController
 @RequestMapping("api/auth")

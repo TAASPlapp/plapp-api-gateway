@@ -26,7 +26,8 @@ public class SessionTokenService {
         return session.getJwt();
     }
 
-    public void deleteSession(SessionToken sessionToken) {
+    public Void deleteSession(SessionToken sessionToken) {
         sessionTokenRepository.delete(sessionToken);
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.plapp.apigateway.saga;
 
+import com.plapp.apigateway.entities.SessionToken;
 import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.AuthenticationService;
 import com.plapp.apigateway.services.AuthorizationService;
@@ -9,6 +10,7 @@ import com.plapp.authorization.ResourceAuthority;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.social.UserDetails;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;
@@ -37,7 +39,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
         }};
     }
 
-    private String setPrincipalJwt(String jwt) {
+    private SessionToken generateSessionToken(String jwt) {
         String sessionToken = sessionTokenService.generateSessionToken(jwt);
 
         RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
@@ -45,7 +47,12 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
         attributes.setAttribute("sessionToken", sessionToken, RequestAttributes.SCOPE_REQUEST);
         RequestContextHolder.setRequestAttributes(attributes);
 
-        return jwt;
+        return new SessionToken(sessionToken, jwt);
+    }
+
+    private void updateSessionJwt(String jwt) {
+
+
     }
 
     private void unsetJwt(String jwt) {
@@ -65,8 +72,8 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                     .invoke(authenticationService::authenticateUser).withArg("inputCredentials").saveTo("jwt")
 
                 .step()
-                    .invoke(this::setPrincipalJwt).withArg("jwt")
-                    .withCompensation(this::unsetJwt)
+                    .invoke(this::generateSessionToken).withArg("jwt").saveTo("sessionToken")
+                    .withCompensation(sessionTokenService::deleteSession)
 
                 .step()
                     .invoke(this::createDefaultAuthorities).withArg("savedCredentials").saveTo("defaultAuthorities")
@@ -79,7 +86,11 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                     .invoke(authorizationService::generateUpdatedJwt).withArg("jwt").saveTo("jwt")
 
                 .step()
-                    .invoke(this::setPrincipalJwt).withArg("jwt")
+                    .invoke(sessionTokenService::deleteSession).withArg("sessionToken")
+
+                .step()
+                    .invoke(this::generateSessionToken).withArg("jwt").saveTo("sessionToken")
+                    .withCompensation(sessionTokenService::deleteSession)
 
                 .build();
     }
@@ -89,6 +100,6 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                 .withArg("inputCredentials", credentials)
                 .run()
                 .collect();
-        return resolver.get("jwt");
+        return ((SessionToken)resolver.get("sessionToken")).getSessionToken();
     }
 }

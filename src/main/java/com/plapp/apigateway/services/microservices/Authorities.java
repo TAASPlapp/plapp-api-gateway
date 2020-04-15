@@ -2,9 +2,6 @@ package com.plapp.apigateway.services.microservices;
 
 public final class Authorities {
 
-    /* Authorization service */
-    public static final String AUTH = "/auth/([0-9]+)/((\bupdate\b)|(\bremove\b)|(\bdelete\b))";
-
     /* Social service */
     public static final String SOCIAL_USER = "/social/user/([0-9]+)/((\bupdate\b)|(\badd\b))";
     public static final String SOCIAL_COMMENT = "/social/([0-9]+)/(\badd\b)";

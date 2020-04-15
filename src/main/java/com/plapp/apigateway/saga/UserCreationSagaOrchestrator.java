@@ -50,15 +50,6 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
         return new SessionToken(sessionToken, jwt);
     }
 
-    private void updateSessionJwt(String jwt) {
-
-
-    }
-
-    private void unsetJwt(String jwt) {
-
-    }
-
     @Override
     protected SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
         logger.info("Building user creation saga");

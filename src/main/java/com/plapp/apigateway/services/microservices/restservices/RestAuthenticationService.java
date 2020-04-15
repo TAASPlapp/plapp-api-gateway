@@ -1,21 +1,12 @@
-package com.plapp.apigateway.services.restservices;
+package com.plapp.apigateway.services.microservices.restservices;
 
-import com.plapp.apigateway.services.AuthenticationService;
+import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
-import com.plapp.entities.utils.ApiResponse;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.annotation.RequestScope;
-
-import javax.xml.ws.Response;
 
 @Component
 public class RestAuthenticationService implements AuthenticationService {

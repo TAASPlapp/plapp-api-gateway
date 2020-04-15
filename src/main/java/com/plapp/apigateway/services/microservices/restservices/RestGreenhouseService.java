@@ -1,6 +1,6 @@
-package com.plapp.apigateway.services.restservices;
+package com.plapp.apigateway.services.microservices.restservices;
 
-import com.plapp.apigateway.services.GreenhouseService;
+import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
@@ -24,7 +24,7 @@ public class RestGreenhouseService implements GreenhouseService {
     @Override
     public List<Plant> getPlants(long userId) throws Exception {
         return restTemplate.exchange(
-                baseAddress + userId + "/plants",
+                baseAddress + "/greenhouse/" + userId + "/plants",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Plant>>() {
@@ -33,61 +33,63 @@ public class RestGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public Plant getPlant(long plantId) throws Exception {
-        return restTemplate.getForObject(baseAddress + "/plant/" + plantId, Plant.class);
+    public Plant addPlant(Plant plant) throws Exception {
+        return restTemplate.postForObject(baseAddress + "/greenhouse/" + plant.getOwner() + "/plants/add", plant, Plant.class);
     }
 
     @Override
-    public Plant addPlant(Plant plant) throws Exception {
-        return restTemplate.postForObject(baseAddress + '/' + plant.getOwner() + "/plants/add", plant, Plant.class);
+    public Plant getPlant(long plantId) throws Exception {
+        return restTemplate.getForObject(baseAddress + "/greenhouse/plant/" + plantId, Plant.class);
     }
 
     @Override
     public void removePlant(Plant plant) throws Exception {
-        restTemplate.getForObject(baseAddress + "/plant/" + plant.getId(), Plant.class);
+        restTemplate.getForObject(baseAddress + "/greenhouse/plant/" + plant.getId() + "/remove", Plant.class);
     }
+
 
     @Override
     public List<Storyboard> getStoryboards() throws Exception {
         return restTemplate.exchange(
-                baseAddress + "/storyboards",
+                baseAddress + "/greenhouse/storyboards",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Storyboard>>() {}
+                new ParameterizedTypeReference<List<Storyboard>>() {
+                }
         ).getBody();
     }
 
     @Override
     public Storyboard getStoryboard(long plantId) throws Exception {
-        return restTemplate.getForObject(baseAddress + "/plant/" + plantId + "/storyboard", Storyboard.class);
+        return restTemplate.getForObject(baseAddress + "/greenhouse/plant/" + plantId + "/storyboard", Storyboard.class);
     }
 
     @Override
     public Storyboard createStoryboard(Storyboard storyboard) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/plant" + storyboard.getPlant().getId() +
+        return restTemplate.postForObject(baseAddress + "/greenhouse/plant" + storyboard.getPlant().getId() +
                 "/storyboard/create", storyboard, Storyboard.class);
 
     }
 
     @Override
     public Storyboard updateStoryboard(Storyboard storyboard) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/storyboard/" + storyboard.getId() +
+        return restTemplate.postForObject(baseAddress + "/greenhouse/storyboard/" + storyboard.getId() +
                 "/update", storyboard, Storyboard.class);
     }
 
     @Override
     public void removeStoryboard(Storyboard storyboard) throws Exception {
-        restTemplate.getForObject(baseAddress + "/storyboard/" + storyboard.getId() + "/remove", Storyboard.class);
+        restTemplate.getForObject(baseAddress + "/greenhouse/storyboard/" + storyboard.getId() + "/remove", Storyboard.class);
     }
 
     @Override
     public StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
-        return restTemplate.postForObject(baseAddress + "/storyboard/" + storyboardItem.getId() +
+        return restTemplate.postForObject(baseAddress + "/greenhouse/storyboard/" + storyboardItem.getId() +
                 "/item/add", storyboardItem, StoryboardItem.class);
     }
 
     @Override
     public void removeStoryboardItem(StoryboardItem storyboardItem) throws Exception {
-        restTemplate.getForObject(baseAddress + "/storyboard/item/" + storyboardItem.getId() + "/remove", StoryboardItem.class);
+        restTemplate.getForObject(baseAddress + "/greenhouse/storyboard/item/" + storyboardItem.getId() + "/remove", StoryboardItem.class);
     }
 }

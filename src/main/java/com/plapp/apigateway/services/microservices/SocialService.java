@@ -1,4 +1,4 @@
-package com.plapp.apigateway.services;
+package com.plapp.apigateway.services.microservices;
 
 import com.plapp.entities.social.Comment;
 import com.plapp.entities.social.Like;

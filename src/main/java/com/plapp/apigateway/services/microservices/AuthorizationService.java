@@ -1,7 +1,6 @@
-package com.plapp.apigateway.services;
+package com.plapp.apigateway.services.microservices;
 
 import com.plapp.authorization.ResourceAuthority;
-import com.plapp.entities.auth.UserCredentials;
 
 import java.util.List;
 

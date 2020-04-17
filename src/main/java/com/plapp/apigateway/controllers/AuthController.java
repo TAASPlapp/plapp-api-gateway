@@ -19,14 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-    public static final String HEADER_STRING = "Authorization";
-    public static final String TOKEN_PREFIX = "Bearer ";
-
-    private final SessionTokenService sessionTokenService;
-
-    private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
-    private UserLoginSagaOrchestrator userLoginSagaOrchestrator;
-
     @ControllerAdvice
     public static class AuthControllerAdvice extends ResponseEntityExceptionHandler {
 
@@ -48,6 +40,14 @@ public class AuthController {
             e.printStackTrace();
         }
     }
+
+    public static final String HEADER_STRING = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
+
+    private final SessionTokenService sessionTokenService;
+
+    private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
+    private UserLoginSagaOrchestrator userLoginSagaOrchestrator;
 
     public AuthController(AuthenticationService authenticationService,
                           AuthorizationService authorizationService,

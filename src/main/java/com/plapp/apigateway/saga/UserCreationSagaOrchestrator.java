@@ -36,7 +36,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
         }};
     }
 
-    private SessionToken generateSessionToken(String jwt) {
+    private String generateSessionToken(String jwt) {
         String sessionToken = sessionTokenService.generateSessionToken(jwt);
 
         RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
@@ -44,7 +44,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
         attributes.setAttribute("sessionToken", sessionToken, RequestAttributes.SCOPE_REQUEST);
         RequestContextHolder.setRequestAttributes(attributes);
 
-        return new SessionToken(sessionToken, jwt);
+        return sessionToken;
     }
 
     @Override

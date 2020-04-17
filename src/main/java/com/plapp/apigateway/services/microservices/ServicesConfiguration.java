@@ -1,4 +1,4 @@
-package com.plapp.apigateway.services.config;
+package com.plapp.apigateway.services.microservices;
 
 import com.plapp.apigateway.services.microservices.*;
 import com.plapp.apigateway.services.microservices.mockservices.MockGardenerService;

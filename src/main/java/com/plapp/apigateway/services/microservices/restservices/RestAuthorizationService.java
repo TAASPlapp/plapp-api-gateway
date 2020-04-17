@@ -4,6 +4,8 @@ import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.authorization.ResourceAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,7 +24,7 @@ public class RestAuthorizationService implements AuthorizationService {
     @Override
     public ResourceAuthority addAuthorization(ResourceAuthority authority) {
         ResourceAuthority savedAuthority = restTemplate.postForObject(
-                serviceAddress + String.format("/auth/%d/update", authority.getUserId()),
+                serviceAddress + String.format("/auth/%d/add", authority.getUserId()),
                 authority,
                 ResourceAuthority.class
         );
@@ -52,6 +54,27 @@ public class RestAuthorizationService implements AuthorizationService {
     public void removeAuthorizations(List<ResourceAuthority> authorities) {
         for(ResourceAuthority authority : authorities)
             removeAuthorization(authority);
+    }
+
+    @Override
+    public List<ResourceAuthority> getAuthorities(Long userId) {
+        return restTemplate.exchange(
+                serviceAddress + String.format("/auth/%d/authorities", userId),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ResourceAuthority>>() {}
+        ).getBody();
+    }
+
+    @Override
+    public ResourceAuthority updateAuthorization(String urlRegex, Long value) {
+        return restTemplate.postForObject(
+          serviceAddress + "/auth/update",
+          null,
+          ResourceAuthority.class,
+          urlRegex,
+          value
+        );
     }
 
     @Override

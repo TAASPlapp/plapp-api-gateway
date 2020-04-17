@@ -1,6 +1,5 @@
 package com.plapp.apigateway.services.config;
 
-import com.plapp.apigateway.entities.SessionToken;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.SessionTokenService;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +34,7 @@ public class JwtRestTemplateBuilder {
                     String sessionTokenHeader = authHeader;
                     if (sessionTokenHeader == null || sessionTokenHeader.isEmpty()) {
                         logger.info("No session token header in incoming request, checking RequestContext");
-                        sessionTokenHeader = (String)RequestContextHolder
-                                .getRequestAttributes()
-                                .getAttribute("sessionToken", RequestAttributes.SCOPE_REQUEST);
+                        sessionTokenHeader = SessionRequestContext.getSessionTokenHeader();
                     }
 
                     if (sessionTokenHeader != null && !sessionTokenHeader.isEmpty()) {

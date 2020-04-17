@@ -3,6 +3,7 @@ package com.plapp.apigateway.saga;
 import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
+import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.authorization.ResourceAuthority;
@@ -14,6 +15,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,12 +29,19 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private List<ResourceAuthority> createDefaultAuthorities(UserCredentials userCredentials) {
         return new ArrayList<ResourceAuthority>() {{
-            ResourceAuthority resourceAuthority = new ResourceAuthority(
-                    "/social/user/([0-9]+)/((\\badd\\b)|(\\bupdate\\b)|(\\bdelete\\b))",
+            ResourceAuthority socialUserAuthority = new ResourceAuthority(
+                    Authorities.SOCIAL_USER,
                     userCredentials.getId()
             );
-            resourceAuthority.addValue(userCredentials.getId());
-            add(resourceAuthority);
+            socialUserAuthority.addValue(userCredentials.getId());
+            add(socialUserAuthority);
+
+            for(String urlRegex : Arrays.asList(Authorities.asArray).subList(1, Authorities.asArray.length)) {
+                add(new ResourceAuthority(
+                        urlRegex,
+                        userCredentials.getId()
+                ));
+            }
         }};
     }
 

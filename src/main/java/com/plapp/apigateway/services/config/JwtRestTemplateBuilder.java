@@ -35,9 +35,7 @@ public class JwtRestTemplateBuilder {
                     String sessionTokenHeader = authHeader;
                     if (sessionTokenHeader == null || sessionTokenHeader.isEmpty()) {
                         logger.info("No session token header in incoming request, checking RequestContext");
-                        sessionTokenHeader = (String)RequestContextHolder
-                                .getRequestAttributes()
-                                .getAttribute("sessionToken", RequestAttributes.SCOPE_REQUEST);
+                        sessionTokenHeader = SessionRequestContext.getSessionTokenHeader();
                     }
 
                     if (sessionTokenHeader != null && !sessionTokenHeader.isEmpty()) {

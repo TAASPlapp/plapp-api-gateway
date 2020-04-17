@@ -34,7 +34,7 @@ public class SessionTokenMapping {
         @Id
         private Long userId;
 
-        @Column(length = 2048)
+        @Column(columnDefinition = "TEXT")
         private String jwt;
     }
 }

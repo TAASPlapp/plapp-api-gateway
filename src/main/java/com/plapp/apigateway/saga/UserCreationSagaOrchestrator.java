@@ -37,6 +37,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
             add(socialUserAuthority);
 
             for(String urlRegex : Arrays.asList(Authorities.asArray).subList(1, Authorities.asArray.length)) {
+                logger.info("Adding authority: " + urlRegex);
                 add(new ResourceAuthority(
                         urlRegex,
                         userCredentials.getId()

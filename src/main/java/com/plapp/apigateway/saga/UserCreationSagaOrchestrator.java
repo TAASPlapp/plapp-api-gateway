@@ -1,6 +1,5 @@
 package com.plapp.apigateway.saga;
 
-import com.plapp.apigateway.entities.SessionToken;
 import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.apigateway.services.microservices.AuthorizationService;

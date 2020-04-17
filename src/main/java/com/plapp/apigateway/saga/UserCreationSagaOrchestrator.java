@@ -73,11 +73,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                     .invoke(authorizationService::generateUpdatedJwt).withArg("jwt").saveTo("jwt")
 
                 .step()
-                    .invoke(sessionTokenService::deleteSession).withArg("sessionToken")
-
-                .step()
-                    .invoke(this::generateSessionToken).withArg("jwt").saveTo("sessionToken")
-                    .withCompensation(sessionTokenService::deleteSession)
+                    .invoke(sessionTokenService::updateJwt).withArg("jwt")
 
                 .build();
     }

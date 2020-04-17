@@ -31,11 +31,14 @@ public class SessionTokenAuthenticationFilter extends BasicAuthenticationFilter 
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header != null && header.startsWith("Bearer ")) {
-            this.logger.info("Found authorization header");
+            logger.info("Found authorization header");
             Authentication authentication = this.validateSessionTokenAndAuthorizeRequest(request, response);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (authentication != null)
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            else
+                logger.info("Could not authenticate user");
         } else {
-            this.logger.info("Authorization header not found");
+            logger.info("Authorization header not found");
         }
 
         chain.doFilter(request, response);

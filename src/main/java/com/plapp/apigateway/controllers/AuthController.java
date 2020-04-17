@@ -3,6 +3,7 @@ package com.plapp.apigateway.controllers;
 import com.plapp.apigateway.saga.UserLoginSagaOrchestrator;
 import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
@@ -82,6 +83,8 @@ public class AuthController {
     @CrossOrigin
     @GetMapping("/logout")
     public ApiResponse<?> logout(){
+        String sessionToken = SessionRequestContext.getSessionTokenHeader();
+        sessionTokenService.deleteSession(sessionToken);
         return new ApiResponse<>(true);
     }
 

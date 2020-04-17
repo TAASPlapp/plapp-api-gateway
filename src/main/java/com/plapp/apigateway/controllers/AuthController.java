@@ -1,5 +1,6 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.saga.UserLoginSagaOrchestrator;
 import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
@@ -26,6 +27,7 @@ public class AuthController {
     private final SessionTokenService sessionTokenService;
 
     private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
+    private UserLoginSagaOrchestrator userLoginSagaOrchestrator;
 
     @ControllerAdvice
     public static class AuthControllerAdvice extends ResponseEntityExceptionHandler {
@@ -61,24 +63,16 @@ public class AuthController {
                 authorizationService,
                 sessionTokenService
         );
+
+        userLoginSagaOrchestrator = new UserLoginSagaOrchestrator(
+                authenticationService,
+                sessionTokenService
+        );
     }
     @CrossOrigin
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login(@RequestBody UserCredentials credentials) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
-
-        try {
-            String token = authenticationService.authenticateUser(credentials);
-            httpHeaders.add(HEADER_STRING, TOKEN_PREFIX + token);
-
-            return responseBuilder
-                    .headers(httpHeaders)
-                    .body(new ApiResponse<>(token));
-
-        } catch (Exception e) {
-            return responseBuilder.body(new ApiResponse<>(false, e.getMessage()));
-        }
+    public ApiResponse<String> login(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {
+       return new ApiResponse<>(userLoginSagaOrchestrator.authenticateUser(credentials));
     }
 
     @CrossOrigin

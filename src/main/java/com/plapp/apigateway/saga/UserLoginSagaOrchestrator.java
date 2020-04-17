@@ -1,9 +1,6 @@
 package com.plapp.apigateway.saga;
 
-import com.plapp.apigateway.saga.orchestration.SagaDefinition;
-import com.plapp.apigateway.saga.orchestration.SagaDefinitionBuilder;
-import com.plapp.apigateway.saga.orchestration.SagaExecutionEngine;
-import com.plapp.apigateway.saga.orchestration.SagaOrchestrator;
+import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
@@ -31,7 +28,7 @@ public class UserLoginSagaOrchestrator extends SagaOrchestrator {
                 .build();
     }
 
-    public String authenticateUser(UserCredentials credentials) throws Throwable {
+    public String authenticateUser(UserCredentials credentials) throws SagaExecutionException, Throwable {
         SagaExecutionEngine.SagaArgumentResolver resolver = getExecutor()
                 .withArg("inputCredentials", credentials)
                 .run()

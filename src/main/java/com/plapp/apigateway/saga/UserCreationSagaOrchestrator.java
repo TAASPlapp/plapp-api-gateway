@@ -87,6 +87,6 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
                 .withArg("inputCredentials", credentials)
                 .run()
                 .collect();
-        return ((SessionToken)resolver.get("sessionToken")).getSessionToken();
+        return ((String)resolver.get("sessionToken"));
     }
 }

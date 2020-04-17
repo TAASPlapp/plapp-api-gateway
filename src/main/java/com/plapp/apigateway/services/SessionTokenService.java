@@ -54,6 +54,10 @@ public class SessionTokenService {
         return null;
     }
 
+    public SessionTokenMapping.SessionToken findBySessionToken(String sessionToken) {
+        return sessionTokenRepository.findBySessionToken(sessionToken);
+    }
+
     public Void updateJwt(String jwt) {
         Jws<Claims> claims = jwtManager.decodeJwt(jwt);
         Long userId = Long.parseLong(claims.getBody().getSubject());

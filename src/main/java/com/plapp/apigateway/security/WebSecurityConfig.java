@@ -1,5 +1,6 @@
 package com.plapp.apigateway.security;
 
+import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -81,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         }
     }
 
-    private final AuthenticationService authenticationService;
+    private final SessionTokenService sessionTokenService;
 
     @Bean
     public AuthenticationManager getAuthenticationManager() throws Exception {
@@ -93,7 +94,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/*").permitAll()
-                .antMatchers("/**").authenticated();
+                .antMatchers("/api/auth/logout").authenticated()
+                .antMatchers("/**").authenticated()
+                    .and().addFilter(new SessionTokenAuthenticationFilter(authenticationManager(), sessionTokenService));
     }
 
 

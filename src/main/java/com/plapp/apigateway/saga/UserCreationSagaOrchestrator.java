@@ -1,6 +1,7 @@
 package com.plapp.apigateway.saga;
 
 import com.plapp.apigateway.saga.orchestration.*;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
@@ -37,11 +38,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private String generateSessionToken(String jwt) {
         String sessionToken = sessionTokenService.generateSessionToken(jwt);
-
-        RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
-        logger.info("Setting jwt attribute for request scope");
-        attributes.setAttribute("sessionToken", sessionToken, RequestAttributes.SCOPE_REQUEST);
-        RequestContextHolder.setRequestAttributes(attributes);
+        SessionRequestContext.setSessionToken(sessionToken);
 
         return sessionToken;
     }

@@ -46,7 +46,7 @@ public class SessionTokenService {
         return null;
     }
 
-    public void updateJwt(String jwt) {
+    public Void updateJwt(String jwt) {
         Jws<Claims> claims = jwtManager.decodeJwt(jwt);
         Long userId = Long.parseLong(claims.getBody().getSubject());
 
@@ -55,5 +55,7 @@ public class SessionTokenService {
             jwtToken.setJwt(jwt);
 
         jwtTokenRepository.saveAll(jwtTokens);
+
+        return null;
     }
 }

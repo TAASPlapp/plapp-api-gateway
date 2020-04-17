@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SessionTokenRepository extends JpaRepository<SessionTokenMapping.SessionToken, String> {
-    SessionTokenMapping.SessionToken findBySessionToken(String sessionToken);
+public interface JwtTokenRepository extends JpaRepository<SessionTokenMapping.JwtToken, Long> {
+    List<SessionTokenMapping.JwtToken> findAllByUserId(Long userId);
 }

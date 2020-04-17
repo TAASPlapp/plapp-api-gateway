@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 public class SessionTokenMapping {
@@ -21,8 +22,22 @@ public class SessionTokenMapping {
         @Id
         @Column(length = 2048)
         private String sessionToken;
+
+        @ManyToOne
+        JwtToken jwt;
     }
 
-    @Column(length = 2048)
-    private String jwt;
+
+    @Entity
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class JwtToken {
+        @Id
+        private Long userId;
+
+        @Column(length = 2048)
+        private String jwt;
+    }
 }

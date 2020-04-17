@@ -1,7 +1,11 @@
 package com.plapp.apigateway.services;
 
-import com.plapp.apigateway.entities.SessionToken;
+import com.plapp.apigateway.entities.SessionTokenMapping;
+import com.plapp.apigateway.repository.JwtTokenRepository;
 import com.plapp.apigateway.repository.SessionTokenRepository;
+import com.plapp.apigateway.security.JWTManager;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,19 +16,29 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SessionTokenService {
     private final SessionTokenRepository sessionTokenRepository;
+    private final JwtTokenRepository jwtTokenRepository;
+    private final JWTManager jwtManager;
 
     public String generateSessionToken(String jwt) {
-        SessionToken sessionToken = new SessionToken();
+        SessionTokenMapping.SessionToken sessionToken = new SessionTokenMapping.SessionToken();
         sessionToken.setSessionToken(UUID.randomUUID().toString());
-        sessionToken.setJwt(jwt);
+
+        SessionTokenMapping.JwtToken jwtToken = new SessionTokenMapping.JwtToken();
+        jwtToken.setJwt(jwt);
+
+        Jws<Claims> claims = jwtManager.decodeJwt(jwt);
+        Long userId = Long.parseLong(claims.getBody().getSubject());
+
+        jwtToken.setUserId(userId);
+        sessionToken.setJwt(jwtToken);
         sessionTokenRepository.save(sessionToken);
 
         return sessionToken.getSessionToken();
     }
 
     public String getJwt(String sessionToken) {
-        SessionToken session = sessionTokenRepository.findBySessionToken(sessionToken);
-        return session.getJwt();
+        SessionTokenMapping.SessionToken session = sessionTokenRepository.findBySessionToken(sessionToken);
+        return session.getJwt().getJwt();
     }
 
     public Void deleteSession(String sessionToken) {
@@ -32,10 +46,14 @@ public class SessionTokenService {
         return null;
     }
 
-    public void updateJwt(String oldJwt, String newJwt) {
-        List<SessionToken> sessionTokens = sessionTokenRepository.findAllByJwt(oldJwt);
-        for (SessionToken sessionToken : sessionTokens)
-            sessionToken.setJwt(newJwt);
-        sessionTokenRepository.saveAll(sessionTokens);
+    public void updateJwt(String jwt) {
+        Jws<Claims> claims = jwtManager.decodeJwt(jwt);
+        Long userId = Long.parseLong(claims.getBody().getSubject());
+
+        List<SessionTokenMapping.JwtToken> jwtTokens = jwtTokenRepository.findAllByUserId(userId);
+        for (SessionTokenMapping.JwtToken jwtToken : jwtTokens)
+            jwtToken.setJwt(jwt);
+
+        jwtTokenRepository.saveAll(jwtTokens);
     }
 }

@@ -5,6 +5,7 @@ import com.plapp.apigateway.repository.SessionTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -32,6 +33,9 @@ public class SessionTokenService {
     }
 
     public void updateJwt(String oldJwt, String newJwt) {
-
+        List<SessionToken> sessionTokens = sessionTokenRepository.findAllByJwt(oldJwt);
+        for (SessionToken sessionToken : sessionTokens)
+            sessionToken.setJwt(newJwt);
+        sessionTokenRepository.saveAll(sessionTokens);
     }
 }

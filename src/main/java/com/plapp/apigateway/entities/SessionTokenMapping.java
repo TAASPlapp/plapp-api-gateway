@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 
 public class SessionTokenMapping {
@@ -23,7 +20,7 @@ public class SessionTokenMapping {
         @Column(length = 2048)
         private String sessionToken;
 
-        @ManyToOne
+        @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
         JwtToken jwt;
     }
 

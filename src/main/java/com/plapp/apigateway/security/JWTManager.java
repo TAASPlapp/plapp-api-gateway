@@ -25,8 +25,8 @@ public class JWTManager {
     private PublicKey publicKey;
 
     @PostConstruct
-    public void readPublicKey(String publicKeyPath) throws Exception {
-        InputStream inputStream = (new ClassPathResource(publicKeyPath)).getInputStream();
+    public void readPublicKey() throws Exception {
+        InputStream inputStream = (new ClassPathResource("public.der")).getInputStream();
         DataInputStream dataInputStream = new DataInputStream(inputStream);
 
         int availableBytes = dataInputStream.available();

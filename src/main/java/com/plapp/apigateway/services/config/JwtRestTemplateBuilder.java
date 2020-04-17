@@ -1,6 +1,5 @@
 package com.plapp.apigateway.services.config;
 
-import com.plapp.apigateway.entities.SessionToken;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.SessionTokenService;
 import lombok.RequiredArgsConstructor;

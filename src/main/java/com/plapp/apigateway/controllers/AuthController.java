@@ -22,8 +22,6 @@ public class AuthController {
     public static final String HEADER_STRING = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
 
-    private final AuthenticationService authenticationService;
-    private final AuthorizationService authorizationService;
     private final SessionTokenService sessionTokenService;
 
     private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
@@ -54,8 +52,7 @@ public class AuthController {
     public AuthController(AuthenticationService authenticationService,
                           AuthorizationService authorizationService,
                           SessionTokenService sessionTokenService) {
-        this.authenticationService = authenticationService;
-        this.authorizationService = authorizationService;
+
         this.sessionTokenService = sessionTokenService;
 
         userCreationSagaOrchestrator = new UserCreationSagaOrchestrator(
@@ -82,11 +79,10 @@ public class AuthController {
     }
 
 
-    //TODO: da implementare
     @CrossOrigin
     @GetMapping("/logout")
     public ApiResponse<?> logout(){
-        return new ApiResponse<>("logout succeded");
+        return new ApiResponse<>(true);
     }
 
 

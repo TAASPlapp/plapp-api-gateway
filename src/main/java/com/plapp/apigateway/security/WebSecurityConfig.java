@@ -1,7 +1,6 @@
 package com.plapp.apigateway.security;
 
 import com.plapp.apigateway.services.SessionTokenService;
-import com.plapp.apigateway.services.microservices.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -91,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/*").permitAll()
                 .antMatchers("/api/auth/logout").authenticated()

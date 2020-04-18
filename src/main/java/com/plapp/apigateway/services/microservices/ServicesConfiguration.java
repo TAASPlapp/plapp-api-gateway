@@ -1,11 +1,6 @@
 package com.plapp.apigateway.services.microservices;
 
-import com.plapp.apigateway.services.microservices.*;
-import com.plapp.apigateway.services.microservices.mockservices.MockGardenerService;
-import com.plapp.apigateway.services.microservices.mockservices.MockGreenhouseService;
-import com.plapp.apigateway.services.microservices.restservices.RestAuthenticationService;
-import com.plapp.apigateway.services.microservices.restservices.RestAuthorizationService;
-import com.plapp.apigateway.services.microservices.restservices.RestSocialService;
+import com.plapp.apigateway.services.microservices.restservices.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +13,7 @@ public class ServicesConfiguration {
     @Bean
     @Primary
     public GreenhouseService getGreenhouseService() {
-        return new MockGreenhouseService();
+        return new RestGreenhouseService();
     }
 
     @Bean
@@ -34,7 +29,7 @@ public class ServicesConfiguration {
     @Bean
     @Primary
     public GardenerService getGardenerService() {
-        return new MockGardenerService();
+        return new RestGardenerService();
     }
 
     @Bean

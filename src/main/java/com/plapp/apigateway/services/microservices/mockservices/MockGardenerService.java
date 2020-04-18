@@ -1,20 +1,6 @@
 package com.plapp.apigateway.services.microservices.mockservices;
 
-import com.plapp.apigateway.services.microservices.GardenerService;
-import com.plapp.entities.schedules.ScheduleAction;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.lists.utils.Lists;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.File;
-import java.io.FileReader;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
+/*
 public class MockGardenerService implements GardenerService {
 
     private ScheduleAction jsonToScheduleActon(JSONObject json) {
@@ -60,17 +46,17 @@ public class MockGardenerService implements GardenerService {
     }
 
     @Override
-    public List<String> getActions() throws Exception {
+    public List<String> getActions()  {
         return Arrays.asList("Watering", "Manure", "Harvest", "Pruning", "Treating");
     }
 
     @Override
-    public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) throws Exception {
+    public ScheduleAction addScheduleAction(ScheduleAction scheduleAction)  {
         return scheduleAction;
     }
 
     @Override
-    public void removeScheduleAction(ScheduleAction scheduleAction) throws Exception {
+    public void removeScheduleAction(ScheduleAction scheduleAction)  {
 
     }
-}
+}*/

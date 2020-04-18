@@ -1,21 +1,6 @@
 package com.plapp.apigateway.services.microservices.mockservices;
 
-import com.plapp.apigateway.services.microservices.GreenhouseService;
-import com.plapp.entities.greenhouse.Plant;
-import com.plapp.entities.greenhouse.Storyboard;
-import com.plapp.entities.greenhouse.StoryboardItem;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.lists.utils.Lists;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.File;
-import java.io.FileReader;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
+/*
 public class MockGreenhouseService implements GreenhouseService {
 
     private Plant jsonToPlant(JSONObject jsonPlant) {
@@ -75,7 +60,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public List<Plant> getPlants(long userId) throws Exception {
+    public List<Plant> getPlants(long userId)  {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -93,7 +78,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public Plant getPlant(long plantId) throws Exception {
+    public Plant getPlant(long plantId)  {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-plants.json").getFile();
@@ -106,17 +91,17 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public Plant addPlant(Plant plant) throws Exception {
+    public Plant addPlant(Plant plant)  {
         return plant;
     }
 
     @Override
-    public void removePlant(Plant plant) throws Exception {
+    public void removePlant(Plant plant)  {
 
     }
 
     @Override
-    public List<Storyboard> getStoryboards() throws Exception {
+    public List<Storyboard> getStoryboards()  {
         JSONParser parser = new JSONParser();
         List<Storyboard> storyboards = new ArrayList<>();
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -130,7 +115,7 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public Storyboard getStoryboard(long plantId) throws Exception {
+    public Storyboard getStoryboard(long plantId)  {
         JSONParser parser = new JSONParser();
 
         File jsonFile = new ClassPathResource("mock-response/mock-storyboard.json").getFile();
@@ -145,27 +130,28 @@ public class MockGreenhouseService implements GreenhouseService {
     }
 
     @Override
-    public Storyboard createStoryboard(Storyboard storyboard) throws Exception {
+    public Storyboard createStoryboard(Storyboard storyboard)  {
         return storyboard;
     }
 
     @Override
-    public void removeStoryboard(Storyboard storyboard) throws Exception {
+    public void removeStoryboard(Storyboard storyboard)  {
 
     }
 
     @Override
-    public Storyboard updateStoryboard(Storyboard storyboard) throws Exception {
+    public Storyboard updateStoryboard(Storyboard storyboard)  {
         return storyboard;
     }
 
     @Override
-    public StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) throws Exception {
+    public StoryboardItem addStoryboardItem(StoryboardItem storyboardItem)  {
         return storyboardItem;
     }
 
     @Override
-    public void removeStoryboardItem(StoryboardItem storyboardItem) throws Exception {
+    public void removeStoryboardItem(StoryboardItem storyboardItem)  {
 
     }
 }
+*/

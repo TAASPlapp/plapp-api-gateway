@@ -8,19 +8,19 @@ import com.plapp.entities.social.UserDetails;
 import java.util.List;
 
 public interface SocialService {
-    UserDetails getUserDetails(long userId) throws Exception;
+    UserDetails getUserDetails(long userId) ;
 
-    UserDetails addUserDetails(UserDetails user) throws Exception;
+    UserDetails addUserDetails(UserDetails user) ;
 
     UserDetails setUserDetails(UserDetails userDetails);
 
-    List<Comment> getComments(MediaContentType type, long itemId) throws Exception;
+    List<Comment> getComments(MediaContentType type, long itemId) ;
 
-    Comment addComment(Comment comment) throws Exception;
+    Comment addComment(Comment comment) ;
 
-    Like addLike(Like like) throws Exception;
+    Like addLike(Like like) ;
 
-    void removeLike(long likeId) throws Exception;
+    void removeLike(long likeId) ;
 
-    List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception;
+    List<UserDetails> getLikes(MediaContentType type, long itemId) ;
 }

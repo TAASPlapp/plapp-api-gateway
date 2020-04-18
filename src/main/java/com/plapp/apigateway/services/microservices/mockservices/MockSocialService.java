@@ -31,12 +31,12 @@ public class MockSocialService implements SocialService {
 
 
     @Override
-    public UserDetails getUserDetails(long userId) throws Exception {
+    public UserDetails getUserDetails(long userId)  {
         return null;
     }
 
     @Override
-    public UserDetails addUserDetails(UserDetails user) throws Exception {
+    public UserDetails addUserDetails(UserDetails user)  {
         return null;
     }
 
@@ -46,27 +46,27 @@ public class MockSocialService implements SocialService {
     }
 
     @Override
-    public List<Comment> getComments(MediaContentType type, long itemId) throws Exception {
+    public List<Comment> getComments(MediaContentType type, long itemId)  {
         return null;
     }
 
     @Override
-    public Comment addComment(Comment comment) throws Exception {
+    public Comment addComment(Comment comment)  {
         return null;
     }
 
     @Override
-    public Like addLike(Like like) throws Exception {
+    public Like addLike(Like like)  {
         return null;
     }
 
     @Override
-    public void removeLike(long likeId) throws Exception {
+    public void removeLike(long likeId)  {
 
     }
 
     @Override
-    public List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception {
+    public List<UserDetails> getLikes(MediaContentType type, long itemId)  {
         return null;
     }
 }

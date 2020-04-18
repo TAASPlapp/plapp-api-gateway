@@ -18,17 +18,17 @@ public class RestGardenerService implements GardenerService {
     public RestTemplate restTemplate;
 
     @Override
-    public List<ScheduleAction> getSchedule(long plantId) throws Exception {
+    public List<ScheduleAction> getSchedule(long plantId) {
         return null;
     }
 
     @Override
-    public List<String> getActions() throws Exception {
+    public List<String> getActions() {
         return null;
     }
 
     @Override
-    public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) throws Exception {
+    public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) {
         //gardener/{plantId}/schedule/add
         //todo: http put in gardener -> retrun void!!!
         //return restTemplate.put(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/add", scheduleAction);
@@ -36,7 +36,7 @@ public class RestGardenerService implements GardenerService {
     }
 
     @Override
-    public void removeScheduleAction(ScheduleAction scheduleAction) throws Exception {
+    public void removeScheduleAction(ScheduleAction scheduleAction) {
 
     }
 }

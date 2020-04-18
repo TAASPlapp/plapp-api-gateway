@@ -25,12 +25,12 @@ public class RestSocialService implements SocialService {
     public RestTemplate restTemplate;
 
     @Override
-    public UserDetails getUserDetails(long userId) throws Exception {
+    public UserDetails getUserDetails(long userId) {
         return restTemplate.getForObject(baseAddress + "/social/user/" + userId, UserDetails.class);
     }
 
     @Override
-    public UserDetails addUserDetails(UserDetails user) throws Exception {
+    public UserDetails addUserDetails(UserDetails user) {
         return restTemplate.postForObject(baseAddress + "/social/user/" + user.getUserId() + "/add", user, UserDetails.class);
     }
 
@@ -40,7 +40,7 @@ public class RestSocialService implements SocialService {
     }
 
     @Override
-    public List<Comment> getComments(MediaContentType type, long itemId) throws Exception {
+    public List<Comment> getComments(MediaContentType type, long itemId) {
         return restTemplate.exchange(
                 baseAddress + "/social/comment/" + itemId,
                 HttpMethod.GET,
@@ -51,22 +51,22 @@ public class RestSocialService implements SocialService {
     }
 
     @Override
-    public Comment addComment(Comment comment) throws Exception {
+    public Comment addComment(Comment comment) {
         return restTemplate.postForObject(baseAddress + "/social/comment/" + comment.getId() + "/add", comment, Comment.class);
     }
 
     @Override
-    public Like addLike(Like like) throws Exception {
+    public Like addLike(Like like) {
         return restTemplate.postForObject(baseAddress + "/social/like/" + like.getId() + "/add", like, Like.class);
     }
 
     @Override
-    public void removeLike(long likeId) throws Exception {
+    public void removeLike(long likeId) {
         restTemplate.getForObject(baseAddress + "/social/like/" + likeId + "/remove", Void.class);
     }
 
     @Override
-    public List<UserDetails> getLikes(MediaContentType type, long itemId) throws Exception {
+    public List<UserDetails> getLikes(MediaContentType type, long itemId) {
         return restTemplate.exchange(
                 baseAddress + "/social/like/" + itemId,
                 HttpMethod.GET,

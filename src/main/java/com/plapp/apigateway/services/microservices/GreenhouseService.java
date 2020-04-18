@@ -7,17 +7,17 @@ import com.plapp.entities.greenhouse.StoryboardItem;
 import java.util.List;
 
 public interface GreenhouseService {
-    List<Plant> getPlants(long userId) throws Exception;
-    Plant getPlant(long plantId) throws Exception;
-    Plant addPlant(Plant plant) throws Exception;
-    void removePlant(Plant plant) throws Exception;
+    List<Plant> getPlants(long userId) ;
+    Plant getPlant(long plantId) ;
+    Plant addPlant(Plant plant) ;
+    void removePlant(Plant plant) ;
 
-    List<Storyboard> getStoryboards() throws Exception;
-    Storyboard getStoryboard(long plantId) throws Exception;
-    Storyboard createStoryboard(Storyboard storyboard) throws Exception;
-    Storyboard updateStoryboard(Storyboard storyboard) throws Exception;
-    void removeStoryboard(Storyboard storyboard) throws Exception;
+    List<Storyboard> getStoryboards() ;
+    Storyboard getStoryboard(long plantId) ;
+    Storyboard createStoryboard(Storyboard storyboard) ;
+    Storyboard updateStoryboard(Storyboard storyboard) ;
+    void removeStoryboard(Storyboard storyboard) ;
 
-    StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) throws Exception;
-    void removeStoryboardItem(StoryboardItem storyboardItem) throws Exception;
+    StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) ;
+    void removeStoryboardItem(StoryboardItem storyboardItem) ;
 }

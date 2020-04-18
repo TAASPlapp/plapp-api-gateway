@@ -5,9 +5,9 @@ import com.plapp.entities.schedules.ScheduleAction;
 import java.util.List;
 
 public interface GardenerService {
-    List<ScheduleAction> getSchedule(long plantId) throws Exception;
-    List<String> getActions() throws Exception;
+    List<ScheduleAction> getSchedule(long plantId) ;
+    List<String> getActions() ;
 
-    ScheduleAction addScheduleAction(ScheduleAction scheduleAction) throws Exception;
-    void removeScheduleAction(ScheduleAction scheduleAction) throws Exception;
+    ScheduleAction addScheduleAction(ScheduleAction scheduleAction) ;
+    void removeScheduleAction(ScheduleAction scheduleAction) ;
 }

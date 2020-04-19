@@ -40,7 +40,7 @@ services:
     depends_on:
       - plapp-api-service
     ports:
-      - "4000:4000"
+      - "4001:4000"
     networks:
       - api-network
 

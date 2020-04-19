@@ -29,14 +29,17 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
     private List<ResourceAuthority> createDefaultAuthorities(UserCredentials userCredentials) {
         return new ArrayList<ResourceAuthority>() {{
-            ResourceAuthority socialUserAuthority = new ResourceAuthority(
-                    Authorities.SOCIAL_USER,
-                    userCredentials.getId()
-            );
-            socialUserAuthority.addValue(userCredentials.getId());
-            add(socialUserAuthority);
+            for(String urlRegex : Authorities.withUserId) {
+                logger.info("Adding authority: " + urlRegex);
+                ResourceAuthority resourceAuthority = new ResourceAuthority(
+                        urlRegex,
+                        userCredentials.getId()
+                );
+                resourceAuthority.addValue(userCredentials.getId());
+                add(resourceAuthority);
+            }
 
-            for(String urlRegex : Arrays.asList(Authorities.asArray).subList(1, Authorities.asArray.length)) {
+            for(String urlRegex : Authorities.withOtherValues) {
                 logger.info("Adding authority: " + urlRegex);
                 add(new ResourceAuthority(
                         urlRegex,

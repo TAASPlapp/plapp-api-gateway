@@ -5,6 +5,7 @@ import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class GreenhouseController {
     @GetMapping(value= {"/plants", "/{userId}/plants"})
     public ApiResponse<List<Plant>> getPlants(@PathVariable(name="userId", required = false) Optional<Long> optId) {
         long userId = optId.orElse(-1L);
+        if (userId == -1L)
+            userId = (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return new ApiResponse<>(greenhouseService.getPlants(userId));
     }
 

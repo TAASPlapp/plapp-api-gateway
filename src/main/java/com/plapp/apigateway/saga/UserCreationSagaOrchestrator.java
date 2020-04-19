@@ -6,8 +6,10 @@ import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.microservices.SocialService;
 import com.plapp.authorization.ResourceAuthority;
 import com.plapp.entities.auth.UserCredentials;
+import com.plapp.entities.social.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
     private final AuthenticationService authenticationService;
     private final AuthorizationService authorizationService;
     private final SessionTokenService sessionTokenService;
+    private final SocialService socialService;
 
     private static Logger logger = LoggerFactory.getLogger(UserCreationSagaOrchestrator.class);
 
@@ -56,6 +59,14 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
         return sessionToken;
     }
 
+    private UserDetails createDefaultDetails(UserCredentials credentials) {
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserId(credentials.getId());
+        userDetails.setUsername(credentials.getEmail().split("@")[0]);
+        userDetails.setProfilePicture("https://github.com/TAASPlapp/plapp-social-service/raw/master/src/main/resources/asset/profile-placeholder.jpg.png");
+        return userDetails;
+    }
+
     @Override
     protected SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
         logger.info("Building user creation saga");
@@ -84,6 +95,12 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 
                 .step()
                     .invoke(sessionTokenService::updateJwt).withArg("jwt")
+
+                .step()
+                    .invoke(this::createDefaultDetails).withArg("savedCredentials").saveTo("defaultDetails")
+
+                .step()
+                    .invoke(socialService::setUserDetails).withArg("defaultDetails")
 
                 .build();
     }

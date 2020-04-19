@@ -7,6 +7,7 @@ import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.microservices.SocialService;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.utils.ApiResponse;
 import org.springframework.http.HttpHeaders;
@@ -52,14 +53,16 @@ public class AuthController {
 
     public AuthController(AuthenticationService authenticationService,
                           AuthorizationService authorizationService,
-                          SessionTokenService sessionTokenService) {
+                          SessionTokenService sessionTokenService,
+                          SocialService socialService) {
 
         this.sessionTokenService = sessionTokenService;
 
         userCreationSagaOrchestrator = new UserCreationSagaOrchestrator(
                 authenticationService,
                 authorizationService,
-                sessionTokenService
+                sessionTokenService,
+                socialService
         );
 
         userLoginSagaOrchestrator = new UserLoginSagaOrchestrator(

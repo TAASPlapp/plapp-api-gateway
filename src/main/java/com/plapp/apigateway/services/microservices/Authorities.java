@@ -15,11 +15,16 @@ public final class Authorities {
 
     /* Gardener service */
 
-    public static final String[] asArray = {
+
+
+    public static final String[] withUserId = {
             SOCIAL_USER,
+            GREENHOUSE_PLANTS
+    };
+
+    public static final String[] withOtherValues = {
             SOCIAL_COMMENT,
             SOCIAL_LIKE,
-            GREENHOUSE_PLANTS,
             GREENHOUSE_PLANT,
             GREENHOUSE_STORYBOARD,
             GREENHOUSE_STORYBOARD_ITEM

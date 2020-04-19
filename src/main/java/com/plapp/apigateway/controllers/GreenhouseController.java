@@ -1,5 +1,6 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
@@ -22,7 +23,7 @@ public class GreenhouseController {
     public ApiResponse<List<Plant>> getPlants(@PathVariable(name="userId", required = false) Optional<Long> optId) {
         long userId = optId.orElse(-1L);
         if (userId == -1L)
-            userId = (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            userId = SessionRequestContext.getCurrentUserId();
 
         return new ApiResponse<>(greenhouseService.getPlants(userId));
     }

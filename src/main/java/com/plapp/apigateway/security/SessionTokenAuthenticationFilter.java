@@ -50,7 +50,8 @@ public class SessionTokenAuthenticationFilter extends BasicAuthenticationFilter 
         SessionTokenMapping.SessionToken match = sessionTokenService.findBySessionToken(sessionToken);
         if (match != null) {
             logger.info(String.format("Found matching session token for user %d", match.getJwt().getUserId()));
-            SessionRequestContext.setSessionToken(sessionToken);
+            SessionRequestContext.setSessionToken(match.getSessionToken());
+            SessionRequestContext.setSessionId(match.getSessionId());
             return new UsernamePasswordAuthenticationToken(match.getJwt().getUserId(), null, new ArrayList<>());
         }
         return null;

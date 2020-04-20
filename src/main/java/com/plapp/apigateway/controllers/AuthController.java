@@ -86,7 +86,7 @@ public class AuthController {
     @CrossOrigin
     @GetMapping("/logout")
     public ApiResponse<?> logout(){
-        String sessionToken = SessionRequestContext.getSessionTokenHeader();
+        String sessionToken = SessionRequestContext.getSessionToken();
         sessionTokenService.deleteSession(sessionToken);
         return new ApiResponse<>(true);
     }

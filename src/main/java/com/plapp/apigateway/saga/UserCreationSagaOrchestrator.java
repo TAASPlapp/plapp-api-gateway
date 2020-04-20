@@ -53,10 +53,7 @@ public class UserCreationSagaOrchestrator extends SagaOrchestrator {
     }
 
     private String generateSessionToken(String jwt) {
-        String sessionToken = sessionTokenService.generateSessionToken(jwt);
-        SessionRequestContext.setSessionToken(sessionToken);
-
-        return sessionToken;
+        return sessionTokenService.generateSessionToken(jwt);
     }
 
     private UserDetails createDefaultDetails(UserCredentials credentials) {

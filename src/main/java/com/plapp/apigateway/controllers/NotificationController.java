@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/notification")
+@RequestMapping("api/notification")
 @RequiredArgsConstructor
 public class NotificationController {
     final NotificationService notificationService;

@@ -15,11 +15,14 @@ public final class Authorities {
 
     /* Gardener service */
 
+    /* Notification service */
+    public static final String NOTIFICATION_REGISTER = "/notifications/([0-9]+)/register";
 
 
     public static final String[] withUserId = {
             SOCIAL_USER,
-            GREENHOUSE_PLANTS
+            GREENHOUSE_PLANTS,
+            NOTIFICATION_REGISTER
     };
 
     public static final String[] withOtherValues = {

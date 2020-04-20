@@ -1,6 +1,5 @@
 package com.plapp.apigateway.services.config;
 
-import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.SessionTokenService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -10,11 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -34,7 +30,7 @@ public class JwtRestTemplateBuilder {
                     String sessionTokenHeader = authHeader;
                     if (sessionTokenHeader == null || sessionTokenHeader.isEmpty()) {
                         logger.info("No session token header in incoming request, checking RequestContext");
-                        sessionTokenHeader = SessionRequestContext.getSessionTokenHeader();
+                        sessionTokenHeader = SessionRequestContext.getSessionToken();
                     }
 
                     if (sessionTokenHeader != null && !sessionTokenHeader.isEmpty()) {

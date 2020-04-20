@@ -20,6 +20,9 @@ public class SessionTokenMapping {
         @Column(length = 2048)
         private String sessionToken;
 
+        @GeneratedValue
+        private long sessionId;
+
         @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
         JwtToken jwt;
     }

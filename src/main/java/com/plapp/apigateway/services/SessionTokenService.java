@@ -5,6 +5,7 @@ import com.plapp.apigateway.repository.JwtTokenRepository;
 import com.plapp.apigateway.repository.SessionTokenRepository;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.security.JWTManager;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,10 @@ public class SessionTokenService {
         sessionToken.setJwt(jwtToken);
 
         logger.info(String.format("Saving session token with uid %d", userId));
-        sessionTokenRepository.save(sessionToken);
+        sessionToken = sessionTokenRepository.save(sessionToken);
+
+        SessionRequestContext.setSessionToken(sessionToken.getSessionToken());
+        SessionRequestContext.setSessionId(sessionToken.getSessionId());
 
         return sessionToken.getSessionToken();
     }

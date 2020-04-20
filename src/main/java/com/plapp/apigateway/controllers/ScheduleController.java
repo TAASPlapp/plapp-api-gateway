@@ -17,7 +17,7 @@ public class ScheduleController {
     @CrossOrigin
     @GetMapping("/")
     public ApiResponse<List<ScheduleAction>> getSchedule(@RequestParam(value="plantId", defaultValue="-1") long plantId) throws Exception {
-        return new ApiResponse<>(gardenerService.getSchedule(plantId));
+        return new ApiResponse<>(gardenerService.getSchedules(plantId));
     }
 
     @CrossOrigin

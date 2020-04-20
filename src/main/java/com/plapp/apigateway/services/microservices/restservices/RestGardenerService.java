@@ -4,6 +4,8 @@ import com.plapp.apigateway.services.microservices.GardenerService;
 import com.plapp.entities.schedules.ScheduleAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,25 +20,39 @@ public class RestGardenerService implements GardenerService {
     public RestTemplate restTemplate;
 
     @Override
-    public List<ScheduleAction> getSchedule(long plantId) {
-        return null;
+    public List<ScheduleAction> getSchedules(long plantId) {
+        return restTemplate.exchange(
+                baseAddress + "/gardener/" + plantId + "schedule/getAll",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ScheduleAction>>() {
+                }
+        ).getBody();
     }
 
     @Override
     public List<String> getActions() {
-        return null;
+        return restTemplate.exchange(
+                baseAddress + "/gardener/actions",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
+                }
+        ).getBody();
+    }
+
+    @Override
+    public String getDiagnosis(String plantImageURL, String plantId) {
+        return restTemplate.getForObject(baseAddress + "/gardener/" + plantId + "/diagnose", String.class);
     }
 
     @Override
     public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) {
-        //gardener/{plantId}/schedule/add
-        //todo: http put in gardener -> retrun void!!!
-        //return restTemplate.put(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/add", scheduleAction);
-        return null;
+        return restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/add", ScheduleAction.class);
     }
 
     @Override
     public void removeScheduleAction(ScheduleAction scheduleAction) {
-
+        restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/shcedule/remove", ScheduleAction.class);
     }
 }

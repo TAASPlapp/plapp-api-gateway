@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("api/social")
 @RequiredArgsConstructor
+@CrossOrigin
 public class SocialController {
     private final SocialService socialService;
 
-    @CrossOrigin
     @GetMapping("/user")
     public ApiResponse<UserDetails> getUserDetails(@RequestParam(defaultValue = "-1") long userId) {
         if (userId == -1L)
@@ -26,7 +26,6 @@ public class SocialController {
         return new ApiResponse<>(socialService.getUserDetails(userId));
     }
 
-    @CrossOrigin
     @PostMapping("/user/edit")
     public ApiResponse<UserDetails> setUserDetails(@RequestBody UserDetails userDetails) {
         return new ApiResponse<>(socialService.setUserDetails(userDetails));
@@ -40,25 +39,21 @@ public class SocialController {
         return socialService.getComments(contentType, itemId);
     }
 
-    @CrossOrigin
     @PostMapping("/comments/add")
     public ApiResponse<Comment> addComment(@RequestBody Comment comment) {
         return new ApiResponse<>(socialService.addComment(comment));
     }
 
-    @CrossOrigin
     @PostMapping("/likes/like")
     public ApiResponse<Like> like(@RequestBody Like like) {
         return new ApiResponse<>(socialService.addLike(like));
     }
 
-    @CrossOrigin
     @PostMapping("/likes/unlike")
     public void unlike(@RequestBody long likeId) {
         socialService.removeLike(likeId);
     }
 
-    @CrossOrigin
     @GetMapping("/likes")
     public ApiResponse<List<UserDetails>> getLikes(@RequestParam MediaContentType contentType, @RequestParam long itemId) {
         return new ApiResponse<>(socialService.getLikes(contentType, itemId));

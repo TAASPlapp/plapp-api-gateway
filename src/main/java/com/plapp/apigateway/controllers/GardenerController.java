@@ -21,8 +21,8 @@ public class GardenerController {
     private final GardenerService gardenerService;
 
     @CrossOrigin
-    @GetMapping(value = "diagnose")
-    public ApiResponse<Diagnosis> getPlantDiagnosis(String plantImageURL){
+    @GetMapping("diagnose")
+    public ApiResponse<Diagnosis> getPlantDiagnosis(@RequestParam String plantImageURL){
         return new ApiResponse<>(gardenerService.getDiagnosis(plantImageURL));
     }
 }

@@ -2,13 +2,16 @@ package com.plapp.apigateway.services.microservices.restservices;
 
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.entities.auth.UserCredentials;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+
+@Service
+@RequiredArgsConstructor
 public class RestAuthenticationService implements AuthenticationService {
     @Value("${services.authentication.serviceAddress}")
     private String serviceAddress;

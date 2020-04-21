@@ -78,7 +78,11 @@ public class RestGardenerService implements GardenerService {
 
     @Override
     public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) {
-        ScheduleAction addedScheduleAction = restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/add", ScheduleAction.class);
+        ScheduleAction addedScheduleAction = restTemplate.postForObject(
+                baseAddress + String.format("/gardener/%d/schedule/add", scheduleAction.getPlantId()),
+                scheduleAction,
+                ScheduleAction.class
+        );
 
         authorizationService.updateAuthorization(Authorities.GARDENER_SCHEDULE, addedScheduleAction.getScheduleActionId());
         sessionTokenService.updateJwt(

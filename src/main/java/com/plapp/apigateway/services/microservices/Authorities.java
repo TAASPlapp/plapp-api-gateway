@@ -14,6 +14,7 @@ public final class Authorities {
     public static final String GREENHOUSE_STORYBOARD_ITEM = "/greenhouse/storyboard/item/([0-9]+)/(\\bremove\\b)";
 
     /* Gardener service */
+    public static final String GARDENER_SCHEDULE = "";
 
     /* Notification service */
     public static final String NOTIFICATION_REGISTER = "/notifications/([0-9]+)/register";
@@ -30,6 +31,7 @@ public final class Authorities {
             SOCIAL_LIKE,
             GREENHOUSE_PLANT,
             GREENHOUSE_STORYBOARD,
-            GREENHOUSE_STORYBOARD_ITEM
+            GREENHOUSE_STORYBOARD_ITEM,
+            GARDENER_SCHEDULE
     };
 }

@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RestAuthorizationService implements AuthorizationService {
@@ -68,12 +70,14 @@ public class RestAuthorizationService implements AuthorizationService {
 
     @Override
     public ResourceAuthority updateAuthorization(String urlRegex, Long value) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("urlRegex", urlRegex);
+        params.put("value", value);
+
         return restTemplate.postForObject(
           serviceAddress + "/auth/update",
-          null,
-          ResourceAuthority.class,
-          urlRegex,
-          value
+          params,
+          ResourceAuthority.class
         );
     }
 

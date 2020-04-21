@@ -46,6 +46,16 @@ public class RestGreenhouseService implements GreenhouseService {
     public Plant addPlant(Plant plant) {
         Plant addedPlant = restTemplate.postForObject(baseAddress + "/greenhouse/" + plant.getOwner() + "/plants/add", plant, Plant.class);
         authorizationService.updateAuthorization(Authorities.GREENHOUSE_PLANT, addedPlant.getId());
+        sessionTokenService.updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
+
+        Storyboard storyboard = new Storyboard();
+        storyboard.setPlant(addedPlant);
+        createStoryboard(storyboard);
+
         return addedPlant;
     }
 

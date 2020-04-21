@@ -47,12 +47,12 @@ public class GreenhouseController {
     }
 
 
-    //TODO: storyboard di un utente specifico -> per mostare il profilo
     @GetMapping(value = {"/storyboards", "/storyboards/{userId}"})
     public ApiResponse<List<Storyboard>> getStoryboards(@PathVariable(name = "userId") Optional<Long> optId) {
-        Long userId = optId.orElse(-1L);
-        return new ApiResponse<>(greenhouseService.getStoryboards());
-        //return greenhouseService.getStoryboards(userId)
+        long userId = optId.orElse(-1L);
+        if (userId == -1L)
+            return new ApiResponse<>(greenhouseService.getStoryboards());
+        return new ApiResponse<>(greenhouseService.getStoryboards(userId));
     }
 
     @GetMapping("/plant/{plantId}/storyboard")

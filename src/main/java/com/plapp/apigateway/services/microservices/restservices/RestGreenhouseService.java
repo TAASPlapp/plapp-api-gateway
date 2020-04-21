@@ -10,6 +10,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -52,6 +53,17 @@ public class RestGreenhouseService implements GreenhouseService {
     public List<Storyboard> getStoryboards() {
         return restTemplate.exchange(
                 baseAddress + "/greenhouse/storyboards",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Storyboard>>() {
+                }
+        ).getBody();
+    }
+
+    @Override
+    public List<Storyboard> getStoryboards(long userId) {
+        return restTemplate.exchange(
+                baseAddress + String.format("/greenhouse/%d/storyboards", userId),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Storyboard>>() {

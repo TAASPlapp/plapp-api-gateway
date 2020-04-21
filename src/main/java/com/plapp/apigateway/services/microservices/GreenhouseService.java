@@ -12,7 +12,9 @@ public interface GreenhouseService {
     Plant addPlant(Plant plant) ;
     void removePlant(Plant plant) ;
 
-    List<Storyboard> getStoryboards() ;
+    List<Storyboard> getStoryboards();
+    List<Storyboard> getStoryboards(long userId);
+
     Storyboard getStoryboard(long plantId) ;
     Storyboard createStoryboard(Storyboard storyboard) ;
     Storyboard updateStoryboard(Storyboard storyboard) ;

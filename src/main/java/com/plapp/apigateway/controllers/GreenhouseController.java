@@ -7,7 +7,6 @@ import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +33,6 @@ public class GreenhouseController {
         return new ApiResponse<>(greenhouseService.getPlant(plantId));
     }
 
-    //todo: add plant
     @PostMapping("/plants/add")
     public ApiResponse<Plant> addPlant(@RequestBody Plant plant) {
         return new ApiResponse<>(greenhouseService.addPlant(plant));

@@ -37,4 +37,8 @@ public class ServicesConfiguration {
     public SocialService getSocialService() {
         return new RestSocialService();
     }
+
+    @Bean
+    @Primary
+    public NotificationService getNotificationService() { return new RestNotificationService(); }
 }

@@ -1,6 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
 import com.plapp.apigateway.services.microservices.GardenerService;
+import com.plapp.entities.schedules.Diagnosis;
 import com.plapp.entities.schedules.ScheduleAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,8 +43,8 @@ public class RestGardenerService implements GardenerService {
     }
 
     @Override
-    public String getDiagnosis(String plantImageURL, String plantId) {
-        return restTemplate.getForObject(baseAddress + "/gardener/" + plantId + "/diagnose", String.class);
+    public Diagnosis getDiagnosis(String plantImageURL, String plantId) {
+        return restTemplate.getForObject(baseAddress + "/gardener/" + plantId + "/diagnose", Diagnosis.class);
     }
 
     @Override

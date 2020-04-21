@@ -4,6 +4,7 @@ import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.GardenerService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
+import com.plapp.entities.schedules.Diagnosis;
 import com.plapp.entities.schedules.ScheduleAction;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class GardenerController {
 
     @CrossOrigin
     @GetMapping(value = "gardener/{plantId}/diagnose")
-    public ApiResponse<String> getPlantDiagnosis(String plantImageURL, String plantId){
+    public ApiResponse<Diagnosis> getPlantDiagnosis(String plantImageURL, String plantId){
         return new ApiResponse<>(gardenerService.getDiagnosis(plantImageURL,plantId));
     }
 

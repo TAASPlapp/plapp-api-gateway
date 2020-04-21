@@ -4,6 +4,7 @@ import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
 import com.plapp.entities.greenhouse.Storyboard;
+import com.plapp.entities.greenhouse.StoryboardItem;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,6 +58,12 @@ public class GreenhouseController {
     @GetMapping("/plant/{plantId}/storyboard")
     public ApiResponse<Storyboard> getStoryboard(@PathVariable long plantId) {
         return new ApiResponse<>(greenhouseService.getStoryboard(plantId));
+    }
+
+    @GetMapping("/storyboard/{storyboardId}/item/add")
+    public ApiResponse<StoryboardItem> addStoryboardItem(@PathVariable long storyboardId, @RequestBody StoryboardItem item) {
+        item.setStoryboardId(storyboardId);
+        return new ApiResponse<>(greenhouseService.addStoryboardItem(item));
     }
 }
 

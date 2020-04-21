@@ -29,8 +29,7 @@ public class ScheduleController {
     @CrossOrigin
     @PostMapping("/add")
     public ApiResponse<ScheduleAction> addScheduleAction(@RequestBody ScheduleAction action) throws Exception {
-        gardenerService.addScheduleAction(action);
-        return new ApiResponse<>();
+        return new ApiResponse<>(gardenerService.addScheduleAction(action);
     }
 
     @CrossOrigin

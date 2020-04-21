@@ -44,7 +44,11 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public Plant addPlant(Plant plant) {
-        Plant addedPlant = restTemplate.postForObject(baseAddress + "/greenhouse/" + plant.getOwner() + "/plants/add", plant, Plant.class);
+        Plant addedPlant = restTemplate.postForObject(
+                baseAddress + String.format("/greenhouse/%d/plants/add", + plant.getOwner()),
+                plant,
+                Plant.class
+        );
         authorizationService.updateAuthorization(Authorities.GREENHOUSE_PLANT, addedPlant.getId());
         sessionTokenService.updateJwt(
                 authorizationService.generateUpdatedJwt(

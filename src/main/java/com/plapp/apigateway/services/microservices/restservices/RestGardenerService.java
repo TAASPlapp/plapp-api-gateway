@@ -6,11 +6,14 @@ import com.plapp.entities.schedules.ScheduleAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RestGardenerService implements GardenerService {
@@ -44,17 +47,23 @@ public class RestGardenerService implements GardenerService {
 
     @Override
     public Diagnosis getDiagnosis(String plantImageURL) {
-        return restTemplate.getForObject(
+        System.out.println("plantImageURL: " + plantImageURL);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("plantImageURL", plantImageURL);
+
+        return restTemplate.postForObject(
                 baseAddress + "/gardener/diagnose",
-                Diagnosis.class,
-                plantImageURL
+                params,
+                Diagnosis.class
         );
     }
 
     @Override
     public void getDiagnosisAsync(String plantImageURL, long plantId) {
-        restTemplate.getForEntity(
+        restTemplate.postForEntity(
             baseAddress + String.format("/gardener/%d/diagnose-async", plantId),
+            null,
             Void.class,
             plantImageURL);
     }

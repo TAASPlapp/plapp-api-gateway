@@ -40,6 +40,8 @@ public class SessionTokenAuthenticationFilter extends BasicAuthenticationFilter 
             logger.info("Authorization header not found");
         }
 
+        logger.info("executing chain");
+
         chain.doFilter(request, response);
     }
 

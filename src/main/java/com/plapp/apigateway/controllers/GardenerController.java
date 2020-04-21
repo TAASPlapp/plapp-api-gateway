@@ -11,18 +11,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/gardener")
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/gardener")
 public class GardenerController {
     private final GardenerService gardenerService;
 
-    @CrossOrigin
-    @GetMapping("diagnose")
-    public ApiResponse<Diagnosis> getPlantDiagnosis(@RequestParam String plantImageURL){
+    @PostMapping("/diagnose")
+    public ApiResponse<Diagnosis> getPlantDiagnosis(@RequestBody Map<String, String> params){
+        String plantImageURL = params.get("plantImageURL");
         return new ApiResponse<>(gardenerService.getDiagnosis(plantImageURL));
     }
 }

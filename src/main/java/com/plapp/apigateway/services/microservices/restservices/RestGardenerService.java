@@ -43,8 +43,20 @@ public class RestGardenerService implements GardenerService {
     }
 
     @Override
-    public Diagnosis getDiagnosis(String plantImageURL, String plantId) {
-        return restTemplate.getForObject(baseAddress + "/gardener/" + plantId + "/diagnose", Diagnosis.class);
+    public Diagnosis getDiagnosis(String plantImageURL) {
+        return restTemplate.getForObject(
+                baseAddress + "/gardener/diagnose",
+                Diagnosis.class,
+                plantImageURL
+        );
+    }
+
+    @Override
+    public void getDiagnosisAsync(String plantImageURL, long plantId) {
+        restTemplate.getForEntity(
+            baseAddress + String.format("/gardener/%d/diagnose-async", plantId),
+            Void.class,
+            plantImageURL);
     }
 
     @Override

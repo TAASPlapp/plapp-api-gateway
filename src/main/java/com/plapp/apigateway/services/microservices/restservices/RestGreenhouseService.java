@@ -1,5 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
+import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.GreenhouseService;
@@ -27,6 +29,7 @@ public class RestGreenhouseService implements GreenhouseService {
     public RestTemplate restTemplate;
 
     private final AuthorizationService authorizationService;
+    private final SessionTokenService sessionTokenService;
 
     @Override
     public List<Plant> getPlants(long userId) {
@@ -89,7 +92,11 @@ public class RestGreenhouseService implements GreenhouseService {
         Storyboard createdStoryboard = restTemplate.postForObject(baseAddress + "/greenhouse/plant" + storyboard.getPlant().getId() +
                 "/storyboard/create", storyboard, Storyboard.class);
         authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD, createdStoryboard.getId());
-
+        sessionTokenService.updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
         return createdStoryboard;
 
     }
@@ -110,6 +117,12 @@ public class RestGreenhouseService implements GreenhouseService {
         StoryboardItem addedItem = restTemplate.postForObject(baseAddress + "/greenhouse/storyboard/" + storyboardItem.getId() +
                 "/item/add", storyboardItem, StoryboardItem.class);
         authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD_ITEM, addedItem.getId());
+        sessionTokenService.updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
+
         return addedItem;
     }
 

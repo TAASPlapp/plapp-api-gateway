@@ -1,5 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
+import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.SocialService;
@@ -26,6 +28,7 @@ public class RestSocialService implements SocialService {
     private String baseAddress;
 
     private final AuthorizationService authorizationService;
+    private final SessionTokenService sessionTokenService;
 
     @Autowired
     public RestTemplate restTemplate;
@@ -67,6 +70,11 @@ public class RestSocialService implements SocialService {
     public Like addLike(Like like) {
         Like addedLike = restTemplate.postForObject(baseAddress + "/social/like/" + like.getId() + "/add", like, Like.class);
         authorizationService.updateAuthorization(Authorities.SOCIAL_LIKE, addedLike.getId());
+        sessionTokenService.updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
         return addedLike;
     }
 

@@ -1,5 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
+import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.GardenerService;
@@ -27,6 +29,7 @@ public class RestGardenerService implements GardenerService {
     public RestTemplate restTemplate;
 
     private final AuthorizationService authorizationService;
+    private final SessionTokenService sessionTokenService;
 
     @Override
     public List<ScheduleAction> getSchedules(long plantId) {
@@ -76,7 +79,14 @@ public class RestGardenerService implements GardenerService {
     @Override
     public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) {
         ScheduleAction addedScheduleAction = restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/add", ScheduleAction.class);
+
         authorizationService.updateAuthorization(Authorities.GARDENER_SCHEDULE, addedScheduleAction.getScheduleActionId());
+        sessionTokenService.updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
+
         return addedScheduleAction;
     }
 

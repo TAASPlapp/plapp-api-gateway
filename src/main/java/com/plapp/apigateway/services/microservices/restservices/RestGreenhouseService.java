@@ -126,8 +126,11 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) {
-        StoryboardItem addedItem = restTemplate.postForObject(baseAddress + "/greenhouse/storyboard/" + storyboardItem.getId() +
-                "/item/add", storyboardItem, StoryboardItem.class);
+        StoryboardItem addedItem = restTemplate.postForObject(
+                baseAddress + String.format("/greenhouse/storyboard/%d/item/add", storyboardItem.getStoryboardId()),
+                storyboardItem,
+                StoryboardItem.class
+        );
         authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD_ITEM, addedItem.getId());
         sessionTokenService.updateJwt(
                 authorizationService.generateUpdatedJwt(

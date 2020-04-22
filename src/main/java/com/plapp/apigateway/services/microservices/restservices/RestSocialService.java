@@ -54,11 +54,7 @@ public class RestSocialService implements SocialService {
 
     @Override
     public List<Comment> getComments(MediaContentType type, long itemId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("type", type);
-        params.put("itemId", itemId);
-
-        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(params, new HttpHeaders());
+        HttpEntity<MediaContentType> httpEntity = new HttpEntity<>(type, new HttpHeaders());
 
         return restTemplate.exchange(
                 baseAddress + String.format("/social/comment/%d", itemId),
@@ -94,11 +90,7 @@ public class RestSocialService implements SocialService {
 
     @Override
     public List<UserDetails> getLikes(MediaContentType type, long itemId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("type", type);
-        params.put("itemId", itemId);
-
-        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(params, new HttpHeaders());
+        HttpEntity<MediaContentType> httpEntity = new HttpEntity<>(type, new HttpHeaders());
 
         return restTemplate.exchange(
                 baseAddress + String.format("/social/like/%d", itemId),

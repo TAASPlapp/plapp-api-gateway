@@ -93,7 +93,7 @@ public class RestSocialService implements SocialService {
         HttpEntity<MediaContentType> httpEntity = new HttpEntity<>(type, new HttpHeaders());
 
         return restTemplate.exchange(
-                baseAddress + String.format("/social/like/%d", itemId),
+                baseAddress + String.format("/social/like/%d/users", itemId),
                 HttpMethod.GET,
                 httpEntity,
                 new ParameterizedTypeReference<List<UserDetails>>() {}

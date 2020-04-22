@@ -4,8 +4,8 @@ public final class Authorities {
 
     /* Social service */
     public static final String SOCIAL_USER = "/social/user/([0-9]+)/((\\badd\b)|(\\bupdate\\b)|(\\bdelete\\b))";
-    public static final String SOCIAL_COMMENT = "/social/comment/([0-9]+)/(\\badd\\b)";
-    public static final String SOCIAL_LIKE = "/social/like/([0-9]+)/((\\badd\\b)|(\\bremove\\b))";
+    public static final String SOCIAL_COMMENT = "/social/comment/([0-9]+)/\\bremove\\b";
+    public static final String SOCIAL_LIKE = "/social/like/([0-9]+)/\\bremove\\b";
 
     /* Greenhouse service */
     public static final String GREENHOUSE_PLANTS = "/greenhouse/([0-9]+)/plants/(\\badd\\b)";

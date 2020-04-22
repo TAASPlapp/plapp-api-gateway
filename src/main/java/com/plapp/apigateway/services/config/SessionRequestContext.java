@@ -36,6 +36,8 @@ public class SessionRequestContext {
     }
 
     public static long getCurrentUserId() {
-        return (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Current userId="+userId);
+        return userId;
     }
 }

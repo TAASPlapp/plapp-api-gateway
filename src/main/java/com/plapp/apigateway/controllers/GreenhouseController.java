@@ -41,6 +41,8 @@ public class GreenhouseController {
 
     @PostMapping("/plants/add")
     public ApiResponse<Plant> addPlant(@RequestBody Plant plant) throws SagaExecutionException, Throwable {
+        Long userId = SessionRequestContext.getCurrentUserId();
+        plant.setOwner(userId);
         return new ApiResponse<>(plantAddSagaOrchestrator.addPlant(plant));
     }
 

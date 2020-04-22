@@ -12,9 +12,12 @@ import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.greenhouse.StoryboardItem;
 import com.plapp.entities.schedules.ScheduleAction;
 import lombok.RequiredArgsConstructor;
+import org.lists.utils.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,12 +26,21 @@ public class StoryboardItemCreationSagaOrchestrator extends SagaOrchestrator {
 
     private final GreenhouseService greenhouseService;
     private final AuthorizationService authorizationService;
+    private final GardenerService gardenerService;
     private final SessionTokenService sessionTokenService;
 
     private ResourceAuthority updateStoryboardItemAuthorization(StoryboardItem storyboardItem) {
         ResourceAuthority authority = authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD_ITEM, storyboardItem.getId());
         sessionTokenService.fetchAndUpdateJwt();
         return authority;
+    }
+
+    private Void requestDiagnosis(StoryboardItem item) {
+        List<Storyboard> storyboardList = greenhouseService.getStoryboards();
+        List<Storyboard> match = Lists.filter(storyboardList, storyboard -> storyboard.getId() == item.getStoryboardId());
+        if (match.size() > 0) {
+            gardenerService.getDiagnosisAsync(item.getImage(), match.get(0).getPlant().getId();
+        }
     }
 
     @Override
@@ -39,6 +51,8 @@ public class StoryboardItemCreationSagaOrchestrator extends SagaOrchestrator {
                     .invoke(greenhouseService::addStoryboardItem).withArg("item").saveTo("item")
                 .step()
                     .invoke(this::updateStoryboardItemAuthorization).withArg("item")
+                .step()
+                    .invoke(this::requestDiagnosis).withArg("item")
                 .build();
     }
 

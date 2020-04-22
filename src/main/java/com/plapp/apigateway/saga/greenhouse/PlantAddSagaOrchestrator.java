@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PlantAddSagaOrchestrator extends SagaOrchestrator {
-    private static Logger logger = LoggerFactory.getLogger(com.plapp.apigateway.saga.schedule.ScheduleActionAddSagaOrchestrator.class);
+    private static Logger logger = LoggerFactory.getLogger(PlantAddSagaOrchestrator.class);
 
     private final GreenhouseService greenhouseService;
     private final AuthorizationService authorizationService;

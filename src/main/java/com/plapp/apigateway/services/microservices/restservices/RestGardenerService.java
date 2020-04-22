@@ -1,5 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
+import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.GardenerService;
@@ -27,6 +29,7 @@ public class RestGardenerService implements GardenerService {
     public RestTemplate restTemplate;
 
     private final AuthorizationService authorizationService;
+    private final SessionTokenService sessionTokenService;
 
     @Override
     public List<ScheduleAction> getSchedules(long plantId) {
@@ -66,18 +69,23 @@ public class RestGardenerService implements GardenerService {
 
     @Override
     public void getDiagnosisAsync(String plantImageURL, long plantId) {
+        Map<String, String> params = new HashMap<>();
+        params.put("plantImageURL", plantImageURL);
+
         restTemplate.postForEntity(
             baseAddress + String.format("/gardener/%d/diagnose-async", plantId),
-            null,
-            Void.class,
-            plantImageURL);
+            params,
+            Void.class
+        );
     }
 
     @Override
     public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) {
-        ScheduleAction addedScheduleAction = restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/add", ScheduleAction.class);
-        authorizationService.updateAuthorization(Authorities.GARDENER_SCHEDULE, addedScheduleAction.getScheduleActionId());
-        return addedScheduleAction;
+        return restTemplate.postForObject(
+                baseAddress + String.format("/gardener/%d/schedule/add", scheduleAction.getPlantId()),
+                scheduleAction,
+                ScheduleAction.class
+        );
     }
 
     @Override

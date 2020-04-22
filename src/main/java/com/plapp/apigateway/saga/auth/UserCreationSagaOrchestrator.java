@@ -1,7 +1,6 @@
-package com.plapp.apigateway.saga;
+package com.plapp.apigateway.saga.auth;
 
 import com.plapp.apigateway.saga.orchestration.*;
-import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.AuthenticationService;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
@@ -13,13 +12,12 @@ import com.plapp.entities.social.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+@Component
 @RequiredArgsConstructor
 public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 

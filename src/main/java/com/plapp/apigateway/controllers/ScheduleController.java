@@ -1,5 +1,6 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.saga.schedule.ScheduleActionAddSagaOrchestrator;
 import com.plapp.apigateway.services.microservices.GardenerService;
 import com.plapp.entities.schedules.ScheduleAction;
 import com.plapp.entities.utils.ApiResponse;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
     private final GardenerService gardenerService;
+    private final ScheduleActionAddSagaOrchestrator scheduleActionAddSagaOrchestrator;
 
     @CrossOrigin
     @GetMapping("/")
@@ -28,9 +30,8 @@ public class ScheduleController {
 
     @CrossOrigin
     @PostMapping("/add")
-    public ApiResponse<ScheduleAction> addScheduleAction(@RequestBody ScheduleAction action) throws Exception {
-        gardenerService.addScheduleAction(action);
-        return new ApiResponse<>();
+    public ApiResponse<ScheduleAction> addScheduleAction(@RequestBody ScheduleAction action) throws Throwable {
+        return new ApiResponse<>(scheduleActionAddSagaOrchestrator.addScheduleAction(action));
     }
 
     @CrossOrigin

@@ -10,7 +10,7 @@ public final class Authorities {
     /* Greenhouse service */
     public static final String GREENHOUSE_PLANTS = "/greenhouse/([0-9]+)/plants/(\\badd\\b)";
     public static final String GREENHOUSE_PLANT = "/greenhouse/plant/([0-9]+)/((\\bremove\\b)|(\\bstoryboard/create\\b))";
-    public static final String GREENHOUSE_STORYBOARD = "/greenhouse/storyboard/([0-9]+)/((\\bupdate\\b)|(\bremove\b)|(\\bitem/add\\b))";
+    public static final String GREENHOUSE_STORYBOARD = "/greenhouse/storyboard/([0-9]+)/((\\bupdate\\b)|(\\bremove\\b)|(\\bitem/add\\b))";
     public static final String GREENHOUSE_STORYBOARD_ITEM = "/greenhouse/storyboard/item/([0-9]+)/(\\bremove\\b)";
 
     /* Gardener service */

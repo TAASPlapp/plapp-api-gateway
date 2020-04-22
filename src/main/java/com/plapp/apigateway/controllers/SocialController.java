@@ -34,9 +34,9 @@ public class SocialController {
 
     @CrossOrigin
     @GetMapping("/comments")
-    public List<Comment> getComments(@RequestParam MediaContentType contentType,
+    public ApiResponse<List<Comment>> getComments(@RequestParam MediaContentType contentType,
                                      @RequestParam long itemId) {
-        return socialService.getComments(contentType, itemId);
+        return new ApiResponse<>(socialService.getComments(contentType, itemId));
     }
 
     @PostMapping("/comments/add")

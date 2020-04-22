@@ -13,7 +13,7 @@ public class NotificationController {
     final NotificationService notificationService;
 
     @CrossOrigin
-    @PostMapping("register")
+    @GetMapping("register")
     public ApiResponse<?> register(@RequestParam  String firebaseToken) {
         notificationService.registerDevice(SessionRequestContext.getSessionId(), SessionRequestContext.getCurrentUserId(), firebaseToken);
         return new ApiResponse<>(true);

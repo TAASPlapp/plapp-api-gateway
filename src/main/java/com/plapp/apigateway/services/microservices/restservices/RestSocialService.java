@@ -1,5 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
+import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.SocialService;
@@ -12,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +32,7 @@ public class RestSocialService implements SocialService {
     private String baseAddress;
 
     private final AuthorizationService authorizationService;
+    private final SessionTokenService sessionTokenService;
 
     @Autowired
     public RestTemplate restTemplate;
@@ -48,11 +55,10 @@ public class RestSocialService implements SocialService {
     @Override
     public List<Comment> getComments(MediaContentType type, long itemId) {
         return restTemplate.exchange(
-                baseAddress + "/social/comment/" + itemId,
+                baseAddress + String.format("/social/comment/%d?type=%s", itemId, type),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Comment>>() {},
-                type
+                new ParameterizedTypeReference<List<Comment>>() {}
         ).getBody();
     }
 
@@ -67,6 +73,11 @@ public class RestSocialService implements SocialService {
     public Like addLike(Like like) {
         Like addedLike = restTemplate.postForObject(baseAddress + "/social/like/" + like.getId() + "/add", like, Like.class);
         authorizationService.updateAuthorization(Authorities.SOCIAL_LIKE, addedLike.getId());
+        sessionTokenService.updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
         return addedLike;
     }
 
@@ -78,11 +89,10 @@ public class RestSocialService implements SocialService {
     @Override
     public List<UserDetails> getLikes(MediaContentType type, long itemId) {
         return restTemplate.exchange(
-                baseAddress + "/social/like/" + itemId,
+                baseAddress + String.format("/social/like/%d/users?type=%s", itemId, type),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<UserDetails>>() {},
-                type
+                new ParameterizedTypeReference<List<UserDetails>>() {}
         ).getBody();
     }
 }

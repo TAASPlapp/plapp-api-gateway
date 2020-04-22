@@ -1,5 +1,7 @@
 package com.plapp.apigateway.services.microservices.restservices;
 
+import com.plapp.apigateway.services.SessionTokenService;
+import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.GreenhouseService;
@@ -27,6 +29,7 @@ public class RestGreenhouseService implements GreenhouseService {
     public RestTemplate restTemplate;
 
     private final AuthorizationService authorizationService;
+    private final SessionTokenService sessionTokenService;
 
     @Override
     public List<Plant> getPlants(long userId) {
@@ -41,9 +44,11 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public Plant addPlant(Plant plant) {
-        Plant addedPlant = restTemplate.postForObject(baseAddress + "/greenhouse/" + plant.getOwner() + "/plants/add", plant, Plant.class);
-        authorizationService.updateAuthorization(Authorities.GREENHOUSE_PLANT, addedPlant.getId());
-        return addedPlant;
+        return restTemplate.postForObject(
+                baseAddress + String.format("/greenhouse/%d/plants/add", + plant.getOwner()),
+                plant,
+                Plant.class
+        );
     }
 
     @Override
@@ -86,12 +91,10 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public Storyboard createStoryboard(Storyboard storyboard) {
-        Storyboard createdStoryboard = restTemplate.postForObject(baseAddress + "/greenhouse/plant" + storyboard.getPlant().getId() +
-                "/storyboard/create", storyboard, Storyboard.class);
-        authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD, createdStoryboard.getId());
-
-        return createdStoryboard;
-
+        return restTemplate.postForObject(
+                baseAddress + String.format("/greenhouse/plant/%d/storyboard/create" , storyboard.getPlant().getId()),
+                storyboard,
+                Storyboard.class);
     }
 
     @Override
@@ -107,10 +110,11 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public StoryboardItem addStoryboardItem(StoryboardItem storyboardItem) {
-        StoryboardItem addedItem = restTemplate.postForObject(baseAddress + "/greenhouse/storyboard/" + storyboardItem.getId() +
-                "/item/add", storyboardItem, StoryboardItem.class);
-        authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD_ITEM, addedItem.getId());
-        return addedItem;
+        return restTemplate.postForObject(
+                baseAddress + String.format("/greenhouse/storyboard/%d/item/add", storyboardItem.getStoryboardId()),
+                storyboardItem,
+                StoryboardItem.class
+        );
     }
 
     @Override

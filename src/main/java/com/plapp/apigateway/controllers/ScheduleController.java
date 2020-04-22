@@ -1,6 +1,6 @@
 package com.plapp.apigateway.controllers;
 
-import com.plapp.apigateway.saga.ScheduleActionAddSagaOrchestrator;
+import com.plapp.apigateway.saga.schedule.ScheduleActionAddSagaOrchestrator;
 import com.plapp.apigateway.services.microservices.GardenerService;
 import com.plapp.entities.schedules.ScheduleAction;
 import com.plapp.entities.utils.ApiResponse;

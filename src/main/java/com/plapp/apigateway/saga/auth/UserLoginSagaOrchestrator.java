@@ -1,4 +1,4 @@
-package com.plapp.apigateway.saga;
+package com.plapp.apigateway.saga.auth;
 
 import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.SessionTokenService;

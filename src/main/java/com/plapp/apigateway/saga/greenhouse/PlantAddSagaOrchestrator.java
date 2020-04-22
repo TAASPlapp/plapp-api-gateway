@@ -1,11 +1,14 @@
-package com.plapp.apigateway.saga.schedule;
+package com.plapp.apigateway.saga.greenhouse;
 
 import com.plapp.apigateway.saga.orchestration.*;
 import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.apigateway.services.microservices.Authorities;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.microservices.GardenerService;
+import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.authorization.ResourceAuthority;
+import com.plapp.entities.greenhouse.Plant;
+import com.plapp.entities.greenhouse.Storyboard;
 import com.plapp.entities.schedules.ScheduleAction;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,17 +17,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ScheduleActionAddSagaOrchestrator extends SagaOrchestrator {
-    private static Logger logger = LoggerFactory.getLogger(ScheduleActionAddSagaOrchestrator.class);
+public class PlantAddSagaOrchestrator extends SagaOrchestrator {
+    private static Logger logger = LoggerFactory.getLogger(com.plapp.apigateway.saga.schedule.ScheduleActionAddSagaOrchestrator.class);
 
-    private final GardenerService gardenerService;
+    private final GreenhouseService greenhouseService;
     private final AuthorizationService authorizationService;
     private final SessionTokenService sessionTokenService;
 
-    private ResourceAuthority updateScheduleAuthorization(ScheduleAction scheduleAction) {
-        ResourceAuthority authority = authorizationService.updateAuthorization(Authorities.GARDENER_SCHEDULE, scheduleAction.getScheduleActionId());
+    private ResourceAuthority updateScheduleAuthorization(Plant plant) {
+        ResourceAuthority authority = authorizationService.updateAuthorization(Authorities.GREENHOUSE_PLANT, plant.getId());
         sessionTokenService.fetchAndUpdateJwt();
         return authority;
+    }
+
+    private Storyboard createDefaultStoryboard(Plant plant) {
+        return null;
     }
 
     @Override
@@ -32,17 +39,18 @@ public class ScheduleActionAddSagaOrchestrator extends SagaOrchestrator {
         logger.info("Building login saga orchestrator");
 
         return builder
-                    .invoke(gardenerService::addScheduleAction).withArg("scheduleAction").saveTo("scheduleAction")
+                .invoke(greenhouseService::addPlant).withArg("plant").saveTo("plant")
                 .step()
-                    .invoke(this::updateScheduleAuthorization).withArg("scheduleAction")
+                .invoke(this::updateScheduleAuthorization).withArg("plant")
                 .build();
     }
 
-    public ScheduleAction addScheduleAction(ScheduleAction scheduleAction) throws SagaExecutionException, Throwable {
+    public Plant addPlant(Plant plant) throws SagaExecutionException, Throwable {
         SagaExecutionEngine.SagaArgumentResolver resolver = getExecutor()
-                .withArg("scheduleAction", scheduleAction)
+                .withArg("plant", plant)
                 .run()
                 .collect();
-        return resolver.get("scheduleAction");
+        return resolver.get("plant");
     }
 }
+

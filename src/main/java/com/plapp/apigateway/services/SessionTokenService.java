@@ -3,7 +3,6 @@ package com.plapp.apigateway.services;
 import com.plapp.apigateway.entities.SessionTokenMapping;
 import com.plapp.apigateway.repository.JwtTokenRepository;
 import com.plapp.apigateway.repository.SessionTokenRepository;
-import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.security.JWTManager;
 import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.AuthorizationService;
@@ -12,7 +11,6 @@ import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -27,16 +27,18 @@ public class SessionTokenService {
     private final JWTManager jwtManager;
 
     public String generateSessionToken(String jwt) {
-        SessionTokenMapping.SessionToken sessionToken = new SessionTokenMapping.SessionToken();
-        sessionToken.setSessionToken(UUID.randomUUID().toString());
-
-        SessionTokenMapping.JwtToken jwtToken = new SessionTokenMapping.JwtToken();
-        jwtToken.setJwt(jwt);
-
         Jws<Claims> claims = jwtManager.decodeJwt(jwt);
         Long userId = Long.parseLong(claims.getBody().getSubject());
+        SessionTokenMapping.JwtToken jwtToken =  jwtTokenRepository.findById(userId).orElse(null);
 
-        jwtToken.setUserId(userId);
+        if (jwtToken == null) {
+            jwtToken = new SessionTokenMapping.JwtToken();
+            jwtToken.setJwt(jwt);
+            jwtToken.setUserId(userId);
+        }
+
+        SessionTokenMapping.SessionToken sessionToken = new SessionTokenMapping.SessionToken();
+        sessionToken.setSessionToken(UUID.randomUUID().toString());
         sessionToken.setJwt(jwtToken);
 
         logger.info(String.format("Saving session token with uid %d", userId));
@@ -54,7 +56,7 @@ public class SessionTokenService {
     }
 
     public Void deleteSession(String sessionToken) {
-        sessionTokenRepository.deleteById(sessionToken);
+        sessionTokenRepository.deleteBySessionToken(sessionToken);
         return null;
     }
 

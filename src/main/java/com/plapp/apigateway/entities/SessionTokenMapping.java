@@ -18,12 +18,12 @@ public class SessionTokenMapping {
     public static class SessionToken {
         @Id
         @GeneratedValue
-        private long sessionId;
+        private Long sessionId;
 
         @Column(length = 2048)
         private String sessionToken;
 
-        @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+        @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
         JwtToken jwt;
     }
 

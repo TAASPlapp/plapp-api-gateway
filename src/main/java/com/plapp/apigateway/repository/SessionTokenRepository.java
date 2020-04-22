@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SessionTokenRepository extends JpaRepository<SessionTokenMapping.SessionToken, Long> {
     SessionTokenMapping.SessionToken findBySessionToken(String sessionToken);
+    void deleteBySessionToken(String sessionToken);
 }

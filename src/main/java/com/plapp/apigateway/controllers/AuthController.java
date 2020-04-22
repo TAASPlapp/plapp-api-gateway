@@ -10,6 +10,7 @@ import com.plapp.apigateway.services.SessionTokenService;
 import com.plapp.apigateway.services.microservices.SocialService;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.utils.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestController
 @RequestMapping("api/auth")
+@RequiredArgsConstructor
 public class AuthController {
     @ControllerAdvice
     public static class AuthControllerAdvice extends ResponseEntityExceptionHandler {
@@ -51,25 +53,7 @@ public class AuthController {
     private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
     private UserLoginSagaOrchestrator userLoginSagaOrchestrator;
 
-    public AuthController(AuthenticationService authenticationService,
-                          AuthorizationService authorizationService,
-                          SessionTokenService sessionTokenService,
-                          SocialService socialService) {
 
-        this.sessionTokenService = sessionTokenService;
-
-        userCreationSagaOrchestrator = new UserCreationSagaOrchestrator(
-                authenticationService,
-                authorizationService,
-                sessionTokenService,
-                socialService
-        );
-
-        userLoginSagaOrchestrator = new UserLoginSagaOrchestrator(
-                authenticationService,
-                sessionTokenService
-        );
-    }
     @CrossOrigin
     @PostMapping("/login")
     public ApiResponse<String> login(@RequestBody UserCredentials credentials) throws SagaExecutionException, Throwable {

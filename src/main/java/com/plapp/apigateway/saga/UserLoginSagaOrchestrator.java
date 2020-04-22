@@ -7,7 +7,9 @@ import com.plapp.entities.auth.UserCredentials;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class UserLoginSagaOrchestrator extends SagaOrchestrator {
     private static Logger logger = LoggerFactory.getLogger(UserLoginSagaOrchestrator.class);

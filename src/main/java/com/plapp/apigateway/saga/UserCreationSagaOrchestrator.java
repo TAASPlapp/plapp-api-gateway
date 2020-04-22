@@ -13,6 +13,7 @@ import com.plapp.entities.social.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 @RequiredArgsConstructor
 public class UserCreationSagaOrchestrator extends SagaOrchestrator {
 

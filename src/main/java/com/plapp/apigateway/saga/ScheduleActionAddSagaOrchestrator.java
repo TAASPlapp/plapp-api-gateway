@@ -11,9 +11,11 @@ import com.plapp.entities.schedules.ScheduleAction;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+@Component
 @RequiredArgsConstructor
 public class ScheduleActionAddSagaOrchestrator extends SagaOrchestrator {
     private static Logger logger = LoggerFactory.getLogger(ScheduleActionAddSagaOrchestrator.class);

@@ -51,7 +51,7 @@ public class SessionTokenService {
     }
 
     public String getJwt(String sessionToken) {
-        SessionTokenMapping.SessionToken session = sessionTokenRepository.findBySessionToken(sessionToken);
+        SessionTokenMapping.SessionToken session = findBySessionToken(sessionToken);
         return session.getJwt().getJwt();
     }
 
@@ -61,7 +61,10 @@ public class SessionTokenService {
     }
 
     public SessionTokenMapping.SessionToken findBySessionToken(String sessionToken) {
-        return sessionTokenRepository.findBySessionToken(sessionToken);
+        logger.info("Searching jwt by session token {}", sessionToken);
+        SessionTokenMapping.SessionToken session = sessionTokenRepository.findBySessionToken(sessionToken);
+        logger.info("Got sessionToken: {}", session);
+        return session;
     }
 
     public Void updateJwt(String jwt) {

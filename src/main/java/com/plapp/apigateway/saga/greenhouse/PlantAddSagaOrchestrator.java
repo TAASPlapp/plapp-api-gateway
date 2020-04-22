@@ -31,7 +31,15 @@ public class PlantAddSagaOrchestrator extends SagaOrchestrator {
     }
 
     private Storyboard createDefaultStoryboard(Plant plant) {
-        return null;
+        Storyboard storyboard = new Storyboard();
+        storyboard.setPlant(plant);
+        return storyboard;
+    }
+
+    private ResourceAuthority updateStoryboardAuthorization(Storyboard storyboard) {
+        ResourceAuthority authority = authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD, storyboard.getId());
+        sessionTokenService.fetchAndUpdateJwt();
+        return authority;
     }
 
     @Override
@@ -39,9 +47,15 @@ public class PlantAddSagaOrchestrator extends SagaOrchestrator {
         logger.info("Building login saga orchestrator");
 
         return builder
-                .invoke(greenhouseService::addPlant).withArg("plant").saveTo("plant")
+                    .invoke(greenhouseService::addPlant).withArg("plant").saveTo("plant")
                 .step()
-                .invoke(this::updateScheduleAuthorization).withArg("plant")
+                    .invoke(this::updateScheduleAuthorization).withArg("plant")
+                .step()
+                    .invoke(this::createDefaultStoryboard).withArg("plant").saveTo("storyboard")
+                .step()
+                    .invoke(greenhouseService::createStoryboard).withArg("storyboard").saveTo("storyboard")
+                .step()
+                    .invoke(this::updateStoryboardAuthorization).withArg("storyboard")
                 .build();
     }
 

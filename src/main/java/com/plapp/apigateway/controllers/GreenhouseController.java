@@ -1,5 +1,7 @@
 package com.plapp.apigateway.controllers;
 
+import com.plapp.apigateway.saga.greenhouse.PlantAddSagaOrchestrator;
+import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
 import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.GreenhouseService;
 import com.plapp.entities.greenhouse.Plant;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @CrossOrigin
 public class GreenhouseController {
     private final GreenhouseService greenhouseService;
+    private final PlantAddSagaOrchestrator plantAddSagaOrchestrator;
 
     @GetMapping(value= {"/plants", "/{userId}/plants"})
     public ApiResponse<List<Plant>> getPlants(@PathVariable(name="userId", required = false) Optional<Long> optId) {
@@ -34,8 +37,8 @@ public class GreenhouseController {
     }
 
     @PostMapping("/plants/add")
-    public ApiResponse<Plant> addPlant(@RequestBody Plant plant) {
-        return new ApiResponse<>(greenhouseService.addPlant(plant));
+    public ApiResponse<Plant> addPlant(@RequestBody Plant plant) throws SagaExecutionException, Throwable {
+        return new ApiResponse<>(plantAddSagaOrchestrator.addPlant(plant));
     }
 
 

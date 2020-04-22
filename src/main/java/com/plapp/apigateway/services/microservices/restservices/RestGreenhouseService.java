@@ -44,23 +44,11 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public Plant addPlant(Plant plant) {
-        Plant addedPlant = restTemplate.postForObject(
+        return restTemplate.postForObject(
                 baseAddress + String.format("/greenhouse/%d/plants/add", + plant.getOwner()),
                 plant,
                 Plant.class
         );
-        authorizationService.updateAuthorization(Authorities.GREENHOUSE_PLANT, addedPlant.getId());
-        sessionTokenService.updateJwt(
-                authorizationService.generateUpdatedJwt(
-                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
-                )
-        );
-
-        Storyboard storyboard = new Storyboard();
-        storyboard.setPlant(addedPlant);
-        createStoryboard(storyboard);
-
-        return addedPlant;
     }
 
     @Override
@@ -103,18 +91,10 @@ public class RestGreenhouseService implements GreenhouseService {
 
     @Override
     public Storyboard createStoryboard(Storyboard storyboard) {
-        Storyboard createdStoryboard = restTemplate.postForObject(
+        return restTemplate.postForObject(
                 baseAddress + String.format("/greenhouse/plant/%d/storyboard/create" , storyboard.getPlant().getId()),
                 storyboard,
                 Storyboard.class);
-        authorizationService.updateAuthorization(Authorities.GREENHOUSE_STORYBOARD, createdStoryboard.getId());
-        sessionTokenService.updateJwt(
-                authorizationService.generateUpdatedJwt(
-                        sessionTokenService.getJwt(SessionRequestContext.getSessionToken())
-                )
-        );
-        return createdStoryboard;
-
     }
 
     @Override

@@ -39,7 +39,7 @@ public class StoryboardItemCreationSagaOrchestrator extends SagaOrchestrator {
         List<Storyboard> storyboardList = greenhouseService.getStoryboards();
         List<Storyboard> match = Lists.filter(storyboardList, storyboard -> storyboard.getId() == item.getStoryboardId());
         if (match.size() > 0) {
-            gardenerService.getDiagnosisAsync(item.getImage(), match.get(0).getPlant().getId();
+            gardenerService.getDiagnosisAsync(item.getImage(), match.get(0).getPlant().getId());
         }
     }
 

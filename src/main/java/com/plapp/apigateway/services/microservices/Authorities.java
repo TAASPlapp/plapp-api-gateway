@@ -27,8 +27,6 @@ public final class Authorities {
     };
 
     public static final String[] withOtherValues = {
-            SOCIAL_COMMENT,
-            SOCIAL_LIKE,
             GREENHOUSE_PLANT,
             GREENHOUSE_STORYBOARD,
             GREENHOUSE_STORYBOARD_ITEM,

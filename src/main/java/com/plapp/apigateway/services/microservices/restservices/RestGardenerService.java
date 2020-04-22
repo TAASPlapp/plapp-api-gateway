@@ -69,11 +69,14 @@ public class RestGardenerService implements GardenerService {
 
     @Override
     public void getDiagnosisAsync(String plantImageURL, long plantId) {
+        Map<String, String> params = new HashMap<>();
+        params.put("plantImageURL", plantImageURL);
+
         restTemplate.postForEntity(
             baseAddress + String.format("/gardener/%d/diagnose-async", plantId),
-            null,
-            Void.class,
-            plantImageURL);
+            params,
+            Void.class
+        );
     }
 
     @Override

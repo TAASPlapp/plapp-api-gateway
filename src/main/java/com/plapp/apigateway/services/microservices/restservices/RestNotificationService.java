@@ -16,13 +16,10 @@ public class RestNotificationService implements NotificationService {
 
     @Override
     public void registerDevice(long sessionId, long userId, String firebaseToken) {
-        restTemplate.postForObject(
-                baseAddress + String.format("/notifications/%d/register", userId),
-                null,
-                Object.class,
-                userId,
-                sessionId,
-                firebaseToken
+        restTemplate.getForObject(
+                baseAddress + String.format("/notifications/%d/register?firebaseToken=%s&sessionId=%d", userId, firebaseToken, sessionId),
+                Void.class,
+                Object.class
         );
     }
 }

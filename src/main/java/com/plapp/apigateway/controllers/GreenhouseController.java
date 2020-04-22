@@ -66,7 +66,7 @@ public class GreenhouseController {
         return new ApiResponse<>(greenhouseService.getStoryboard(plantId));
     }
 
-    @GetMapping("/storyboard/{storyboardId}/item/add")
+    @PostMapping("/storyboard/{storyboardId}/item/add")
     public ApiResponse<StoryboardItem> addStoryboardItem(@PathVariable long storyboardId,
                                                          @RequestBody StoryboardItem item) throws SagaExecutionException, Throwable {
         item.setStoryboardId(storyboardId);

@@ -6,6 +6,7 @@ import com.plapp.apigateway.repository.SessionTokenRepository;
 import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.security.JWTManager;
 import com.plapp.apigateway.services.config.SessionRequestContext;
+import com.plapp.apigateway.services.microservices.AuthorizationService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class SessionTokenService {
     private static Logger logger = LoggerFactory.getLogger(SessionTokenService.class);
 
     private final SessionTokenRepository sessionTokenRepository;
+    private final AuthorizationService authorizationService;
     private final JwtTokenRepository jwtTokenRepository;
     private final JWTManager jwtManager;
 
@@ -73,5 +75,13 @@ public class SessionTokenService {
         jwtTokenRepository.saveAll(jwtTokens);
 
         return null;
+    }
+
+    public Void fetchAndUpdateJwt() {
+        return updateJwt(
+                authorizationService.generateUpdatedJwt(
+                        getJwt(SessionRequestContext.getSessionToken())
+                )
+        );
     }
 }

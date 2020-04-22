@@ -90,6 +90,6 @@ public class RestGardenerService implements GardenerService {
 
     @Override
     public void removeScheduleAction(ScheduleAction scheduleAction) {
-        restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/shcedule/remove", ScheduleAction.class);
+        restTemplate.getForObject(baseAddress + "/gardener/" + scheduleAction.getPlantId() + "/schedule/remove", ScheduleAction.class);
     }
 }

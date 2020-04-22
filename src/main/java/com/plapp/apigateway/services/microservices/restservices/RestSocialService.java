@@ -64,14 +64,14 @@ public class RestSocialService implements SocialService {
 
     @Override
     public Comment addComment(Comment comment) {
-        Comment addedComment = restTemplate.postForObject(baseAddress + "/social/comment/" + comment.getId() + "/add", comment, Comment.class);
+        Comment addedComment = restTemplate.postForObject(baseAddress + "/social/comment/" + comment.getItemId() + "/add", comment, Comment.class);
         authorizationService.updateAuthorization(Authorities.SOCIAL_COMMENT, addedComment.getId());
         return addedComment;
     }
 
     @Override
     public Like addLike(Like like) {
-        Like addedLike = restTemplate.postForObject(baseAddress + "/social/like/" + like.getId() + "/add", like, Like.class);
+        Like addedLike = restTemplate.postForObject(baseAddress + "/social/like/" + like.getItemId() + "/add", like, Like.class);
         authorizationService.updateAuthorization(Authorities.SOCIAL_LIKE, addedLike.getId());
         sessionTokenService.updateJwt(
                 authorizationService.generateUpdatedJwt(

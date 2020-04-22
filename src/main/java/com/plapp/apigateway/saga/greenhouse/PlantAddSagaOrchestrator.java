@@ -44,7 +44,7 @@ public class PlantAddSagaOrchestrator extends SagaOrchestrator {
 
     @Override
     protected SagaDefinition buildSaga(SagaDefinitionBuilder builder) {
-        logger.info("Building login saga orchestrator");
+        logger.info("Building saga orchestrator");
 
         return builder
                     .invoke(greenhouseService::addPlant).withArg("plant").saveTo("plant")

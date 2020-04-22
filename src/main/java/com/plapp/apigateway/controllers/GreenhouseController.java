@@ -1,6 +1,7 @@
 package com.plapp.apigateway.controllers;
 
 import com.plapp.apigateway.saga.greenhouse.PlantAddSagaOrchestrator;
+import com.plapp.apigateway.saga.greenhouse.StoryboardItemCreationSagaOrchestrator;
 import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
 import com.plapp.apigateway.services.config.SessionRequestContext;
 import com.plapp.apigateway.services.microservices.GreenhouseService;
@@ -20,7 +21,9 @@ import java.util.Optional;
 @CrossOrigin
 public class GreenhouseController {
     private final GreenhouseService greenhouseService;
+
     private final PlantAddSagaOrchestrator plantAddSagaOrchestrator;
+    private final StoryboardItemCreationSagaOrchestrator storyboardItemCreationSagaOrchestrator;
 
     @GetMapping(value= {"/plants", "/{userId}/plants"})
     public ApiResponse<List<Plant>> getPlants(@PathVariable(name="userId", required = false) Optional<Long> optId) {
@@ -62,9 +65,12 @@ public class GreenhouseController {
     }
 
     @GetMapping("/storyboard/{storyboardId}/item/add")
-    public ApiResponse<StoryboardItem> addStoryboardItem(@PathVariable long storyboardId, @RequestBody StoryboardItem item) {
+    public ApiResponse<StoryboardItem> addStoryboardItem(@PathVariable long storyboardId,
+                                                         @RequestBody StoryboardItem item) throws SagaExecutionException, Throwable {
         item.setStoryboardId(storyboardId);
-        return new ApiResponse<>(greenhouseService.addStoryboardItem(item));
+        return new ApiResponse<>(
+                storyboardItemCreationSagaOrchestrator.addItem(item)
+        );
     }
 }
 

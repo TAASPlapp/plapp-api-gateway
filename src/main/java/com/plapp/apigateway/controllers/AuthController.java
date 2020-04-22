@@ -1,13 +1,10 @@
 package com.plapp.apigateway.controllers;
 
-import com.plapp.apigateway.saga.UserLoginSagaOrchestrator;
+import com.plapp.apigateway.saga.auth.UserLoginSagaOrchestrator;
 import com.plapp.apigateway.saga.orchestration.SagaExecutionException;
-import com.plapp.apigateway.saga.UserCreationSagaOrchestrator;
+import com.plapp.apigateway.saga.auth.UserCreationSagaOrchestrator;
 import com.plapp.apigateway.services.config.SessionRequestContext;
-import com.plapp.apigateway.services.microservices.AuthenticationService;
-import com.plapp.apigateway.services.microservices.AuthorizationService;
 import com.plapp.apigateway.services.SessionTokenService;
-import com.plapp.apigateway.services.microservices.SocialService;
 import com.plapp.entities.auth.UserCredentials;
 import com.plapp.entities.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +47,8 @@ public class AuthController {
 
     private final SessionTokenService sessionTokenService;
 
-    private UserCreationSagaOrchestrator userCreationSagaOrchestrator;
-    private UserLoginSagaOrchestrator userLoginSagaOrchestrator;
+    private final UserCreationSagaOrchestrator userCreationSagaOrchestrator;
+    private final UserLoginSagaOrchestrator userLoginSagaOrchestrator;
 
 
     @CrossOrigin

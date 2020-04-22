@@ -17,11 +17,11 @@ public class SessionTokenMapping {
     @Setter
     public static class SessionToken {
         @Id
-        @Column(length = 2048)
-        private String sessionToken;
-
         @GeneratedValue
         private long sessionId;
+
+        @Column(length = 2048)
+        private String sessionToken;
 
         @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
         JwtToken jwt;
